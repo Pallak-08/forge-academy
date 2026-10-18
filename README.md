@@ -22,6 +22,12 @@ It is built for college students, people in their first job who want to grow or 
 | Data Scientist / ML Engineer | 6 | End-to-end ML product |
 | Mobile Developer | 6 | Published production app |
 
+## Two ways to learn
+
+- **Role roadmaps:** a ready-made path for one job, in the right order.
+- **Skills catalog:** all 99 skills grouped into 13 areas (programming, frontend, backend, databases, architecture, DevOps, security, data analysis, machine learning, AI engineering, mobile, tools, career).
+- **My path:** start from any role, then add skills from other areas or skip ones you don't need, or build a path entirely from skills. If a role doesn't cover everything you want, you are never stuck.
+
 ## What every roadmap includes
 
 - **Stages in learning order.** Each stage has a clear goal and a set of topics.
@@ -36,9 +42,9 @@ It is built for college students, people in their first job who want to grow or 
 ## What's ready now
 
 - All 9 roadmaps are complete: 99 topics, 99 labs and 72 projects.
-- 98 full lessons across 25 modules are live.
-- Backend Developer and AI Engineer have full lessons for every technical topic.
-- Other roles have full lessons for shared topics today. More lessons are added in waves, and contributions are welcome.
+- 113 full lessons across 27 modules are live.
+- Frontend, Backend, Full-Stack, AI Engineer and Data Analyst have full lessons for 85-93% of their topics.
+- DevOps, Cybersecurity, Data Science and Mobile lessons are next. Contributions are welcome.
 
 ## Run locally
 
@@ -56,8 +62,9 @@ python3 -m http.server 8000
 ```
 index.html          the app: layout, styles and logic
 data/roles.js       the 9 roadmaps: stages, projects, job-ready checklists, interview questions
-data/topics1-2.js   the topic library: what to learn, labs, links to lessons
-data/part1-7.js     full lessons, grouped into 25 modules
+data/areas.js       the 13 skill areas and which module belongs to which area
+data/topics1-2.js   the skill library: what to learn, labs, links to lessons
+data/part1-9.js     full lessons, grouped into 27 modules
 ```
 
 ## Contributing

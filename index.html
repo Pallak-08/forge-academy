@@ -309,6 +309,42 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 .prose > .eyebrow { display: block; margin-bottom: 8px; }
 @media (max-width: 900px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 560px) { .how { grid-template-columns: minmax(0, 1fr); } .stage { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; } .stage-n { width: 30px; height: 30px; font-size: 13px; } }
+
+/* skills catalog and my path */
+.area-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
+.area-chip { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s; }
+.area-chip:hover { border-color: var(--accent); }
+.area-chip b { font-family: var(--f-display); font-size: 15px; }
+.area-chip span { font-size: 12.5px; color: var(--muted); }
+.banner { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 14px 18px; border-radius: var(--radius); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
+.banner b { font-family: var(--f-display); font-size: 16px; }
+.banner p { margin: 2px 0 0; font-size: 14px; color: var(--muted); max-width: 62ch; }
+.big-search { font-size: 15px; padding: 11px 14px; }
+.area-jump { display: flex; flex-wrap: wrap; gap: 6px; }
+.area-jump a { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--sunk); color: var(--ink); text-decoration: none; }
+.area-jump a:hover { background: var(--accent-soft); }
+.area-block { scroll-margin-top: calc(var(--top) + 16px); }
+.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+.skill { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
+.skill.in { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
+.skill .row { display: flex; justify-content: space-between; align-items: center; }
+.skill a { color: var(--ink); text-decoration: none; }
+.skill a:hover h3 { text-decoration: underline; }
+.skill h3 { font-size: 15.5px; }
+.skill p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.node-wrap { position: relative; }
+.node-wrap .node { padding-right: 34px; height: 100%; }
+.node-x { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 6px; border: 0; background: transparent; color: var(--muted); font-size: 17px; line-height: 1; }
+.node-x:hover { background: var(--bad-soft); color: var(--bad); }
+.base-pick { display: flex; flex-direction: column; gap: 6px; }
+.base-pick .tab { font-size: 13px; padding: 5px 12px; }
+.skip-list { display: flex; flex-wrap: wrap; gap: 6px; }
+.skip-chip { border: 1px dashed var(--line); background: var(--bg); border-radius: 99px; padding: 5px 12px; font-size: 13px; }
+.skip-chip:hover { border-color: var(--accent); }
+.stage.extra .stage-n { border-style: dashed; }
+.rail-meta { font-size: 12px; color: var(--muted); }
+.rail-links { display: flex; gap: 12px; }
+.btn.on-dark { background: color-mix(in srgb, var(--bg) 18%, transparent); color: var(--bg); }
 </style>
 
 </head>
@@ -333,7 +369,9 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     <input class="search" id="search" type="search" placeholder="Search topics and lessons" aria-label="Search topics and lessons">
     <nav class="rail-nav">
       <a class="rail-link" href="#home" data-nav="home">Home</a>
-      <a class="rail-link" href="#roles" data-nav="roles">All roles</a>
+      <a class="rail-link" href="#my" data-nav="my">My path</a>
+      <a class="rail-link" href="#roles" data-nav="roles">Role roadmaps</a>
+      <a class="rail-link" href="#skills" data-nav="skills">Skills catalog</a>
       <a class="rail-link" href="#projects" data-nav="projects">Projects</a>
       <a class="rail-link" href="#library" data-nav="library">Lesson library</a>
       <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
@@ -352,15 +390,21 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/part5.js"></script>
 <script src="data/part6.js"></script>
 <script src="data/part7.js"></script>
+<script src="data/part8.js"></script>
+<script src="data/part9.js"></script>
 <script src="data/topics1.js"></script>
 <script src="data/topics2.js"></script>
 <script src="data/roles.js"></script>
+<script src="data/areas.js"></script>
 <script>
 (() => {
   "use strict";
   const COURSE = (window.COURSE || []).slice().sort((a, b) => a.n - b.n);
   const TOPICS = window.TOPICS || {};
   const ROLES = window.ROLES || [];
+  const AREAS = window.AREAS || [];
+  const MODULE_AREA = window.MODULE_AREA || {};
+  const areaOf = (id) => AREAS.find((a) => a.topics.includes(id));
   const REPO = "https://github.com/Pallak-08/forge-academy";
   const AUTHOR = "Pallak Khullar";
   const LEVELS = {
@@ -374,15 +418,15 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const key = (m, i) => m.n + "-" + i;
   const lvc = (lv) => `--lvc: var(--lv${lv})`;
-  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash" };
+  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash", typescript: "typescript" };
   const modByN = (n) => COURSE.find((x) => x.n === n);
   const lessonRef = (ref) => { const [n, i] = String(ref).split("-").map(Number); const m = modByN(n); return m && m.lessons[i] ? { m, i, l: m.lessons[i], k: n + "-" + i } : null; };
-  const roleOf = (id) => ROLES.find((r) => r.id === id);
+  const roleOf = (id) => (id === "my" ? myRole() : ROLES.find((r) => r.id === id));
   const roleTopics = (r) => { const seen = new Set(), out = []; r.stages.forEach((s, si) => s.topics.forEach((id) => { if (!seen.has(id) && TOPICS[id]) { seen.add(id); out.push({ id, si }); } })); return out; };
 
   /* ---------- state ---------- */
   const LS = "forge-academy-v2";
-  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, topics: {}, subs: {}, labs: {}, tnotes: {}, pj: {}, jr: {}, role: "", last: "", lastTopic: "", updated: 0 });
+  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, topics: {}, subs: {}, labs: {}, tnotes: {}, pj: {}, jr: {}, extra: {}, skip: {}, role: "", last: "", lastTopic: "", updated: 0 });
   let S = blank();
   try { const raw = localStorage.getItem(LS); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   let remote = null, saveTimer = null;
@@ -400,7 +444,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     paintProgress();
   }
   function setSync(t) { $("#sync").textContent = t; }
-  const MAPS = ["done", "quiz", "notes", "answers", "topics", "subs", "labs", "tnotes", "pj", "jr"];
+  const MAPS = ["done", "quiz", "notes", "answers", "topics", "subs", "labs", "tnotes", "pj", "jr", "extra", "skip"];
   function merge(a, b) {
     const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
     const out = Object.assign(blank(), older, newer);
@@ -520,6 +564,27 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
     };
   }
 
+  /* ---------- my path: a role, minus skipped topics, plus added skills ---------- */
+  function myRole() {
+    const base = ROLES.find((r) => r.id === S.role) || null;
+    const stages = base ? base.stages.map((s) => Object.assign({}, s, { topics: s.topics.filter((t) => !S.skip[t]) })) : [];
+    const have = new Set(stages.flatMap((s) => s.topics));
+    const extras = Object.keys(S.extra).filter((id) => S.extra[id] && TOPICS[id] && !have.has(id));
+    extras.sort((a, b) => AREAS.indexOf(areaOf(a)) - AREAS.indexOf(areaOf(b)));
+    if (extras.length) stages.push({ t: "Skills you added", goal: base ? `Extra skills beyond the ${base.title} roadmap.` : "Skills you picked from the catalog.", topics: extras, mini: null, extra: true });
+    const skipped = base ? [...new Set(base.stages.flatMap((s) => s.topics))].filter((t) => S.skip[t]) : [];
+    return { id: "my", title: "My path", glyph: "ME", base, extras, skipped,
+      tagline: base ? `Built on ${base.title}, customised by you.` : "Skills you picked yourself.",
+      who: "", jobs: base ? base.jobs : [], duration: base ? base.duration : "", stages,
+      big: base ? base.big : null, capstone: base ? base.capstone : null,
+      jobReady: base ? base.jobReady : [], interview: base ? base.interview : [] };
+  }
+  const hasPath = () => !!(S.role || Object.values(S.extra).some(Boolean));
+  const inPath = (id) => hasPath() && myRole().stages.some((s) => s.topics.includes(id));
+  function addToPath(id) { if (S.skip[id]) delete S.skip[id]; else S.extra[id] = 1; save(); }
+  function removeFromPath(id) { if (S.extra[id]) delete S.extra[id]; else S.skip[id] = 1; save(); }
+  const pathLink = (id) => inPath(id) ? `#x-my.${id}` : `#x-${rolesWith(id)[0] || "none"}.${id}`;
+
   /* ---------- progress ---------- */
   const lessonsDone = () => Object.keys(S.done).filter((k) => S.done[k]).length;
   const modDone = (m) => m.lessons.filter((_, i) => S.done[key(m, i)]).length;
@@ -533,11 +598,11 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
   const roleCoverage = (r) => { const ts = roleTopics(r); return ts.length ? Math.round((ts.filter(({ id }) => TOPICS[id].les.length).length / ts.length) * 100) : 0; };
   function nextTopic(r) { return roleTopics(r).find(({ id }) => !S.topics[id]) || null; }
   function paintProgress() {
-    const r = roleOf(S.role);
+    const r = hasPath() ? myRole() : null;
     if (r) {
       const d = roleDone(r), tot = roleTopics(r).length;
       $("#overallBar").style.width = (tot ? (d / tot) * 100 : 0) + "%";
-      $("#overallTxt").textContent = `${r.title}: ${d} / ${tot} topics`;
+      $("#overallTxt").textContent = `My path: ${d} / ${tot} topics`;
     } else {
       $("#overallBar").style.width = "0%";
       $("#overallTxt").textContent = "Pick a role to start";
@@ -553,13 +618,12 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
       const tHits = Object.entries(TOPICS).filter(([, t]) => (t.t + " " + t.sub.join(" ") + " " + t.d).toLowerCase().includes(q)).slice(0, 25);
       const lHits = [];
       COURSE.forEach((m) => m.lessons.forEach((l, i) => { if ((l.t + " " + l.sub.join(" ")).toLowerCase().includes(q)) lHits.push({ m, l, i }); }));
-      const r = roleOf(S.role);
-      html += `<div class="level-h"><span class="eyebrow">Topics (${tHits.length})</span></div><ol class="flat">${tHits.map(([id, t]) => `<li><a href="#x-${r && roleTopics(r).some((x) => x.id === id) ? r.id : rolesWith(id)[0] || "none"}.${id}"><span class="tick" data-tstate="${id}"></span><span>${esc(t.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No topics match.</li>'}</ol>`;
+      html += `<div class="level-h"><span class="eyebrow">Topics (${tHits.length})</span></div><ol class="flat">${tHits.map(([id, t]) => `<li><a href="${pathLink(id)}"><span class="tick" data-tstate="${id}"></span><span>${esc(t.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No topics match.</li>'}</ol>`;
       html += `<div class="level-h"><span class="eyebrow">Lessons (${lHits.length})</span></div><ol class="flat">${lHits.slice(0, 25).map(({ m, l, i }) => `<li><a href="#l-${m.n}-${i}"><span class="tick ${S.done[key(m, i)] ? "done" : ""}"></span><span>${esc(l.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No lessons match.</li>'}</ol>`;
     } else {
-      const r = roleOf(S.role);
+      const r = hasPath() ? myRole() : null;
       if (r) {
-        html += `<div class="rail-role"><span class="eyebrow">Your roadmap</span><a href="#r-${r.id}"><b>${esc(r.title)}</b></a><a class="note" href="#roles">Change role</a></div>`;
+        html += `<div class="rail-role"><span class="eyebrow">My path</span><a href="#my"><b>${esc(r.base ? r.base.title : "Custom path")}</b></a><span class="rail-meta">${r.extras.length ? `+${r.extras.length} added` : ""}${r.extras.length && r.skipped.length ? " · " : ""}${r.skipped.length ? `${r.skipped.length} skipped` : ""}</span><span class="rail-links"><a class="note" href="#my">Customise</a><a class="note" href="#skills">Add skills</a></span></div>`;
         r.stages.forEach((s, si) => {
           html += `<div class="level-h"><span class="stage-dot">${si + 1}</span><span class="eyebrow">${esc(s.t)}</span></div><ol class="flat">${s.topics.filter((id) => TOPICS[id]).map((id) => `<li><a href="#x-${r.id}.${id}" data-topic="${r.id}.${id}"><span class="tick" data-tstate="${id}"></span><span>${esc(TOPICS[id].t)}</span></a></li>`).join("")}</ol>`;
         });
@@ -578,7 +642,7 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
   function markActive() {
     const h = location.hash || "#home";
     document.querySelectorAll("[data-topic]").forEach((a) => a.classList.toggle("on", h === "#x-" + a.dataset.topic));
-    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "library" && (h.startsWith("#m-") || h.startsWith("#l-")))));
+    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "my" && h.startsWith("#x-my.")) || (a.dataset.nav === "library" && (h.startsWith("#m-") || h.startsWith("#l-")))));
   }
 
   /* ---------- theme ---------- */
@@ -610,7 +674,7 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
 
   /* ---------- views ---------- */
   function viewHome() {
-    const r = roleOf(S.role);
+    const r = hasPath() ? myRole() : null;
     const nx = r ? nextTopic(r) : null;
     const topicsDone = Object.values(S.topics).filter(Boolean).length;
     const built = Object.values(S.pj).filter(Boolean).length;
@@ -618,17 +682,17 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
     return `<div class="wrap wide">
       <section class="hero">
         <div>
-          <span class="eyebrow">Free and open · ${ROLES.length} career roadmaps · ${Object.keys(TOPICS).length} topics · ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} full lessons</span>
+          <span class="eyebrow">Free and open · ${ROLES.length} career roadmaps · ${AREAS.length} skill areas · ${Object.keys(TOPICS).length} topics · ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} full lessons</span>
           <h1 style="margin-top:10px">Find your path in tech. <em>Then walk it.</em></h1>
-          <p>One place with the complete roadmap for the role you want, and everything to learn it: notes, worked code, hands-on labs, quizzes, small projects, big projects and a final capstone. No more stitching together ten half-finished courses.</p>
-          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">${r ? "See all roles" : "Choose a role"}</a><a class="btn btn-line" href="#about">How it works</a></div>
+          <p>Start from a ready-made roadmap for the role you want, or build your own from skills. Every topic comes with notes, worked code, a hands-on lab and a quiz, and every path ends in projects you can show employers.</p>
+          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">Pick a role</a><a class="btn btn-line" href="#skills">Browse skills</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
         </div>
         <div class="continue">
-          ${r && nx ? `<span class="eyebrow">Continue · ${esc(r.title)} · Stage ${nx.si + 1}</span>
-            <h3>${esc(TOPICS[nx.id].t)}</h3><span class="meta">${esc(r.stages[nx.si].t)}: ${esc(r.stages[nx.si].goal)}</span>
-            <div><a class="btn btn-primary" href="#x-${r.id}.${nx.id}">Continue</a></div>`
-          : r ? `<span class="eyebrow">${esc(r.title)}</span><h3>Every topic is done.</h3><span class="meta">Finish the big project and capstone, then the job-ready checklist.</span><div><a class="btn btn-primary" href="#r-${r.id}">Open roadmap</a></div>`
-          : `<span class="eyebrow">Start here</span><h3>Not sure which role fits?</h3><span class="meta">Read the one-line description of each role below and pick the one that sounds like you. You can switch any time and keep your progress.</span><div><a class="btn btn-primary" href="#roles">Compare roles</a></div>`}
+          ${r && nx ? `<span class="eyebrow">Continue · My path · ${esc(r.stages[nx.si].t)}</span>
+            <h3>${esc(TOPICS[nx.id].t)}</h3><span class="meta">${esc(r.stages[nx.si].goal)}</span>
+            <div><a class="btn btn-primary" href="#x-my.${nx.id}">Continue</a></div>`
+          : r ? `<span class="eyebrow">My path</span><h3>Every topic is done.</h3><span class="meta">Finish the big project and capstone, then the job-ready checklist.</span><div><a class="btn btn-primary" href="#my">Open my path</a></div>`
+          : `<span class="eyebrow">Two ways to start</span><h3>Know the job you want?</h3><span class="meta">Pick a role and follow its roadmap. Not sure, or want something in between? Browse skills and build your own path. You can mix both: start from a role and add or skip skills.</span><div class="row-btns"><a class="btn btn-primary" href="#roles">Compare roles</a><a class="btn btn-quiet on-dark" href="#skills">Browse skills</a></div>`}
         </div>
       </section>
       <section class="stats" aria-label="Your progress">
@@ -638,14 +702,18 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
         <div class="stat"><b>${built}</b><span>projects built</span></div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>Career roadmaps</h2><span>Each role has its own stages, topics, labs and projects</span></div>
+        <div class="level-title" style="--lvc: var(--accent)"><h2>Career roadmaps</h2><span>Ready-made paths, each with its own stages, topics, labs and projects</span></div>
         <div class="cards">${ROLES.map(roleCard).join("")}</div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>How every roadmap works</h2><span>The same rhythm for every role</span></div>
+        <div class="level-title" style="--lvc: var(--mark)"><h2>Or learn by skill</h2><span>${AREAS.length} skill areas. Add any skill to your path, whatever your role</span></div>
+        <div class="area-chips">${AREAS.map((a) => `<a class="area-chip" href="#skills" data-area-jump="${a.id}"><b>${esc(a.title)}</b><span>${a.topics.length} skills</span></a>`).join("")}</div>
+      </section>
+      <section class="level-block">
+        <div class="level-title" style="--lvc: var(--accent)"><h2>How it works</h2><span>The same rhythm for every path</span></div>
         <div class="how">
-          <div><b>1. Pick a role</b><p>See the full map: stages, topics, projects and the job-ready checklist.</p></div>
-          <div><b>2. Learn each topic</b><p>Sub-topics to cover, full lessons with notes, code and quizzes where available.</p></div>
+          <div><b>1. Choose a path</b><p>Pick a role roadmap, or build your own from the skills catalog. Add or skip skills any time.</p></div>
+          <div><b>2. Learn each topic</b><p>Tick off the sub-topics and work through the full lessons: notes, code, exercise and quiz.</p></div>
           <div><b>3. Do the lab</b><p>A hands-on task with steps and a clear "done when" for every topic.</p></div>
           <div><b>4. Build and show</b><p>A mini project per stage, then a big project and a capstone for your portfolio.</p></div>
         </div>
@@ -658,47 +726,88 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
     return `<div class="wrap wide">
       <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>All roles</span></nav>
       <header class="mod-head"><span class="eyebrow">Choose a direction</span><h1>Career roadmaps</h1><p class="lede">Each roadmap is built for one role, in the order you should learn things, with a project at the end of every stage. Topics shared between roles (like Git or SQL) count once, so switching roles never wastes your progress.</p></header>
+      <div class="banner"><div><b>Can't find exactly what you want?</b><p>Start from the closest role, then add skills from other areas or skip ones you don't need. Or build a path entirely from skills.</p></div><a class="btn btn-primary" href="#skills">Browse skills</a></div>
       <div class="cards">${ROLES.map(roleCard).join("")}</div>
       ${footer()}
     </div>`;
   }
 
+  function nodeHtml(r, id, editable) {
+    const t = TOPICS[id], st = topicState(id), area = areaOf(id);
+    const link = `<a class="node ${st}" href="#x-${r.id}.${id}"><span class="tick" data-tstate="${id}"></span><span class="node-t">${esc(t.t)}</span><span class="node-tags">${t.les.length ? `<span>${t.les.length} lesson${t.les.length > 1 ? "s" : ""}</span>` : "<span>guide</span>"}<span>lab</span>${editable && area ? `<span>${esc(area.title)}</span>` : ""}</span></a>`;
+    return editable ? `<div class="node-wrap">${link}<button class="node-x" type="button" data-unpath="${id}" aria-label="Remove ${esc(t.t)} from my path" title="Remove from my path">×</button></div>` : link;
+  }
+
   function viewRole(r) {
+    const my = r.id === "my";
+    const rid = my ? (r.base ? r.base.id : "custom") : r.id;
     const d = roleDone(r), tot = roleTopics(r).length;
-    const jrDone = r.jobReady.filter((_, j) => S.jr[`${r.id}-${j}`]).length;
-    return `<div class="wrap">
+    const jrDone = r.jobReady.filter((_, j) => S.jr[`${rid}-${j}`]).length;
+    const head = my ? `
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>My path</span></nav>
+      <header class="mod-head role-head">
+        <div class="row-btns"><span class="glyph lg">ME</span><span class="eyebrow">${r.base ? esc(r.base.duration) + " for the base roadmap" : "Custom path"}</span></div>
+        <h1>My path</h1>
+        <p class="lede">${r.base ? `Built on the <a href="#r-${r.base.id}">${esc(r.base.title)}</a> roadmap${r.extras.length ? `, plus ${r.extras.length} skill${r.extras.length > 1 ? "s" : ""} you added` : ""}${r.skipped.length ? `, minus ${r.skipped.length} you skipped` : ""}.` : "A path made only from skills you picked in the catalog."} Remove any topic with ×, or add more from the skills catalog.</p>
+        <div class="base-pick"><span class="eyebrow">Base roadmap</span><div class="tabs">${ROLES.map((x) => `<button type="button" class="tab ${S.role === x.id ? "on" : ""}" data-base="${x.id}">${esc(x.title)}</button>`).join("")}<button type="button" class="tab ${!S.role ? "on" : ""}" data-base="">None (skills only)</button></div></div>
+        <div class="row-btns"><a class="btn btn-primary" href="#skills">Add skills</a><span class="note">${d} of ${tot} topics done</span></div>
+        <div class="mini big"><i style="width:${tot ? Math.round((d / tot) * 100) : 0}%"></i></div>
+      </header>` : `
       <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#roles">All roles</a><span>›</span><span>${esc(r.title)}</span></nav>
       <header class="mod-head role-head">
         <div class="row-btns"><span class="glyph lg">${esc(r.glyph)}</span><span class="eyebrow">${esc(r.duration)}</span></div>
         <h1>${esc(r.title)}</h1><p class="lede">${esc(r.tagline)} ${esc(r.who)}</p>
         <p class="roles" style="margin:0">Job titles: ${r.jobs.map(esc).join(" · ")}</p>
-        <div class="row-btns">${S.role === r.id ? '<span class="done-pill">This is your path</span>' : '<button class="btn btn-primary" type="button" id="pickRole">Make this my path</button>'}
+        <div class="row-btns">${S.role === r.id ? '<span class="done-pill">My path is based on this</span><a class="btn btn-line" href="#my">Open my path</a>' : '<button class="btn btn-primary" type="button" id="pickRole">Make this my path</button>'}
           <span class="note">${d} of ${tot} topics done · full lessons for ${roleCoverage(r)}% of topics, labs for all</span></div>
         <div class="mini big"><i style="width:${tot ? Math.round((d / tot) * 100) : 0}%"></i></div>
-      </header>
+      </header>`;
+    const empty = my && !r.stages.length ? `<div class="banner"><div><b>Your path is empty.</b><p>Choose a base roadmap above, or add skills from the catalog.</p></div><a class="btn btn-primary" href="#skills">Browse skills</a></div>` : "";
+    return `<div class="wrap">${head}${empty}
       <section class="roadmap">${r.stages.map((s, si) => {
         const ids = s.topics.filter((id) => TOPICS[id]);
         const sd = ids.filter((id) => S.topics[id]).length;
-        return `<div class="stage ${sd === ids.length ? "complete" : ""}">
-          <div class="stage-rail"><span class="stage-n">${si + 1}</span></div>
+        return `<div class="stage ${sd === ids.length && ids.length ? "complete" : ""} ${s.extra ? "extra" : ""}">
+          <div class="stage-rail"><span class="stage-n">${s.extra ? "+" : si + 1}</span></div>
           <div class="stage-body">
-            <div class="section-h"><div><span class="eyebrow">Stage ${si + 1} · ${sd}/${ids.length} topics</span><h2>${esc(s.t)}</h2></div></div>
+            <div class="section-h"><div><span class="eyebrow">${s.extra ? "Added by you" : "Stage " + (si + 1)} · ${sd}/${ids.length} topics</span><h2>${esc(s.t)}</h2></div></div>
             <p class="note" style="margin:0">${esc(s.goal)}</p>
-            <div class="nodes">${ids.map((id) => { const t = TOPICS[id], st = topicState(id);
-              return `<a class="node ${st}" href="#x-${r.id}.${id}"><span class="tick" data-tstate="${id}"></span><span class="node-t">${esc(t.t)}</span><span class="node-tags">${t.les.length ? `<span>${t.les.length} lesson${t.les.length > 1 ? "s" : ""}</span>` : "<span>guide</span>"}<span>lab</span></span></a>`; }).join("")}</div>
-            ${projCard(`${r.id}-s${si}`, "Mini project", s.mini, "stage-proj")}
+            ${ids.length ? `<div class="nodes">${ids.map((id) => nodeHtml(r, id, my)).join("")}</div>` : '<p class="note" style="margin:0">You skipped every topic in this stage.</p>'}
+            ${s.mini ? projCard(`${rid}-s${si}`, "Mini project", s.mini, "stage-proj") : ""}
           </div></div>`;
       }).join("")}</section>
-      <section class="panel"><h2>Big project</h2>${projCard(`${r.id}-big`, "Big project", r.big)}</section>
-      <section class="panel"><h2>Final capstone</h2>${projCard(`${r.id}-cap`, "Capstone", r.capstone)}</section>
-      <section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${r.jobReady.length}</span></div>
+      ${my && r.skipped.length ? `<section class="panel"><h2>Skipped topics</h2><p class="hint" style="margin:0">Topics from ${esc(r.base.title)} you removed. Put any back with one click.</p><div class="skip-list">${r.skipped.map((id) => `<button type="button" class="skip-chip" data-repath="${id}">↺ ${esc(TOPICS[id].t)}</button>`).join("")}</div></section>` : ""}
+      ${r.big ? `<section class="panel"><h2>Big project</h2>${projCard(`${rid}-big`, "Big project", r.big)}</section>` : ""}
+      ${r.capstone ? `<section class="panel"><h2>Final capstone</h2>${projCard(`${rid}-cap`, "Capstone", r.capstone)}</section>` : ""}
+      ${r.jobReady.length ? `<section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${r.jobReady.length}</span></div>
         <p class="hint" style="margin:0">Tick each item when you can do it without notes and can point to a project that shows it.</p>
-        <ul class="checks">${r.jobReady.map((c, j) => { const id = `${r.id}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
-      </section>
-      <section class="panel"><h2>Common interview questions</h2>
+        <ul class="checks">${r.jobReady.map((c, j) => { const id = `${rid}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
+      </section>` : ""}
+      ${r.interview.length ? `<section class="panel"><h2>Common interview questions</h2>
         <ol class="iq">${r.interview.map((q, j) => `<li><span>${esc(q)}</span><button class="btn btn-quiet sm" type="button" data-tutor hidden data-iq="${j}">Practise with the tutor</button></li>`).join("")}</ol>
         <div class="tutor-out" id="iqOut"></div>
-      </section>
+      </section>` : ""}
+      ${footer()}
+    </div>`;
+  }
+
+  function viewSkills() {
+    const r = hasPath() ? myRole() : null;
+    return `<div class="wrap wide">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Skills catalog</span></nav>
+      <header class="mod-head"><span class="eyebrow">${Object.keys(TOPICS).length} skills in ${AREAS.length} areas</span><h1>Skills catalog</h1>
+        <p class="lede">Every skill on the platform, grouped by area. Each one has a study checklist, a hands-on lab and full lessons where available. Add any skill to your path, whatever role you started from.</p></header>
+      <div class="banner"><div><b>${r ? `My path: ${roleTopics(r).length} skills` : "You have no path yet"}</b><p>${r ? (r.base ? `Based on ${esc(r.base.title)}, ${r.extras.length} added, ${r.skipped.length} skipped.` : "Built only from skills you picked.") : "Add a skill below to start a custom path, or start from a role and add to it."}</p></div>${r ? '<a class="btn btn-primary" href="#my">Open my path</a>' : '<a class="btn btn-line" href="#roles">Start from a role</a>'}</div>
+      <input class="search big-search" id="skillSearch" type="search" placeholder="Filter skills, e.g. React, Docker, statistics" aria-label="Filter skills">
+      <div class="area-jump">${AREAS.map((a) => `<a href="#skills" data-area-jump="${a.id}">${esc(a.title)}</a>`).join("")}</div>
+      ${AREAS.map((a) => `<section class="level-block area-block" id="area-${a.id}" data-area="${a.id}">
+        <div class="level-title" style="--lvc: var(--accent)"><h2>${esc(a.title)}</h2><span>${esc(a.d)}</span></div>
+        <div class="skills">${a.topics.filter((id) => TOPICS[id]).map((id) => { const t = TOPICS[id], on = inPath(id), roles = rolesWith(id).map(roleOf);
+          return `<article class="skill ${on ? "in" : ""}" data-skill="${esc((t.t + " " + t.sub.join(" ") + " " + a.title).toLowerCase())}">
+            <div class="row"><span class="tick" data-tstate="${id}"></span>${on ? `<button class="btn btn-quiet sm" type="button" data-unpath="${id}">✓ In my path</button>` : `<button class="btn btn-line sm" type="button" data-addpath="${id}">+ Add to my path</button>`}</div>
+            <a href="${pathLink(id)}"><h3>${esc(t.t)}</h3></a><p>${esc(t.d)}</p>
+            <div class="node-tags">${t.les.length ? `<span>${t.les.length} lesson${t.les.length > 1 ? "s" : ""}</span>` : "<span>guide</span>"}<span>lab</span>${roles.length ? `<span title="${esc(roles.map((x) => x.title).join(", "))}">in ${roles.length} role${roles.length > 1 ? "s" : ""}</span>` : ""}</div>
+          </article>`; }).join("")}</div></section>`).join("")}
       ${footer()}
     </div>`;
   }
@@ -709,7 +818,7 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
     const pos = order.findIndex((x) => x.id === id);
     const stage = r && pos >= 0 ? r.stages[order[pos].si] : null;
     const prev = pos > 0 ? `#x-${r.id}.${order[pos - 1].id}` : "";
-    const next = pos >= 0 && pos < order.length - 1 ? `#x-${r.id}.${order[pos + 1].id}` : (r ? `#r-${r.id}` : "");
+    const next = pos >= 0 && pos < order.length - 1 ? `#x-${r.id}.${order[pos + 1].id}` : (r ? (r.id === "my" ? "#my" : `#r-${r.id}`) : "");
     const lessons = t.les.map(lessonRef).filter(Boolean);
     const subDone = t.sub.filter((_, i) => S.subs[id + "-" + i]).length;
     const labDone = t.lab.steps.filter((_, i) => S.labs[id + "-" + i]).length;
@@ -720,8 +829,9 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
       why: ["Why does this matter for the job?", "Explain why this topic matters in day-to-day work for this role, with two concrete workplace examples and what interviewers typically ask about it."]
     });
     return { html: `<div class="wrap" style="--lvc: var(--accent)">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span>${r ? `<a href="#r-${r.id}">${esc(r.title)}</a><span>›</span><span>Stage ${order[pos].si + 1}: ${esc(stage.t)}</span>` : "<span>Topic</span>"}</nav>
-      <header class="lesson-head"><span class="tag">${r ? `Topic ${pos + 1} of ${order.length}` : "Topic"}</span><h1>${esc(t.t)}</h1><p class="lede" style="margin-top:8px">${esc(t.d)}</p></header>
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span>${r ? `<a href="${r.id === "my" ? "#my" : "#r-" + r.id}">${esc(r.title)}</a><span>›</span><span>${stage.extra ? "Added by you" : "Stage " + (order[pos].si + 1) + ": " + esc(stage.t)}</span>` : "<span>Topic</span>"}</nav>
+      <header class="lesson-head"><span class="tag">${r ? `Topic ${pos + 1} of ${order.length}` : "Topic"}${areaOf(id) ? " · " + esc(areaOf(id).title) : ""}</span><h1>${esc(t.t)}</h1><p class="lede" style="margin-top:8px">${esc(t.d)}</p>
+        <div class="row-btns" style="margin-top:10px">${inPath(id) ? `<span class="chip">In my path</span><button class="btn btn-line sm" type="button" data-unpath="${id}">Remove from my path</button>` : `<button class="btn btn-line sm" type="button" data-addpath="${id}">+ Add to my path</button>`}</div></header>
       <section class="panel"><div class="section-h"><h2>What to learn</h2><span class="note">${subDone} of ${t.sub.length}</span></div>
         <ul class="checks">${t.sub.map((s, i) => `<li><label><input type="checkbox" data-sub="${id}-${i}" ${S.subs[id + "-" + i] ? "checked" : ""}><span>${esc(s)}</span></label></li>`).join("")}</ul></section>
       <section class="panel"><div class="section-h"><h2>Lessons</h2>${lessons.length ? `<span class="note">${lessons.filter((x) => S.done[x.k]).length} of ${lessons.length} done</span>` : ""}</div>
@@ -751,13 +861,15 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
 
   function viewLibrary() {
     let html = `<div class="wrap wide"><nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Lesson library</span></nav>
-      <header class="mod-head"><span class="eyebrow">Every full lesson in one place</span><h1>Lesson library</h1><p class="lede">${COURSE.length} modules and ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} lessons. Each lesson has notes, a code example, an exercise and a quiz. Roadmap topics link to the lessons they need, so most people reach these from their roadmap.</p></header>`;
-    for (const lv of [1, 2, 3, 4, 5]) {
-      const mods = COURSE.filter((m) => m.level === lv);
+      <header class="mod-head"><span class="eyebrow">Every full lesson in one place</span><h1>Lesson library</h1><p class="lede">${COURSE.length} modules and ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} lessons, grouped by skill area. Each lesson has notes, a code example, an exercise and a quiz. Most people reach these from a topic on their path.</p></header>`;
+    for (const a of AREAS) {
+      const mods = COURSE.filter((m) => MODULE_AREA[m.n] === a.id);
       if (!mods.length) continue;
-      html += `<section class="level-block" style="${lvc(lv)}"><div class="level-title"><h2>Level ${lv} · ${LEVELS[lv].name}</h2><span>${LEVELS[lv].note}</span></div>
-        <div class="cards">${mods.map((m) => { const md_ = modDone(m); return `<a class="card" href="#m-${m.n}" style="${lvc(lv)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")}</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${Math.round((md_ / m.lessons.length) * 100)}%"></i></div></a>`; }).join("")}</div></section>`;
+      html += `<section class="level-block" style="--lvc: var(--accent)"><div class="level-title"><h2>${esc(a.title)}</h2><span>${esc(a.d)}</span></div>
+        <div class="cards">${mods.map((m) => { const md_ = modDone(m); return `<a class="card" href="#m-${m.n}" style="${lvc(m.level)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")} · ${m.lessons.length} LESSONS</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${Math.round((md_ / m.lessons.length) * 100)}%"></i></div></a>`; }).join("")}</div></section>`;
     }
+    const soon = AREAS.filter((a) => !COURSE.some((m) => MODULE_AREA[m.n] === a.id)).map((a) => a.title);
+    if (soon.length) html += `<p class="note">Lesson modules coming next: ${soon.map(esc).join(", ")}. Their topics already have study checklists and labs in the <a href="#skills">skills catalog</a>.</p>`;
     return html + footer() + "</div>";
   }
 
@@ -886,13 +998,13 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
       <section class="panel prose"><h2>Who it is for</h2>
         <p>College and university students who want a plan alongside their degree, people in their first job who want to grow or switch roles, and anyone changing careers into tech. Level 1 topics assume no experience.</p></section>
       <section class="panel prose"><h2>How to use it</h2>
-        <p><b>1. Pick a role.</b> Read the descriptions and choose the one that sounds like you. You can switch later; shared topics keep their progress.</p>
+        <p><b>1. Choose a path.</b> Pick the role roadmap that sounds like you. If none fits exactly, start from the closest one and use <a href="#skills">the skills catalog</a> to add skills from other areas, or skip ones you don't need. You can also build a path only from skills. Shared topics keep their progress when you switch.</p>
         <p><b>2. Go stage by stage.</b> For each topic, tick off the sub-topics as you learn them, open the full lessons where available, and finish the lab.</p>
         <p><b>3. Build the stage project</b> before moving on. Put it on GitHub with a README and a live link.</p>
         <p><b>4. Finish with the big project and capstone</b>, then work through the job-ready checklist and practise the interview questions.</p>
         <p><b>5. Share your journey</b> on LinkedIn. Explaining what you built is part of getting hired.</p></section>
       <section class="panel prose"><h2>What's ready now</h2>
-        <p>All ${ROLES.length} roadmaps are complete: every stage, topic, lab and project. Full lessons (notes, code, exercise and quiz) are being added in waves. Backend and AI Engineer have full lessons for every technical topic today; other roles have full lessons for shared topics, with more on the way. Topics without a lesson yet still have a study checklist and a lab.</p></section>
+        <p>All ${ROLES.length} roadmaps and all ${Object.keys(TOPICS).length} skills are complete: every stage, topic, lab and project. Full lessons (notes, code, exercise and quiz) are added in waves. Frontend, Backend, Full-Stack, AI Engineer and Data Analyst have full lessons for 85-93% of their topics today; DevOps, Cybersecurity, Data Science and Mobile lessons are next. Topics without a lesson yet still have a study checklist and a lab.</p></section>
       <section class="panel prose"><h2>The running example: SaaSForge</h2>
         <p>Many lessons point to <b>SaaSForge</b>, an open-source AI agent that turns a plain-English brief or an existing HTML tool into a tested, deployed web app. It uses most of the backend, AI and DevOps topics here, so it shows how the pieces fit together in a real system.</p></section>
       <section class="panel prose"><h2>Your progress and privacy</h2>
@@ -904,6 +1016,15 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
   }
 
   /* ---------- router ---------- */
+  let skillFilter = "", areaJump = "";
+  function bindIq(r) {
+    const main = $("#main");
+    main.querySelectorAll("[data-iq]").forEach((b) => b.addEventListener("click", () => {
+      if (!sample) return;
+      ask($("#iqOut"), `${BASE}\n\nRole: ${r.base ? r.base.title : r.title}. Help me practise this interview question: "${r.interview[+b.dataset.iq]}". First give the key points a strong answer should cover, then a model answer in about 150 words, then two follow-up questions an interviewer might ask.`, Array.from(main.querySelectorAll("[data-iq]")));
+      $("#iqOut").scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }));
+  }
   function keepScroll() { const y = scrollY; render(); scrollTo(0, y); }
   function render() {
     const h = location.hash || "#home";
@@ -921,13 +1042,22 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
       const r = roleOf(mm[1]);
       main.innerHTML = viewRole(r);
       const pk = $("#pickRole"); if (pk) pk.addEventListener("click", () => { S.role = r.id; save(); renderTree($("#search").value); render(); });
-      main.querySelectorAll("[data-iq]").forEach((b) => b.addEventListener("click", () => {
-        if (!sample) return;
-        ask($("#iqOut"), `${BASE}\n\nRole: ${r.title}. Help me practise this interview question: "${r.interview[+b.dataset.iq]}". First give the key points a strong answer should cover, then a model answer in about 150 words, then two follow-up questions an interviewer might ask.`, Array.from(main.querySelectorAll("[data-iq]")));
-        $("#iqOut").scrollIntoView({ behavior: "smooth", block: "nearest" });
-      }));
+      bindIq(r);
     } else if ((mm = h.match(/^#m-(\d+)$/)) && (m = modByN(+mm[1]))) {
       main.innerHTML = viewModule(m);
+    } else if (h === "#my") {
+      main.innerHTML = viewRole(myRole());
+      main.querySelectorAll("[data-base]").forEach((b) => b.addEventListener("click", () => { S.role = b.dataset.base; save(); renderTree($("#search").value); keepScroll(); }));
+      bindIq(myRole());
+    } else if (h === "#skills") {
+      main.innerHTML = viewSkills();
+      const box = $("#skillSearch");
+      box.value = skillFilter;
+      const apply = () => { const q = box.value.trim().toLowerCase(); skillFilter = box.value;
+        main.querySelectorAll(".skill").forEach((c) => { c.hidden = !!q && !c.dataset.skill.includes(q); });
+        main.querySelectorAll(".area-block").forEach((sec) => { sec.hidden = !sec.querySelector(".skill:not([hidden])"); }); };
+      box.addEventListener("input", apply); apply();
+      if (areaJump) { const el = document.getElementById("area-" + areaJump); areaJump = ""; if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 0); }
     } else if (h === "#roles") { main.innerHTML = viewRoles();
     } else if (h === "#projects") {
       main.innerHTML = viewProjects();
@@ -940,6 +1070,10 @@ Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
     main.querySelectorAll("[data-lab]").forEach((c) => c.addEventListener("change", () => { S.labs[c.dataset.lab] = c.checked ? 1 : 0; save(); keepScroll(); }));
     main.querySelectorAll("[data-jr]").forEach((c) => c.addEventListener("change", () => { S.jr[c.dataset.jr] = c.checked ? 1 : 0; save(); keepScroll(); }));
     main.querySelectorAll("[data-pj]").forEach((c) => c.addEventListener("change", () => { S.pj[c.dataset.pj] = c.checked ? 1 : 0; save(); }));
+    main.querySelectorAll("[data-addpath]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); addToPath(b.dataset.addpath); renderTree($("#search").value); keepScroll(); }));
+    main.querySelectorAll("[data-unpath]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); removeFromPath(b.dataset.unpath); renderTree($("#search").value); keepScroll(); }));
+    main.querySelectorAll("[data-repath]").forEach((b) => b.addEventListener("click", () => { addToPath(b.dataset.repath); renderTree($("#search").value); keepScroll(); }));
+    main.querySelectorAll("[data-area-jump]").forEach((a) => a.addEventListener("click", (e) => { areaJump = a.dataset.areaJump; if (location.hash === "#skills") { e.preventDefault(); const el = document.getElementById("area-" + areaJump); areaJump = ""; if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } }));
     showTutor(); paintProgress(); markActive();
   }
   let lastHash = null;
