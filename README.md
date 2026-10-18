@@ -2,7 +2,7 @@
 
 **Find your path in tech. Then walk it.**
 
-**Live site: [forge-academy-seven.vercel.app](https://forge-academy-seven.vercel.app)**
+**Live site: [forge-academy-learn.vercel.app](https://forge-academy-learn.vercel.app)**
 
 Forge Academy is a free, open platform with complete career roadmaps for the most in-demand tech roles. Each roadmap comes with everything you need to learn it: notes, worked code, hands-on labs, quizzes, small projects, big projects and a final capstone.
 
