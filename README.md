@@ -1,32 +1,80 @@
 # Forge Academy
 
-A personal, self-paced course that teaches everything needed to build **SaaSForge** (an AI agent that turns a brief or an HTML tool into a tested, deployed SaaS platform) and any other SaaS product.
+**A free, open roadmap from zero to job-ready software engineer.**
 
-- **20 modules · 80 lessons · 5 levels**: Python, HTTP and REST, FastAPI, SQL, SQLAlchemy, frontend, auth and security, concurrency, Docker, LLM APIs, prompt engineering, agent design, code generation, ASTs, file processing, Playwright, testing, CI/CD, software design
-- Every lesson has sub-topics, an explanation, a code example, an exercise, a quiz and a notes box
-- **7 capstone projects** that end with building your own SaaSForge
-- Progress, notes and answers are saved in your browser
+Forge Academy is for college and university students, career switchers and self-learners who want a clear plan, real foundations and portfolio projects before their first engineering job.
+
+## What's inside
+
+- **6 career roadmaps:** Web Developer, Backend Engineer, Security & Systems, AI Engineer, DevOps & Cloud, and a Full Roadmap that ends with building an AI SaaS builder. Each one puts the modules in order for that role and ends with a job-ready checklist.
+- **20 modules, 80 lessons, 5 levels:**
+  - Python and advanced Python
+  - HTTP and REST, FastAPI, SQL, SQLAlchemy, frontend (HTML, CSS, JavaScript)
+  - Authentication and security, concurrency and processes, Docker and sandboxing
+  - LLM APIs, prompt engineering, AI agent design, code generation, parsing and ASTs, data and document processing, browser automation with Playwright
+  - Testing, CI/CD and deployment, software design
+- **Every lesson includes** sub-topics, an explanation, a working code example, a hands-on exercise, a quiz question with an explanation, and a notes box.
+- **Projects:**
+  - 15 portfolio project ideas (beginner, intermediate and advanced for each roadmap)
+  - A 7-part capstone series where each project builds on the last
+- **Progress tracking** in your browser, with no sign-up needed.
+
+Many lessons use [SaaSForge](https://github.com/Pallak-08/saasforge), an open-source AI agent that builds SaaS apps, as a real-world example of how the pieces fit together.
+
+## How to use it
+
+1. Pick the roadmap for the job you want. You can switch later, and your progress is shared between roadmaps.
+2. Do the lessons in order. Type the code yourself, do the exercise, then answer the quiz.
+3. Build the projects and push each one to GitHub with a README and a live link.
+4. Work through the job-ready checklist before you apply.
+5. Share what you build on LinkedIn.
 
 ## Run locally
 
-It is a static site with no build step:
+It's a static site with no build step:
 
 ```bash
+git clone https://github.com/Pallak-08/forge-academy.git
+cd forge-academy
 python3 -m http.server 8000
 # open http://localhost:8000
 ```
 
-## Structure
+## Project structure
 
 ```
-index.html        the app (layout, styles, logic)
-data/part1-5.js   course content: modules 1-20 and the capstone projects
+index.html        the app: layout, styles and logic
+data/part1-5.js   course content: modules 1-20 and the capstone series
+data/tracks.js    career roadmaps, job-ready checklists and project ideas
 ```
 
-To add or edit a lesson, change the matching `data/partN.js` file. Each lesson is an object with `t` (title), `sub` (sub-topics), `body` (HTML), `lang`, `code`, `ex` (exercise) and `q` (question, options, correct index, explanation).
+## Contributing
 
-## Deploy
+Corrections, new lessons and new project ideas are welcome. Lessons are plain JavaScript objects:
 
-Import this repository in Vercel (Framework preset: **Other**, no build command, output directory `.`). Every push to `main` redeploys.
+```js
+{
+  t: "Lesson title",
+  sub: ["sub-topic", "sub-topic"],
+  body: "<p>Explanation in HTML</p>",
+  lang: "python",
+  code: "print('example')",
+  ex: "Exercise text",
+  q: ["Question?", ["A", "B", "C", "D"], 2, "Why C is correct"]
+}
+```
 
-The AI tutor is only available when the page is opened as a Claude artifact; on other hosts it is hidden and the rest of the course works normally.
+Open an issue or a pull request.
+
+## Deploy your own copy
+
+Import the repository into [Vercel](https://vercel.com/new):
+
+- Set the framework preset to **Other**.
+- Leave the build command empty.
+
+Netlify, GitHub Pages and any static host work too.
+
+---
+
+Created by **Pallak Khullar**.

@@ -608,7 +608,7 @@ window.PROJECTS = [
   { n: 6, title: "Wrap an HTML tool", modules: [16, 17, 9],
     goal: "Take any single-file HTML tool and run it headlessly as a multi-user service.",
     checklist: ["Scan the HTML: inputs, buttons, functions, ids", "Playwright runner with a network gate and download capture", "Upload endpoint, job queue, worker subprocesses, cancel", "Golden run and a test that compares fresh output to it", "Roles: admin, reviewer, viewer, with an audit log"] },
-  { n: 7, title: "Your own SaaSForge", modules: [20],
-    goal: "Combine projects 1-6 into a platform that builds platforms. Then design and build something new with the same method.",
+  { n: 7, title: "Your own AI app builder", modules: [20],
+    goal: "Combine projects 1-6 into a platform that builds platforms, like the open-source SaaSForge project. Then design and build something new with the same method.",
     checklist: ["Fill in the platform design template first", "Interface, API, agent core, brain, inputs, engine, verify, deliver", "Spec-driven runtime with a generic CRUD router and safe formulas", "Every generated app ships tests, Dockerfile, compose, CI and render.yaml", "ARCHITECTURE.md with decisions and honest limits"] }
 ];

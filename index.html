@@ -3,7 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="A personal course: 20 modules and 80 lessons with code, exercises and quizzes, plus 7 capstone projects, teaching everything needed to build SaaSForge and any SaaS platform.">
+<meta name="description" content="Forge Academy: a free, open roadmap from zero to job-ready software engineer. Career roadmaps for web, backend, security, AI and DevOps, 80 lessons with code, quizzes and portfolio projects.">
+<meta property="og:title" content="Forge Academy: from zero to job-ready software engineer">
+<meta property="og:description" content="Free career roadmaps for web, backend, security, AI and DevOps with 80 hands-on lessons and portfolio projects.">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Forge Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -208,6 +210,35 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 .mods-used { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
 .mods-used a { font-size: 12px; background: var(--sunk); color: var(--ink); text-decoration: none; padding: 3px 8px; border-radius: 99px; }
 
+
+.card.track.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.card.track .n { color: var(--accent); }
+.roles { font-size: 13px; color: var(--ink); font-weight: 500; }
+.chip { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--ink); }
+.chip.lvl-beginner { background: var(--good-soft); }
+.chip.lvl-intermediate { background: color-mix(in srgb, var(--mark) 35%, var(--surface)); }
+.chip.lvl-advanced { background: var(--bad-soft); }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.steps li { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); }
+.steps li:first-child { border-top: 0; }
+.steps .step-n { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--lvc); display: grid; place-items: center; font: 600 12px/1 var(--f-mono); color: var(--lvc); }
+.steps li.full .step-n { background: var(--lvc); color: var(--surface); }
+.steps a { text-decoration: none; color: var(--ink); }
+.steps small { display: block; color: var(--muted); font-size: 13px; }
+.idea { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; background: var(--bg); }
+.idea .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+.idea h3 { font-size: 17px; }
+.idea p { margin: 0; font-size: 14.5px; }
+.idea ul { margin: 2px 0 4px; padding-left: 20px; font-size: 14px; }
+.built { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; cursor: pointer; }
+.built input { accent-color: var(--accent); }
+.ideas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+.ideas .idea { background: var(--surface); }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
+.tab { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 6px 14px; font-size: 14px; font-weight: 500; }
+.tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.site-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 16px; font-size: 13px; color: var(--muted); }
+.site-foot a { color: var(--muted); }
 .scrim { display: none; }
 @media (max-width: 900px) {
   .shell { grid-template-columns: minmax(0, 1fr); }
@@ -252,7 +283,9 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     <input class="search" id="search" type="search" placeholder="Search lessons and topics" aria-label="Search lessons">
     <nav class="rail-nav">
       <a class="rail-link" href="#home" data-nav="home">Dashboard</a>
-      <a class="rail-link" href="#projects" data-nav="projects">Capstone projects</a>
+      <a class="rail-link" href="#roadmaps" data-nav="roadmaps">Career roadmaps</a>
+      <a class="rail-link" href="#projects" data-nav="projects">Projects</a>
+      <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
     </nav>
     <div id="tree"></div>
   </aside>
@@ -266,11 +299,16 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/part3.js"></script>
 <script src="data/part4.js"></script>
 <script src="data/part5.js"></script>
+<script src="data/tracks.js"></script>
 <script>
 (() => {
   "use strict";
   const COURSE = (window.COURSE || []).slice().sort((a, b) => a.n - b.n);
   const PROJECTS = window.PROJECTS || [];
+  const TRACKS = window.TRACKS || [];
+  const IDEAS = window.IDEAS || [];
+  const REPO = "https://github.com/Pallak-08/forge-academy";
+  const AUTHOR = "Pallak Khullar";
   const LEVELS = {
     1: { name: "Foundations", note: "The language and tools everything else is written in" },
     2: { name: "Web development", note: "APIs, databases and interfaces" },
@@ -287,7 +325,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 
   /* ---------- state: local first, synced to the person's private store when available ---------- */
   const LS = "forge-academy-v1";
-  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, proj: {}, last: "", updated: 0 });
+  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, proj: {}, jr: {}, ideas: {}, track: "", last: "", updated: 0 });
   let S = blank();
   try { const raw = localStorage.getItem(LS); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   let remote = null, saveTimer = null;
@@ -308,7 +346,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   function merge(a, b) {
     const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
     const out = Object.assign(blank(), older, newer);
-    for (const k of ["done", "proj"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
+    for (const k of ["done", "proj", "jr", "ideas"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
     for (const k of ["quiz", "notes", "answers"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
     return out;
   }
@@ -361,7 +399,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   }
   const plain = (html) => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent.replace(/\s+/g, " ").trim(); };
   function lessonContext(m, l) {
-    return `You are a patient, precise programming tutor inside "Forge Academy", a self-study course that teaches someone to build an AI agent platform like SaaSForge (Python, FastAPI, SQLAlchemy, Docker, LLM APIs, agents) and any other SaaS on their own.
+    return `You are a patient, precise programming tutor inside "Forge Academy", a free, open roadmap that takes college students and self-learners from zero to job-ready in web development, backend, security and systems, AI engineering and DevOps, using SaaSForge (an open-source AI agent that builds SaaS apps) as a running real-world example.
 Course module ${m.n}: ${m.title}. Lesson: ${l.t}.
 Sub-topics: ${l.sub.join("; ")}.
 Lesson text: ${plain(l.body)}
@@ -403,6 +441,8 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
 
   /* ---------- curriculum rail ---------- */
   let openMods = new Set();
+  let ideaTab = "web";
+  try { ideaTab = localStorage.getItem("forge-academy-tab") || "web"; } catch (e) {}
   function renderTree(filter = "") {
     const q = filter.trim().toLowerCase();
     let html = "";
@@ -442,7 +482,7 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
     const h = location.hash || "#home";
     document.querySelectorAll("[data-lesson]").forEach((a) => a.classList.toggle("on", h === "#l-" + a.dataset.lesson));
     document.querySelectorAll(".mod").forEach((d) => d.classList.toggle("on", h === "#m-" + d.dataset.mod));
-    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav));
+    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roadmaps" && h.startsWith("#t-"))));
   }
 
   /* ---------- theme toggle ---------- */
@@ -455,8 +495,13 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
   try { const t = localStorage.getItem("forge-academy-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
 
   /* ---------- views ---------- */
+  const trackOf = (id) => TRACKS.find((t) => t.id === id);
+  const trackDone = (t) => t.modules.reduce((s, n) => { const m = COURSE.find((x) => x.n === n); return s + (m ? modDone(m) : 0); }, 0);
+  const trackTotal = (t) => t.modules.reduce((s, n) => { const m = COURSE.find((x) => x.n === n); return s + (m ? m.lessons.length : 0); }, 0);
   function nextLesson() {
-    for (const m of COURSE) for (let i = 0; i < m.lessons.length; i++) if (!S.done[key(m, i)]) return { m, i };
+    const t = trackOf(S.track);
+    const order = t ? t.modules.map((n) => COURSE.find((x) => x.n === n)).filter(Boolean) : COURSE;
+    for (const m of order) for (let i = 0; i < m.lessons.length; i++) if (!S.done[key(m, i)]) return { m, i };
     return null;
   }
   function findKey(k) {
@@ -464,38 +509,52 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
     const m = COURSE.find((x) => x.n === n);
     return m && m.lessons[i] ? { m, i } : null;
   }
+  function trackCard(t) {
+    const d = trackDone(t), tot = trackTotal(t), on = S.track === t.id;
+    return `<a class="card track ${on ? "chosen" : ""}" href="#t-${t.id}">
+      <div class="row"><span class="n">${esc(t.short.toUpperCase())} ROADMAP</span>${on ? '<span class="chip">Your roadmap</span>' : `<span class="note">${t.modules.length} modules</span>`}</div>
+      <h3>${esc(t.title)}</h3><p>${esc(t.who)}</p>
+      <p class="roles">${t.roles.map(esc).join(" · ")}</p>
+      <div class="mini"><i style="width:${tot ? Math.round((d / tot) * 100) : 0}%"></i></div>
+      <span class="note">${d} of ${tot} lessons · ${esc(t.weeks)}</span></a>`;
+  }
 
   function viewHome() {
     const d = doneCount();
+    const t = trackOf(S.track);
     const last = findKey(S.last);
     const nx = last && !S.done[S.last] ? last : nextLesson();
     const quizRight = Object.entries(S.quiz).filter(([k, v]) => { const f = findKey(k); return f && f.m.lessons[f.i].q[2] === v; }).length;
     const modsDone = COURSE.filter((m) => modDone(m) === m.lessons.length).length;
-    const projChecks = Object.values(S.proj).filter(Boolean).length;
-    const projTotal = PROJECTS.reduce((s, p) => s + p.checklist.length, 0);
+    const built = Object.values(S.ideas).filter(Boolean).length + PROJECTS.filter((p) => p.checklist.every((_, j) => S.proj[`p${p.n}-${j}`])).length;
     let html = `<div class="wrap wide">
       <section class="hero">
         <div>
-          <span class="eyebrow">Your personal course · 20 modules · 80 lessons · 7 projects</span>
-          <h1 style="margin-top:10px">Learn to build <em>SaaSForge</em>, then build anything.</h1>
-          <p>Every topic SaaSForge is made of, taught from first principles with working code, an exercise and a quiz in every lesson. The AI tutor answers questions, explains differently and reviews your exercise answers.</p>
+          <span class="eyebrow">Free and open · for students and self-learners · 20 modules · 80 lessons</span>
+          <h1 style="margin-top:10px">From zero to <em>job-ready</em> software engineer.</h1>
+          <p>Pick a career roadmap, learn each topic from first principles with working code, test yourself, and build portfolio projects you can put on GitHub and LinkedIn. Web development, backend, security and systems, AI engineering and DevOps, all in one place.</p>
+          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roadmaps">${t ? "Change roadmap" : "Choose your roadmap"}</a><a class="btn btn-line" href="#about">How to use this</a></div>
         </div>
         <div class="continue">
-          ${nx ? `<span class="eyebrow">${d ? "Continue" : "Start here"} · Module ${nx.m.n}</span>
+          ${nx ? `<span class="eyebrow">${d ? "Continue" : "Start here"}${t ? " · " + esc(t.short) + " roadmap" : ""} · Module ${nx.m.n}</span>
           <h3>${esc(nx.m.lessons[nx.i].t)}</h3>
           <span class="meta">${esc(nx.m.title)} · lesson ${nx.i + 1} of ${nx.m.lessons.length}</span>
           <div><a class="btn btn-primary" href="#l-${nx.m.n}-${nx.i}">${d ? "Continue lesson" : "Begin lesson 1"}</a></div>`
-          : `<span class="eyebrow">Course complete</span><h3>You finished all ${TOTAL} lessons.</h3><span class="meta">Now build capstone 7: your own SaaSForge.</span><div><a class="btn btn-primary" href="#projects">Open projects</a></div>`}
+          : `<span class="eyebrow">Roadmap complete</span><h3>You finished every lesson${t ? " in the " + esc(t.title) + " roadmap" : ""}.</h3><span class="meta">Build the projects and check off the job-ready list.</span><div><a class="btn btn-primary" href="#projects">Open projects</a></div>`}
         </div>
       </section>
       <section class="stats" aria-label="Your progress">
         <div class="stat"><b>${d}</b><span>of ${TOTAL} lessons done</span></div>
         <div class="stat"><b>${modsDone}</b><span>of ${COURSE.length} modules finished</span></div>
         <div class="stat"><b>${quizRight}</b><span>quiz answers correct</span></div>
-        <div class="stat"><b>${projChecks}</b><span>of ${projTotal} project tasks done</span></div>
+        <div class="stat"><b>${built}</b><span>projects built</span></div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>Project path</h2><span>Build these as you go; each one uses the modules before it</span></div>
+        <div class="level-title" style="--lvc: var(--accent)"><h2>Career roadmaps</h2><span>Each one is an ordered path through the modules, with projects and a job-ready checklist</span></div>
+        <div class="cards">${TRACKS.map(trackCard).join("")}</div>
+      </section>
+      <section class="level-block">
+        <div class="level-title" style="--lvc: var(--mark)"><h2>Capstone series</h2><span>Seven projects that build on each other, ending with your own AI app builder</span></div>
         <div class="path">${PROJECTS.map((p) => `<a href="#projects"><b>P${p.n}</b>${esc(p.title)}</a>`).join("")}</div>
       </section>`;
     for (const lv of [1, 2, 3, 4, 5]) {
@@ -507,8 +566,78 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
           return `<a class="card" href="#m-${m.n}" style="${lvc(lv)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")}</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${pct}%"></i></div></a>`;
         }).join("")}</div></section>`;
     }
-    html += "</div>";
+    html += footer() + "</div>";
     return html;
+  }
+
+  function footer() {
+    return `<footer class="site-foot"><span>Forge Academy is a free, open learning roadmap created by ${esc(AUTHOR)}.</span><span><a href="${REPO}" target="_blank" rel="noopener">Source on GitHub</a> · <a href="#about">About</a></span></footer>`;
+  }
+
+  function viewRoadmaps() {
+    return `<div class="wrap wide">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Career roadmaps</span></nav>
+      <header class="mod-head"><span class="eyebrow">Choose a direction</span><h1>Career roadmaps</h1><p class="lede">Not sure where to start? Pick the job you want. Each roadmap orders the modules for that role, suggests portfolio projects and ends with a checklist of what interviewers expect you to show. You can switch at any time; your progress is shared across roadmaps.</p></header>
+      <div class="cards">${TRACKS.map(trackCard).join("")}</div>
+      ${footer()}
+    </div>`;
+  }
+
+  function viewTrack(t) {
+    const ideas = IDEAS.filter((x) => x.track === t.id);
+    const caps = t.id === "full" ? PROJECTS : PROJECTS.filter((p) => p.modules.some((n) => t.modules.includes(n))).slice(0, 4);
+    const jrDone = t.jobReady.filter((_, j) => S.jr[`${t.id}-${j}`]).length;
+    return `<div class="wrap">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><a href="#roadmaps">Career roadmaps</a><span>›</span><span>${esc(t.title)}</span></nav>
+      <header class="mod-head"><span class="eyebrow">${esc(t.short)} roadmap · ${esc(t.weeks)}</span><h1>${esc(t.title)}</h1><p class="lede">${esc(t.who)}</p>
+        <p class="roles" style="margin:0">Leads to: ${t.roles.map(esc).join(" · ")}</p>
+        <div class="row-btns">${S.track === t.id ? '<span class="done-pill">This is your roadmap</span>' : `<button class="btn btn-primary" type="button" id="pickTrack">Make this my roadmap</button>`}<span class="note">${trackDone(t)} of ${trackTotal(t)} lessons done</span></div>
+      </header>
+      <section class="panel"><h2>Your path, in order</h2>
+        <ol class="steps">${t.modules.map((n, idx) => { const m = COURSE.find((x) => x.n === n); if (!m) return ""; const md_ = modDone(m), full = md_ === m.lessons.length;
+          return `<li class="${full ? "full" : ""}" style="${lvc(m.level)}"><span class="step-n">${idx + 1}</span><a href="#m-${m.n}"><b>${esc(m.title)}</b><small>${esc(m.blurb)}</small></a><span class="note">${md_}/${m.lessons.length}</span></li>`; }).join("")}</ol>
+      </section>
+      <section class="panel"><h2>Portfolio projects for this roadmap</h2>
+        ${ideas.length ? ideas.map(ideaCard).join("") : ""}
+        ${caps.length ? `<p class="note" style="margin:0">Also from the capstone series: ${caps.map((p) => `<a href="#projects">P${p.n} ${esc(p.title)}</a>`).join(", ")}.</p>` : ""}
+      </section>
+      <section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${t.jobReady.length}</span></div>
+        <p class="hint" style="margin:0">Tick each item when you can do it without notes and can show it in a project.</p>
+        <ul class="checks">${t.jobReady.map((c, j) => { const id = `${t.id}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
+      </section>
+      ${footer()}
+    </div>`;
+  }
+
+  function ideaCard(x) {
+    const id = `${x.track}-${x.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    return `<article class="idea"><div class="row"><span class="chip lvl-${x.level.toLowerCase()}">${esc(x.level)}</span><label class="built"><input type="checkbox" data-idea="${id}" ${S.ideas[id] ? "checked" : ""}> I built this</label></div>
+      <h3>${esc(x.title)}</h3><p>${esc(x.pitch)}</p>
+      <ul>${x.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
+      <p class="note" style="margin:0"><b>Stretch goal:</b> ${esc(x.stretch)}</p></article>`;
+  }
+
+  function viewAbout() {
+    return `<div class="wrap">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>About</span></nav>
+      <header class="mod-head"><span class="eyebrow">About Forge Academy</span><h1>A free roadmap for anyone learning to build software</h1>
+        <p class="lede">Forge Academy was made by ${esc(AUTHOR)} to help college students and self-learners prepare for real engineering work: not only knowing topics, but building and shipping things with them.</p></header>
+      <section class="panel prose"><h2>Who it is for</h2>
+        <p>Students in college or university who want a clear plan alongside their degree, people switching into tech, and anyone who wants a solid foundation before their first job. You need a laptop and curiosity; no prior experience is assumed in Level 1.</p></section>
+      <section class="panel prose"><h2>How to use it</h2>
+        <p><b>1. Pick a roadmap</b> for the job you want. If you are unsure, start with Web Developer; you can switch later and keep your progress.</p>
+        <p><b>2. Do the lessons in order.</b> Read, type the code yourself (do not just copy it), do the exercise, then answer the quiz.</p>
+        <p><b>3. Build the projects.</b> Push each one to GitHub with a README and a live link. Projects are what get you interviews.</p>
+        <p><b>4. Work through the job-ready checklist</b> for your roadmap before applying.</p>
+        <p><b>5. Share your progress.</b> Post what you built on LinkedIn; teaching others is the fastest way to learn.</p></section>
+      <section class="panel prose"><h2>The running example: SaaSForge</h2>
+        <p>Many lessons point to <b>SaaSForge</b>, an open-source AI agent that turns a plain-English brief or an existing HTML tool into a tested, deployed SaaS platform. It uses almost every topic in this course, so it shows how the pieces fit together in a real system. You do not need it to follow the lessons.</p></section>
+      <section class="panel prose"><h2>Your progress and privacy</h2>
+        <p>There are no accounts. Lessons done, quiz answers, notes and checklists are saved in your own browser on this device. Clearing site data resets them.</p></section>
+      <section class="panel prose"><h2>Contribute</h2>
+        <p>Found a mistake or want to add a lesson? The course content lives in plain JavaScript files in the <a href="${REPO}" target="_blank" rel="noopener">GitHub repository</a>. Open an issue or a pull request.</p></section>
+      ${footer()}
+    </div>`;
   }
 
   function viewModule(m) {
@@ -516,7 +645,7 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
     return `<div class="wrap" style="${lvc(m.level)}">
       <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Level ${m.level} · ${LEVELS[m.level].name}</span></nav>
       <header class="mod-head"><span class="tag">Module ${m.n} of ${COURSE.length}</span><h1>${esc(m.title)}</h1><p class="lede">${esc(m.blurb)}</p></header>
-      <div class="saas"><b>Where this lives in SaaSForge.</b> ${m.saas}</div>
+      <div class="saas"><b>Real-world example: SaaSForge.</b> ${m.saas}</div>
       <div class="section-h"><h2>Lessons</h2><span class="note">${modDone(m)} of ${m.lessons.length} done</span></div>
       <div class="lesson-list">${m.lessons.map((l, i) => `<a href="#l-${m.n}-${i}"><span class="tick ${S.done[key(m, i)] ? "done" : ""}"></span><span><b>${i + 1}. ${esc(l.t)}</b><small>${esc(l.sub.join(" · "))}</small></span><span class="go">Open ›</span></a>`).join("")}</div>
       ${proj.length ? `<div class="panel"><h2>Practise it in a project</h2>${proj.map((p) => `<p style="margin:0">Capstone ${p.n}: <a href="#projects">${esc(p.title)}</a>. ${esc(p.goal)}</p>`).join("")}</div>` : ""}
@@ -557,7 +686,7 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
           <button class="btn btn-quiet" type="button" id="hintBtn">Give me a hint</button>
           <button class="btn btn-quiet" type="button" id="moreBtn">Another exercise</button>
         </div>
-        <p class="hint" data-tutor-off>Open this page in Claude to have the tutor review your answers.</p>
+        <p class="hint" data-tutor-off>Run your solution, then compare it with the lesson's example. Stuck? Re-read the sub-topics and try a smaller version first.</p>
         <div class="tutor-out" id="exOut"></div>
       </section>
 
@@ -650,12 +779,17 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
   function viewProjects() {
     return `<div class="wrap">
       <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Capstone projects</span></nav>
-      <header class="mod-head"><span class="eyebrow">Practice</span><h1>Seven projects to your own SaaSForge</h1><p class="lede">Lessons teach the parts. These projects make you put them together. Each one builds on the last, and the seventh is a platform that builds platforms.</p></header>
+      <header class="mod-head"><span class="eyebrow">Practice</span><h1>Projects</h1><p class="lede">Lessons teach the parts; projects prove you can put them together. Start with ideas for your roadmap, or follow the capstone series, where each project builds on the last and the seventh is a platform that builds platforms.</p></header>
+      <div class="section-h"><h2>Project ideas by roadmap</h2></div>
+      <div class="tabs" role="tablist">${TRACKS.filter((t) => t.id !== "full").map((t) => `<button type="button" role="tab" class="tab ${ideaTab === t.id ? "on" : ""}" data-tab="${t.id}">${esc(t.short)}</button>`).join("")}</div>
+      <div class="ideas">${IDEAS.filter((x) => x.track === ideaTab).map(ideaCard).join("")}</div>
+      <div class="section-h"><h2>Capstone series</h2></div>
       ${PROJECTS.map((p) => `<article class="proj"><div class="big">P${p.n}</div><div>
         <h3>${esc(p.title)}</h3><p>${esc(p.goal)}</p>
         <ul class="checks">${p.checklist.map((c, j) => { const id = `p${p.n}-${j}`; return `<li><label><input type="checkbox" id="${id}" data-proj="${id}" ${S.proj[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
         <div class="mods-used">${p.modules.map((n) => { const m = COURSE.find((x) => x.n === n); return m ? `<a href="#m-${n}">M${n} ${esc(m.title)}</a>` : ""; }).join("")}</div>
       </div></article>`).join("")}
+      ${footer()}
     </div>`;
   }
 
@@ -674,9 +808,20 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
     } else if (h === "#projects") {
       main.innerHTML = viewProjects();
       main.querySelectorAll("[data-proj]").forEach((c) => c.addEventListener("change", () => { S.proj[c.dataset.proj] = c.checked ? 1 : 0; save(); }));
+      main.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => { ideaTab = b.dataset.tab; try { localStorage.setItem("forge-academy-tab", ideaTab); } catch (e) {} render(); }));
+    } else if (h === "#roadmaps") {
+      main.innerHTML = viewRoadmaps();
+    } else if (h === "#about") {
+      main.innerHTML = viewAbout();
+    } else if ((mm = h.match(/^#t-([a-z]+)$/)) && trackOf(mm[1])) {
+      const t = trackOf(mm[1]);
+      main.innerHTML = viewTrack(t);
+      const pk = $("#pickTrack"); if (pk) pk.addEventListener("click", () => { S.track = t.id; save(); render(); });
     } else {
       main.innerHTML = viewHome();
     }
+    main.querySelectorAll("[data-jr]").forEach((c) => c.addEventListener("change", () => { S.jr[c.dataset.jr] = c.checked ? 1 : 0; save(); const y = scrollY; render(); scrollTo(0, y); }));
+    main.querySelectorAll("[data-idea]").forEach((c) => c.addEventListener("change", () => { S.ideas[c.dataset.idea] = c.checked ? 1 : 0; save(); }));
     markActive();
   }
   let lastHash = null;
