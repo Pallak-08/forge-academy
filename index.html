@@ -396,6 +396,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       <a class="rail-link" href="#my" data-nav="my">My path</a>
       <a class="rail-link" href="#roles" data-nav="roles">Role roadmaps</a>
       <a class="rail-link" href="#catalog" data-nav="catalog">Module catalog</a>
+      <a class="rail-link" href="#library" data-nav="library">Lesson library</a>
       <a class="rail-link" href="#projects" data-nav="projects">Projects</a>
       <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
     </nav>
@@ -415,6 +416,9 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/part7.js?v=61b3e8ea"></script>
 <script src="data/part8.js?v=983f817f"></script>
 <script src="data/part9.js?v=970866b4"></script>
+<script src="data/part10.js?v=724abe70"></script>
+<script src="data/part11.js?v=89f3517a"></script>
+<script src="data/part12.js?v=cf124ec9"></script>
 <script src="data/cur1.js?v=febe51c1"></script>
 <script src="data/cur2.js?v=31675bf6"></script>
 <script src="data/cur3.js?v=9c1ff7ad"></script>
@@ -426,6 +430,12 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   const COURSE = window.COURSE || [];
   const MODS = window.MODS || [];
   const ROLES = window.ROLES2 || [];
+  /* newly written lessons declare which module they fill; swap each matching outline for the written lesson */
+  for (const c of COURSE) {
+    if (!c.fills) continue;
+    const m = MODS.find((x) => x.id === c.fills); if (!m) continue;
+    c.lessons.forEach((l, j) => { const i = m.les.findIndex((x) => Array.isArray(x) && x[0] === l.t); if (i >= 0) m.les[i] = c.n + "-" + j; else console.warn("No outline for", c.fills, l.t); });
+  }
   const REPO = "https://github.com/Pallak-08/forge-academy";
   const AUTHOR = "Pallak Khullar";
   const AREAS = [
@@ -444,7 +454,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   const $ = (s, r = document) => r.querySelector(s);
   const safe = (s) => String(s).replace(/<(?=\/?(script|textarea|style|iframe|title)\b)/gi, "&lt;");
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash", typescript: "typescript" };
+  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash", typescript: "typescript", nginx: "nginx", ini: "ini" };
   const modById = (id) => MODS.find((m) => m.id === id);
   const areaById = (id) => AREAS.find((a) => a.id === id);
   const courseLesson = (ref) => { const [n, i] = String(ref).split("-").map(Number); const c = COURSE.find((x) => x.n === n); return c && c.lessons[i] ? c.lessons[i] : null; };
@@ -689,7 +699,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
           <span class="eyebrow">Free and open · ${ROLES.length} role roadmaps · ${MODS.length} modules · ${totalLessons} lessons</span>
           <h1 style="margin-top:10px">Find your path in tech. <em>Then walk it.</em></h1>
           <p>Every role is a structured roadmap: stages, then modules, then lessons. Each module has notes, worked code, quizzes, a hands-on lab and a project. Start from a role, or build your own path from the module catalog.</p>
-          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">Pick a role</a><a class="btn btn-line" href="#catalog">Browse modules</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
+          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">Pick a role</a><a class="btn btn-line" href="#catalog">Browse modules</a><a class="btn btn-line" href="#library">Lesson library</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
         </div>
         <div class="continue">
           ${r && nx ? `<span class="eyebrow">Continue · ${esc(nx.m.t)}</span><h3>${esc(nx.l.t)}</h3><span class="meta">${esc(r.stages[nx.si] ? r.stages[nx.si].t : "")} · lesson ${nx.i + 1} of ${nx.m.les.length}</span><div><a class="btn btn-primary" href="#l-${nx.m.id}.${nx.i}">Continue</a></div>`
@@ -938,6 +948,23 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     </div>`;
   }
 
+  /* every written lesson in one place, opened inside a module that uses it */
+  function refHome(ref) { for (const m of MODS) { const i = m.les.indexOf(ref); if (i >= 0) return { m, i }; } return null; }
+  function viewLibrary() {
+    const total = COURSE.reduce((s, c) => s + c.lessons.length, 0);
+    const done = COURSE.reduce((s, c) => s + c.lessons.filter((_, i) => S.done["L" + c.n + "-" + i]).length, 0);
+    return `<div class="wrap wide">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Lesson library</span></nav>
+      <header class="mod-head"><span class="eyebrow">${total} written lessons · ${done} done</span><h1>Lesson library</h1>
+        <p class="lede">All fully written lessons in one place, each with notes, worked code, an exercise and a quiz. Every lesson also sits inside a module in the role roadmaps; opening it here takes you there.</p></header>
+      <input class="search big-search" id="libSearch" type="search" placeholder="Filter lessons, e.g. React, SQL joins, Docker" aria-label="Filter lessons">
+      ${COURSE.map((c) => `<section class="level-block lib-block"><div class="level-title" style="--lvc: var(--accent)"><h2>${esc(c.t)}</h2><span>${c.lessons.length} lessons</span></div>
+        <div class="lessons">${c.lessons.map((l, i) => { const ref = c.n + "-" + i, h = refHome(ref); if (!h) return "";
+          return `<a class="lrow" data-lib="${esc((l.t + " " + l.sub.join(" ") + " " + c.t).toLowerCase())}" href="#l-${h.m.id}.${h.i}"><span class="tick ${S.done["L" + ref] ? "done" : ""}"></span><span class="lnum">${i + 1}</span><span class="lt"><b>${esc(l.t)}</b><small>${esc(l.sub.slice(0, 5).join(" · "))}</small></span><span class="badge">${esc(h.m.t)}</span></a>`; }).join("")}</div></section>`).join("")}
+      ${footer()}
+    </div>`;
+  }
+
   function viewAbout() {
     const full = MODS.reduce((s, m) => s + modProgress(m).full, 0), total = MODS.reduce((s, m) => s + m.les.length, 0);
     return `<div class="wrap">
@@ -1007,6 +1034,12 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     } else if (h === "#projects") {
       main.innerHTML = viewProjects();
       main.querySelectorAll("[data-prole]").forEach((b) => b.addEventListener("click", () => { projRole = b.dataset.prole; render(); }));
+    } else if (h === "#library") {
+      main.innerHTML = viewLibrary();
+      const box = $("#libSearch");
+      box.addEventListener("input", () => { const q = box.value.trim().toLowerCase();
+        main.querySelectorAll("[data-lib]").forEach((r) => { r.hidden = !!q && !r.dataset.lib.includes(q); });
+        main.querySelectorAll(".lib-block").forEach((s) => { s.hidden = !s.querySelector("[data-lib]:not([hidden])"); }); });
     } else if (h === "#about") { main.innerHTML = viewAbout();
     } else { main.innerHTML = viewHome(); }
     if (view) { main.innerHTML = view.html; view.bind(); }

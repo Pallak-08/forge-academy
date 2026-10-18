@@ -49,7 +49,7 @@ The role list mirrors the popular roles on [roadmap.sh](https://roadmap.sh), and
 ## What's ready now
 
 - All 14 roadmaps, 71 modules and 323 lessons are fully outlined; every module has a lab and a project.
-- 120 lessons are fully written with notes, code, an exercise and a quiz. The rest are being written in waves, role by role.
+- 153 lessons are fully written with notes, code, an exercise and a quiz. The rest are being written in waves, role by role.
 - Progress is saved in your browser, with no sign-up.
 
 ## Run locally
@@ -69,7 +69,7 @@ python3 -m http.server 8000
 index.html            the app: layout, styles and logic
 data/roles2.js        the 14 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
 data/cur1-3.js        the 71 modules: lessons (full or outline), lab and project
-data/part1-9.js       the full written lessons
+data/part*.js         the full written lessons (newer files declare the module they fill)
 ```
 
 ## Contributing
