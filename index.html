@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="A personal course: 20 modules and 80 lessons with code, exercises and quizzes, plus 7 capstone projects, teaching everything needed to build SaaSForge and any SaaS platform.">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Forge Academy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: sticky top bar; curriculum rail on the left (drawer on phones); one reading column for lessons. */
+:root {
+  --bg: #f1f3ee; --surface: #ffffff; --sunk: #e7eae3; --ink: #18201c; --muted: #5b6560; --line: #d6dbd2;
+  --accent: #0e7563; --accent-ink: #ffffff; --accent-soft: #d5ece6; --mark: #f2cf4e; --mark-ink: #3d3200;
+  --good: #1f7a3d; --good-soft: #dcefe1; --bad: #b3361f; --bad-soft: #f7e0da;
+  --code-bg: #141a19; --code-ink: #dfe7e3; --code-line: #26302e;
+  --lv1: #2f6fb3; --lv2: #0e7563; --lv3: #9a5a12; --lv4: #7a3fb0; --lv5: #b3361f;
+  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --radius: 10px; --rail: 300px; --top: 60px;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1312; --surface: #161c1a; --sunk: #1c2421; --ink: #e4e9e6; --muted: #97a39d; --line: #2a3330;
+    --accent: #3cc0a3; --accent-ink: #062019; --accent-soft: #163a32; --mark: #e6c449; --mark-ink: #2a2200;
+    --good: #5cc983; --good-soft: #17301f; --bad: #f08a72; --bad-soft: #3a1d17;
+    --code-bg: #0b0f0e; --code-ink: #dfe7e3; --code-line: #1f2826;
+    --lv1: #7fb0ea; --lv2: #3cc0a3; --lv3: #e0a050; --lv4: #b98ae6; --lv5: #f08a72;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1312; --surface: #161c1a; --sunk: #1c2421; --ink: #e4e9e6; --muted: #97a39d; --line: #2a3330;
+  --accent: #3cc0a3; --accent-ink: #062019; --accent-soft: #163a32; --mark: #e6c449; --mark-ink: #2a2200;
+  --good: #5cc983; --good-soft: #17301f; --bad: #f08a72; --bad-soft: #3a1d17;
+  --code-bg: #0b0f0e; --code-ink: #dfe7e3; --code-line: #1f2826;
+  --lv1: #7fb0ea; --lv2: #3cc0a3; --lv3: #e0a050; --lv4: #b98ae6; --lv5: #f08a72;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; }
+body { background: var(--bg); color: var(--ink); font: 15.5px/1.6 var(--f-body); }
+a { color: var(--accent); }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; border-radius: 6px; }
+code { font-family: var(--f-mono); font-size: .86em; background: var(--sunk); padding: .08em .35em; border-radius: 4px; }
+h1, h2, h3 { font-family: var(--f-display); line-height: 1.15; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
+.eyebrow { font: 600 11.5px/1 var(--f-body); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+
+/* top bar */
+.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; height: var(--top); display: flex; align-items: center; gap: 14px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); min-width: 0; }
+.brand-mark { width: 30px; height: 30px; border-radius: 8px; background: #18201c; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); display: grid; place-items: center; flex: none; }
+.brand-mark svg { width: 18px; height: 18px; }
+.brand b { font: 800 19px/1 var(--f-display); white-space: nowrap; }
+.menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
+.overall { flex: 1; display: flex; align-items: center; gap: 12px; justify-content: flex-end; min-width: 0; }
+.overall .bar { width: min(260px, 30vw); height: 8px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
+.overall .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .4s; }
+.overall span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.sync { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.theme-btn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px; display: grid; place-items: center; }
+.theme-btn svg { width: 16px; height: 16px; }
+
+/* shell */
+.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: calc(100% - var(--top)); }
+.rail { border-right: 1px solid var(--line); background: var(--surface); position: sticky; top: calc(var(--top) + env(safe-area-inset-top, 0px));
+  height: calc(100vh - var(--top) - env(safe-area-inset-top, 0px)); overflow-y: auto; padding: 14px 12px 40px max(12px, env(safe-area-inset-left, 0px)); }
+.search { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: inherit; font-size: 14px; }
+.rail-nav { display: flex; flex-direction: column; gap: 2px; margin: 12px 0 8px; }
+.rail-link { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 8px; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 14.5px; }
+.rail-link:hover, .rail-link.on { background: var(--sunk); }
+.level-h { display: flex; align-items: center; gap: 8px; margin: 18px 10px 6px; }
+.level-h .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lvc); }
+.mod { border-radius: 8px; }
+.mod > button { width: 100%; text-align: left; background: none; border: 0; display: grid; grid-template-columns: 26px 1fr auto; gap: 6px; align-items: center; padding: 7px 8px; border-radius: 8px; font-size: 14px; }
+.mod > button:hover { background: var(--sunk); }
+.mod.on > button { background: var(--accent-soft); }
+.mod .num { font: 600 11px/1 var(--f-mono); color: var(--muted); }
+.mod .cnt { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
+.mod ol { list-style: none; margin: 2px 0 6px 32px; padding: 0; border-left: 1px solid var(--line); }
+.mod li a { display: flex; gap: 8px; align-items: baseline; padding: 4px 10px; font-size: 13.5px; color: var(--muted); text-decoration: none; border-radius: 0 6px 6px 0; }
+.mod li a:hover { color: var(--ink); background: var(--sunk); }
+.mod li a.on { color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
+.tick { width: 14px; height: 14px; flex: none; border-radius: 4px; border: 1.5px solid var(--line); display: inline-grid; place-items: center; transform: translateY(2px); }
+.tick.done { background: var(--mark); border-color: var(--mark); }
+.tick.done::after { content: ""; width: 7px; height: 4px; border: 2px solid var(--mark-ink); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+
+main { min-width: 0; padding-block: 28px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+.wide { max-width: 1080px; }
+.crumbs { font-size: 13px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; }
+.crumbs a { color: var(--muted); }
+
+/* home */
+.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: end; padding: 8px 0 6px; }
+.hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; }
+.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--mark) 62%, var(--mark) 92%, transparent 92%); padding: 0 .08em; color: var(--ink); }
+.hero p { color: var(--muted); max-width: 58ch; margin: 12px 0 0; }
+.continue { background: var(--ink); color: var(--bg); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
+.continue .eyebrow { color: color-mix(in srgb, var(--bg) 65%, transparent); }
+.continue h3 { font-size: 20px; }
+.continue .meta { font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
+.btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 8px; padding: 9px 15px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
+.btn-primary { background: var(--accent); color: var(--accent-ink); }
+.btn-quiet { background: var(--sunk); color: var(--ink); }
+.btn-line { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+.btn[disabled] { opacity: .5; cursor: default; }
+.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
+.stat { background: var(--surface); padding: 14px 16px; }
+.stat b { display: block; font: 700 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
+.stat span { font-size: 12.5px; color: var(--muted); }
+.level-block { display: flex; flex-direction: column; gap: 10px; }
+.level-title { display: flex; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--lvc); padding-bottom: 6px; }
+.level-title h2 { font-size: 20px; }
+.level-title span { color: var(--muted); font-size: 13.5px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 15px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
+.card:hover { border-color: var(--lvc, var(--accent)); transform: translateY(-1px); }
+.card .row { display: flex; justify-content: space-between; align-items: center; }
+.card .n { font: 600 12px/1 var(--f-mono); color: var(--lvc); }
+.card h3 { font-size: 17px; }
+.card p { margin: 0; font-size: 13.5px; color: var(--muted); }
+.mini { height: 5px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
+.mini i { display: block; height: 100%; background: var(--lvc, var(--accent)); }
+.path { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; counter-reset: p; }
+.path a { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px; text-decoration: none; color: var(--ink); font-size: 13px; font-weight: 500; display: flex; flex-direction: column; gap: 6px; }
+.path a b { font: 600 11px/1 var(--f-mono); color: var(--muted); }
+
+/* module & lesson */
+.mod-head { display: flex; flex-direction: column; gap: 10px; }
+.mod-head h1 { font-size: clamp(28px, 4vw, 40px); }
+.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--lvc); }
+.tag::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lvc); }
+.lede { color: var(--muted); font-size: 16.5px; margin: 0; max-width: 64ch; }
+.saas { border: 1px solid var(--line); border-left: 4px solid var(--mark); background: var(--surface); padding: 12px 15px; border-radius: 0 8px 8px 0; font-size: 14.5px; }
+.saas b { font-family: var(--f-display); }
+.lesson-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
+.lesson-list a { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 14px 16px; text-decoration: none; color: var(--ink); border-top: 1px solid var(--line); }
+.lesson-list a:first-child { border-top: 0; }
+.lesson-list a:hover { background: var(--sunk); }
+.lesson-list small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
+.lesson-list .go { color: var(--muted); font-size: 13px; }
+.lesson-head h1 { font-size: clamp(26px, 4vw, 38px); margin-top: 4px; }
+.subs { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
+.subs ul { margin: 4px 0 0; padding-left: 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 24px; font-size: 14.5px; }
+.prose p { margin: 0 0 12px; max-width: 68ch; }
+.prose p:last-child { margin-bottom: 0; }
+.section-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+.section-h h2 { font-size: 19px; }
+.code { background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--code-line); }
+.code-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--code-line); font: 12px/1 var(--f-mono); color: #8fa19a; }
+.code-bar button { background: #22302c; color: #dfe7e3; border: 0; border-radius: 6px; padding: 5px 10px; font-size: 12px; }
+.code pre { margin: 0; padding: 14px 16px; overflow-x: auto; font: 13.2px/1.6 var(--f-mono); tab-size: 4; }
+.code pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+.hljs-keyword, .hljs-built_in, .hljs-selector-tag, .hljs-doctag { color: #7cc7ff; }
+.hljs-string, .hljs-attr + .hljs-string, .hljs-regexp { color: #b5e28a; }
+.hljs-number, .hljs-literal { color: #f5b971; }
+.hljs-comment, .hljs-quote { color: #6f817b; font-style: italic; }
+.hljs-title, .hljs-title.function_, .hljs-section { color: #f2cf4e; }
+.hljs-attr, .hljs-attribute, .hljs-property, .hljs-variable, .hljs-params { color: #d6c3ff; }
+.hljs-meta, .hljs-tag, .hljs-name { color: #8fd8c8; }
+.hljs-type, .hljs-class .hljs-title { color: #ffaf9e; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+.panel h2 { font-size: 18px; }
+textarea, .field { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 10px 12px; font: 14px/1.5 var(--f-body); resize: vertical; }
+textarea.mono { font-family: var(--f-mono); font-size: 13px; }
+.row-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+.hint { font-size: 12.5px; color: var(--muted); }
+.quiz-q { font-weight: 600; }
+.opts { display: grid; gap: 8px; }
+.opt { text-align: left; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: baseline; }
+.opt:hover:not([disabled]) { border-color: var(--accent); }
+.opt b { font: 600 12px/1 var(--f-mono); color: var(--muted); }
+.opt.right { background: var(--good-soft); border-color: var(--good); }
+.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+.opt[disabled] { cursor: default; }
+.verdict { font-size: 14px; padding: 10px 12px; border-radius: 8px; }
+.verdict.ok { background: var(--good-soft); }
+.verdict.no { background: var(--bad-soft); }
+.tutor-out { font-size: 14.5px; border-top: 1px dashed var(--line); padding-top: 12px; }
+.tutor-out:empty { display: none; }
+.tutor-out p { margin: 0 0 10px; }
+.tutor-out pre { background: var(--code-bg); color: var(--code-ink); padding: 12px; border-radius: 8px; overflow-x: auto; font: 13px/1.55 var(--f-mono); }
+.tutor-out pre code { background: none; padding: 0; color: inherit; }
+.tutor-out ul, .tutor-out ol { margin: 0 0 10px; padding-left: 22px; }
+.chat-turn { display: flex; flex-direction: column; gap: 4px; }
+.chat-turn .who { font: 600 11px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.chat-log { display: flex; flex-direction: column; gap: 14px; }
+.chat-log:empty { display: none; }
+.lesson-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; }
+.done-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--mark); color: var(--mark-ink); padding: 6px 12px; border-radius: 99px; font-weight: 600; font-size: 13px; }
+.note { font-size: 13px; color: var(--muted); }
+
+/* projects */
+.proj { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 14px; }
+.proj .big { font: 800 34px/1 var(--f-display); color: var(--accent); }
+.proj h3 { font-size: 19px; }
+.proj p { margin: 4px 0 8px; color: var(--muted); font-size: 14.5px; }
+.checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.checks label { display: flex; gap: 10px; align-items: baseline; font-size: 14.5px; cursor: pointer; }
+.checks input { accent-color: var(--accent); transform: translateY(2px); }
+.mods-used { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.mods-used a { font-size: 12px; background: var(--sunk); color: var(--ink); text-decoration: none; padding: 3px 8px; border-radius: 99px; }
+
+.scrim { display: none; }
+@media (max-width: 900px) {
+  .shell { grid-template-columns: minmax(0, 1fr); }
+  .menu-btn { display: inline-block; }
+  .rail { position: fixed; left: 0; top: calc(var(--top) + env(safe-area-inset-top, 0px)); bottom: 0; width: min(330px, 88vw); z-index: 40; transform: translateX(-102%); transition: transform .25s; height: auto; box-shadow: 0 10px 40px rgba(0,0,0,.25); }
+  body.drawer .rail { transform: none; }
+  body.drawer .scrim { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 35; }
+  .hero { grid-template-columns: minmax(0, 1fr); }
+  .path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .overall .bar { display: none; }
+  .sync { display: none; }
+}
+@media (max-width: 560px) {
+  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .subs ul { grid-template-columns: minmax(0, 1fr); }
+  .brand b { font-size: 17px; }
+  #overallTxt { display: none; }
+  .proj { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+</head>
+<body>
+<header class="top">
+  <button class="menu-btn" id="menuBtn" aria-label="Open the curriculum">☰</button>
+  <a class="brand" href="#home">
+    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 15h11l3-4H8l-1-3h13" stroke="#f2cf4e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 15v4m6-4v4" stroke="#f1f3ee" stroke-width="2.2" stroke-linecap="round"/></svg></span>
+    <b>Forge Academy</b>
+  </a>
+  <div class="overall">
+    <span class="sync" id="sync">Saved on this device</span>
+    <div class="bar" aria-hidden="true"><i id="overallBar"></i></div>
+    <span id="overallTxt">0 / 80 lessons</span>
+    <button class="theme-btn" id="themeBtn" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+<div class="scrim" id="scrim"></div>
+
+<div class="shell">
+  <aside class="rail" id="rail" aria-label="Curriculum">
+    <input class="search" id="search" type="search" placeholder="Search lessons and topics" aria-label="Search lessons">
+    <nav class="rail-nav">
+      <a class="rail-link" href="#home" data-nav="home">Dashboard</a>
+      <a class="rail-link" href="#projects" data-nav="projects">Capstone projects</a>
+    </nav>
+    <div id="tree"></div>
+  </aside>
+  <main id="main"><div class="wrap"><p class="note">Loading the course…</p></div></main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
+<script src="data/part1.js"></script>
+<script src="data/part2.js"></script>
+<script src="data/part3.js"></script>
+<script src="data/part4.js"></script>
+<script src="data/part5.js"></script>
+<script>
+(() => {
+  "use strict";
+  const COURSE = (window.COURSE || []).slice().sort((a, b) => a.n - b.n);
+  const PROJECTS = window.PROJECTS || [];
+  const LEVELS = {
+    1: { name: "Foundations", note: "The language and tools everything else is written in" },
+    2: { name: "Web development", note: "APIs, databases and interfaces" },
+    3: { name: "Security and systems", note: "Protecting users and running work safely" },
+    4: { name: "AI and agents", note: "The heart of SaaSForge" },
+    5: { name: "Quality and delivery", note: "Testing, shipping and design judgement" }
+  };
+  const TOTAL = COURSE.reduce((s, m) => s + m.lessons.length, 0);
+  const $ = (s, r = document) => r.querySelector(s);
+  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const key = (m, i) => m.n + "-" + i;
+  const lvc = (lv) => `--lvc: var(--lv${lv})`;
+  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile" };
+
+  /* ---------- state: local first, synced to the person's private store when available ---------- */
+  const LS = "forge-academy-v1";
+  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, proj: {}, last: "", updated: 0 });
+  let S = blank();
+  try { const raw = localStorage.getItem(LS); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
+  let remote = null, saveTimer = null;
+  function save() {
+    S.updated = Date.now();
+    try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {}
+    if (remote) {
+      clearTimeout(saveTimer);
+      setSync("Saving…");
+      saveTimer = setTimeout(async () => {
+        try { await remote.set(JSON.parse(JSON.stringify(S))); setSync("Saved to your account"); }
+        catch (e) { setSync("Saved on this device"); }
+      }, 1200);
+    }
+    paintProgress();
+  }
+  function setSync(t) { $("#sync").textContent = t; }
+  function merge(a, b) {
+    const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
+    const out = Object.assign(blank(), older, newer);
+    for (const k of ["done", "proj"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
+    for (const k of ["quiz", "notes", "answers"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
+    return out;
+  }
+  (async () => {
+    try {
+      if (!window.claude || !window.claude.use) return;
+      const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
+      if (!db || !user) return;
+      const id = await user.id();
+      if (!id) return;
+      const ref = db.doc("data/users/" + id + "/progress");
+      const snap = await ref.get();
+      if (snap.exists) { S = merge(S, snap.data() || {}); try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
+      remote = ref;
+      setSync("Saved to your account");
+      paintProgress(); renderTree(); route();
+    } catch (e) { /* stay local */ }
+  })();
+
+  /* ---------- AI tutor ---------- */
+  let sample = null;
+  (async () => {
+    try { if (window.claude && window.claude.use) sample = await window.claude.use("sample"); } catch (e) { sample = null; }
+    document.querySelectorAll("[data-tutor]").forEach((el) => { el.hidden = !sample; });
+    document.querySelectorAll("[data-tutor-off]").forEach((el) => { el.hidden = !!sample; });
+  })();
+  let tutorOff = false;
+  const ERR = {
+    not_granted: "The tutor needs your permission to use Claude. Reload the page to be asked again.",
+    sampling_disabled: "Claude is not available for this account.",
+    rate_limited: "Too many questions in a short time. Wait a minute and ask again.",
+    session_expired: "Your session expired. Sign in to Claude again.",
+    refused: "The tutor could not answer that. Try rephrasing the question.",
+    prompt_too_large: "That was too much text at once. Paste a shorter excerpt.",
+    cancelled: ""
+  };
+  function md(t) {
+    const parts = String(t).split(/```[a-zA-Z0-9_+-]*\n?/);
+    return parts.map((p, i) => {
+      if (i % 2) return `<pre><code>${esc(p.replace(/\n$/, ""))}</code></pre>`;
+      return esc(p).split(/\n{2,}/).map((blk) => {
+        let b = blk.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+        const lines = b.split("\n");
+        if (lines.every((l) => /^\s*[-*] /.test(l) || !l.trim())) return "<ul>" + lines.filter((l) => l.trim()).map((l) => "<li>" + l.replace(/^\s*[-*] /, "") + "</li>").join("") + "</ul>";
+        if (lines.every((l) => /^\s*\d+[.)] /.test(l) || !l.trim())) return "<ol>" + lines.filter((l) => l.trim()).map((l) => "<li>" + l.replace(/^\s*\d+[.)] /, "") + "</li>").join("") + "</ol>";
+        b = b.replace(/^#{1,4} (.*)$/gm, "<b>$1</b>");
+        return b.trim() ? "<p>" + b.replace(/\n/g, "<br>") + "</p>" : "";
+      }).join("");
+    }).join("");
+  }
+  const plain = (html) => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent.replace(/\s+/g, " ").trim(); };
+  function lessonContext(m, l) {
+    return `You are a patient, precise programming tutor inside "Forge Academy", a self-study course that teaches someone to build an AI agent platform like SaaSForge (Python, FastAPI, SQLAlchemy, Docker, LLM APIs, agents) and any other SaaS on their own.
+Course module ${m.n}: ${m.title}. Lesson: ${l.t}.
+Sub-topics: ${l.sub.join("; ")}.
+Lesson text: ${plain(l.body)}
+Lesson code example (${l.lang}):
+${l.code}
+Teach clearly and concretely. Prefer short paragraphs, small runnable code examples in fenced blocks, and plain language. Do not invent facts about SaaSForge's code beyond what the lesson says.`;
+  }
+  async function ask(out, input, btns, opts = {}) {
+    if (!sample || tutorOff) return;
+    btns.forEach((b) => (b.disabled = true));
+    out.innerHTML = '<p class="note">Thinking…</p>';
+    let final = "";
+    try {
+      const { text, truncated } = await sample(input, Object.assign({ onText: ({ text }) => { out.innerHTML = md(text); } }, opts));
+      final = text;
+      out.innerHTML = md(text) + (truncated ? '<p class="note">The answer was cut short. Ask for less at a time.</p>' : "");
+    } catch (e) {
+      const code = e && e.code;
+      if (code === "not_granted" || code === "sampling_disabled") tutorOff = true;
+      const msg = code in ERR ? ERR[code] : "Something went wrong reaching the tutor. Try again in a moment.";
+      out.innerHTML = (e && e.text ? md(e.text) : "") + (msg ? `<p class="note">${esc(msg)}</p>` : "");
+    } finally { btns.forEach((b) => (b.disabled = false)); }
+    return final;
+  }
+
+  /* ---------- progress ---------- */
+  const doneCount = () => Object.keys(S.done).filter((k) => S.done[k]).length;
+  const modDone = (m) => m.lessons.filter((_, i) => S.done[key(m, i)]).length;
+  function paintProgress() {
+    const d = doneCount();
+    $("#overallBar").style.width = (TOTAL ? (d / TOTAL) * 100 : 0) + "%";
+    $("#overallTxt").textContent = `${d} / ${TOTAL} lessons`;
+    COURSE.forEach((m) => {
+      const c = document.querySelector(`[data-cnt="${m.n}"]`);
+      if (c) c.textContent = `${modDone(m)}/${m.lessons.length}`;
+      m.lessons.forEach((_, i) => { const t = document.querySelector(`[data-tick="${key(m, i)}"]`); if (t) t.classList.toggle("done", !!S.done[key(m, i)]); });
+    });
+  }
+
+  /* ---------- curriculum rail ---------- */
+  let openMods = new Set();
+  function renderTree(filter = "") {
+    const q = filter.trim().toLowerCase();
+    let html = "";
+    for (const lv of [1, 2, 3, 4, 5]) {
+      const mods = COURSE.filter((m) => m.level === lv);
+      let inner = "";
+      for (const m of mods) {
+        const lessons = m.lessons.map((l, i) => ({ l, i })).filter(({ l }) => !q || (m.title + " " + l.t + " " + l.sub.join(" ")).toLowerCase().includes(q));
+        if (q && !lessons.length) continue;
+        const open = q || openMods.has(m.n);
+        inner += `<div class="mod" data-mod="${m.n}">
+          <button type="button" data-toggle="${m.n}" aria-expanded="${open ? "true" : "false"}"><span class="num">${String(m.n).padStart(2, "0")}</span><span>${esc(m.title)}</span><span class="cnt" data-cnt="${m.n}"></span></button>
+          <ol ${open ? "" : "hidden"}>${lessons.map(({ l, i }) => `<li><a href="#l-${m.n}-${i}" data-lesson="${key(m, i)}"><span class="tick" data-tick="${key(m, i)}"></span><span>${esc(l.t)}</span></a></li>`).join("")}</ol>
+        </div>`;
+      }
+      if (inner) html += `<div class="level-h" style="${lvc(lv)}"><span class="dot"></span><span class="eyebrow">Level ${lv} · ${LEVELS[lv].name}</span></div>${inner}`;
+    }
+    $("#tree").innerHTML = html || '<p class="note" style="padding:10px">No lessons match that search.</p>';
+    paintProgress(); markActive();
+  }
+  $("#tree").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-toggle]");
+    if (b) {
+      const n = +b.dataset.toggle, ol = b.nextElementSibling;
+      const open = ol.hidden; ol.hidden = !open; b.setAttribute("aria-expanded", String(open));
+      open ? openMods.add(n) : openMods.delete(n);
+      if (open && !location.hash.startsWith("#l-" + n + "-")) location.hash = "#m-" + n;
+      return;
+    }
+    if (e.target.closest("a")) document.body.classList.remove("drawer");
+  });
+  $("#search").addEventListener("input", (e) => renderTree(e.target.value));
+  document.querySelector(".rail-nav").addEventListener("click", () => document.body.classList.remove("drawer"));
+  $("#menuBtn").addEventListener("click", () => document.body.classList.toggle("drawer"));
+  $("#scrim").addEventListener("click", () => document.body.classList.remove("drawer"));
+  function markActive() {
+    const h = location.hash || "#home";
+    document.querySelectorAll("[data-lesson]").forEach((a) => a.classList.toggle("on", h === "#l-" + a.dataset.lesson));
+    document.querySelectorAll(".mod").forEach((d) => d.classList.toggle("on", h === "#m-" + d.dataset.mod));
+    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav));
+  }
+
+  /* ---------- theme toggle ---------- */
+  $("#themeBtn").addEventListener("click", () => {
+    const root = document.documentElement;
+    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    root.dataset.theme = dark ? "light" : "dark";
+    try { localStorage.setItem("forge-academy-theme", root.dataset.theme); } catch (e) {}
+  });
+  try { const t = localStorage.getItem("forge-academy-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
+
+  /* ---------- views ---------- */
+  function nextLesson() {
+    for (const m of COURSE) for (let i = 0; i < m.lessons.length; i++) if (!S.done[key(m, i)]) return { m, i };
+    return null;
+  }
+  function findKey(k) {
+    const [n, i] = String(k).split("-").map(Number);
+    const m = COURSE.find((x) => x.n === n);
+    return m && m.lessons[i] ? { m, i } : null;
+  }
+
+  function viewHome() {
+    const d = doneCount();
+    const last = findKey(S.last);
+    const nx = last && !S.done[S.last] ? last : nextLesson();
+    const quizRight = Object.entries(S.quiz).filter(([k, v]) => { const f = findKey(k); return f && f.m.lessons[f.i].q[2] === v; }).length;
+    const modsDone = COURSE.filter((m) => modDone(m) === m.lessons.length).length;
+    const projChecks = Object.values(S.proj).filter(Boolean).length;
+    const projTotal = PROJECTS.reduce((s, p) => s + p.checklist.length, 0);
+    let html = `<div class="wrap wide">
+      <section class="hero">
+        <div>
+          <span class="eyebrow">Your personal course · 20 modules · 80 lessons · 7 projects</span>
+          <h1 style="margin-top:10px">Learn to build <em>SaaSForge</em>, then build anything.</h1>
+          <p>Every topic SaaSForge is made of, taught from first principles with working code, an exercise and a quiz in every lesson. The AI tutor answers questions, explains differently and reviews your exercise answers.</p>
+        </div>
+        <div class="continue">
+          ${nx ? `<span class="eyebrow">${d ? "Continue" : "Start here"} · Module ${nx.m.n}</span>
+          <h3>${esc(nx.m.lessons[nx.i].t)}</h3>
+          <span class="meta">${esc(nx.m.title)} · lesson ${nx.i + 1} of ${nx.m.lessons.length}</span>
+          <div><a class="btn btn-primary" href="#l-${nx.m.n}-${nx.i}">${d ? "Continue lesson" : "Begin lesson 1"}</a></div>`
+          : `<span class="eyebrow">Course complete</span><h3>You finished all ${TOTAL} lessons.</h3><span class="meta">Now build capstone 7: your own SaaSForge.</span><div><a class="btn btn-primary" href="#projects">Open projects</a></div>`}
+        </div>
+      </section>
+      <section class="stats" aria-label="Your progress">
+        <div class="stat"><b>${d}</b><span>of ${TOTAL} lessons done</span></div>
+        <div class="stat"><b>${modsDone}</b><span>of ${COURSE.length} modules finished</span></div>
+        <div class="stat"><b>${quizRight}</b><span>quiz answers correct</span></div>
+        <div class="stat"><b>${projChecks}</b><span>of ${projTotal} project tasks done</span></div>
+      </section>
+      <section class="level-block">
+        <div class="level-title" style="--lvc: var(--mark)"><h2>Project path</h2><span>Build these as you go; each one uses the modules before it</span></div>
+        <div class="path">${PROJECTS.map((p) => `<a href="#projects"><b>P${p.n}</b>${esc(p.title)}</a>`).join("")}</div>
+      </section>`;
+    for (const lv of [1, 2, 3, 4, 5]) {
+      const mods = COURSE.filter((m) => m.level === lv);
+      html += `<section class="level-block" style="${lvc(lv)}">
+        <div class="level-title"><h2>Level ${lv} · ${LEVELS[lv].name}</h2><span>${LEVELS[lv].note}</span></div>
+        <div class="cards">${mods.map((m) => {
+          const md_ = modDone(m), pct = Math.round((md_ / m.lessons.length) * 100);
+          return `<a class="card" href="#m-${m.n}" style="${lvc(lv)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")}</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${pct}%"></i></div></a>`;
+        }).join("")}</div></section>`;
+    }
+    html += "</div>";
+    return html;
+  }
+
+  function viewModule(m) {
+    const proj = PROJECTS.filter((p) => p.modules.includes(m.n));
+    return `<div class="wrap" style="${lvc(m.level)}">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Level ${m.level} · ${LEVELS[m.level].name}</span></nav>
+      <header class="mod-head"><span class="tag">Module ${m.n} of ${COURSE.length}</span><h1>${esc(m.title)}</h1><p class="lede">${esc(m.blurb)}</p></header>
+      <div class="saas"><b>Where this lives in SaaSForge.</b> ${m.saas}</div>
+      <div class="section-h"><h2>Lessons</h2><span class="note">${modDone(m)} of ${m.lessons.length} done</span></div>
+      <div class="lesson-list">${m.lessons.map((l, i) => `<a href="#l-${m.n}-${i}"><span class="tick ${S.done[key(m, i)] ? "done" : ""}"></span><span><b>${i + 1}. ${esc(l.t)}</b><small>${esc(l.sub.join(" · "))}</small></span><span class="go">Open ›</span></a>`).join("")}</div>
+      ${proj.length ? `<div class="panel"><h2>Practise it in a project</h2>${proj.map((p) => `<p style="margin:0">Capstone ${p.n}: <a href="#projects">${esc(p.title)}</a>. ${esc(p.goal)}</p>`).join("")}</div>` : ""}
+    </div>`;
+  }
+
+  function viewLesson(m, i) {
+    const l = m.lessons[i], k = key(m, i);
+    const prev = i > 0 ? `#l-${m.n}-${i - 1}` : (COURSE.find((x) => x.n === m.n - 1) ? `#l-${m.n - 1}-${COURSE.find((x) => x.n === m.n - 1).lessons.length - 1}` : "");
+    const next = i < m.lessons.length - 1 ? `#l-${m.n}-${i + 1}` : (COURSE.find((x) => x.n === m.n + 1) ? `#l-${m.n + 1}-0` : "");
+    const chosen = S.quiz[k];
+    return `<div class="wrap" style="${lvc(m.level)}">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><a href="#m-${m.n}">Module ${m.n}: ${esc(m.title)}</a><span>›</span><span>Lesson ${i + 1} of ${m.lessons.length}</span></nav>
+      <header class="lesson-head"><span class="tag">Level ${m.level} · ${LEVELS[m.level].name}</span><h1>${esc(l.t)}</h1></header>
+      <section class="subs"><span class="eyebrow">Sub-topics in this lesson</span><ul>${l.sub.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></section>
+      <section class="prose">${l.body}</section>
+      <section class="code"><div class="code-bar"><span>${esc(l.lang)}</span><button type="button" id="copyBtn">Copy code</button></div><pre><code id="codeEl"></code></pre></section>
+
+      <section class="panel" data-tutor hidden>
+        <div class="section-h"><h2>Ask the tutor</h2><span class="hint">Answers use your Claude account</span></div>
+        <div class="row-btns">
+          <button class="btn btn-quiet" type="button" data-quick="simpler">Explain it more simply</button>
+          <button class="btn btn-quiet" type="button" data-quick="walk">Walk through the code line by line</button>
+          <button class="btn btn-quiet" type="button" data-quick="example">Show another example</button>
+          <button class="btn btn-quiet" type="button" data-quick="real">How is this used in real products?</button>
+        </div>
+        <div class="chat-log" id="chatLog"></div>
+        <textarea id="askBox" rows="2" placeholder="Ask anything about this lesson, or paste an error you got"></textarea>
+        <div class="row-btns"><button class="btn btn-primary" type="button" id="askBtn">Ask</button><span class="hint">The tutor remembers this lesson's conversation until you leave the page.</span></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-h"><h2>Your turn</h2></div>
+        <div class="prose"><p>${l.ex}</p></div>
+        <textarea class="mono" id="answerBox" rows="7" placeholder="Write or paste your solution here. It is saved as you type.">${esc(S.answers[k] || "")}</textarea>
+        <div class="row-btns" data-tutor hidden>
+          <button class="btn btn-primary" type="button" id="reviewBtn">Review my answer</button>
+          <button class="btn btn-quiet" type="button" id="hintBtn">Give me a hint</button>
+          <button class="btn btn-quiet" type="button" id="moreBtn">Another exercise</button>
+        </div>
+        <p class="hint" data-tutor-off>Open this page in Claude to have the tutor review your answers.</p>
+        <div class="tutor-out" id="exOut"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-h"><h2>Check yourself</h2>${chosen !== undefined ? '<button class="btn btn-line" type="button" id="retryQuiz">Try again</button>' : ""}</div>
+        <p class="quiz-q" style="margin:0">${l.q[0]}</p>
+        <div class="opts">${l.q[1].map((o, j) => {
+          const cls = chosen === undefined ? "" : j === l.q[2] ? "right" : j === chosen ? "wrong" : "";
+          return `<button type="button" class="opt ${cls}" data-opt="${j}" ${chosen !== undefined ? "disabled" : ""}><b>${"ABCD"[j]}</b><span>${o}</span></button>`;
+        }).join("")}</div>
+        ${chosen !== undefined ? `<div class="verdict ${chosen === l.q[2] ? "ok" : "no"}"><b>${chosen === l.q[2] ? "Correct." : "Not quite."}</b> ${esc(l.q[3])}</div>` : ""}
+        <div class="row-btns" data-tutor hidden><button class="btn btn-quiet" type="button" id="moreQuiz">Quiz me with 3 more questions</button></div>
+        <div class="tutor-out" id="quizOut"></div>
+      </section>
+
+      <section class="panel">
+        <div class="section-h"><h2>My notes</h2><span class="hint">Saved as you type</span></div>
+        <textarea id="noteBox" rows="4" placeholder="What clicked, what to revisit, questions for later">${esc(S.notes[k] || "")}</textarea>
+      </section>
+
+      <footer class="lesson-foot">
+        <div class="row-btns">${prev ? `<a class="btn btn-line" href="${prev}">‹ Previous</a>` : ""}</div>
+        <div class="row-btns">
+          ${S.done[k] ? `<span class="done-pill">Completed</span><button class="btn btn-line" type="button" id="undoBtn">Mark as not done</button>` : `<button class="btn btn-primary" type="button" id="doneBtn">Mark complete${next ? " and continue" : ""}</button>`}
+          ${next && S.done[k] ? `<a class="btn btn-primary" href="${next}">Next lesson ›</a>` : ""}
+        </div>
+      </footer>
+    </div>`;
+  }
+
+  function bindLesson(m, i) {
+    const l = m.lessons[i], k = key(m, i);
+    const next = i < m.lessons.length - 1 ? `#l-${m.n}-${i + 1}` : (COURSE.find((x) => x.n === m.n + 1) ? `#l-${m.n + 1}-0` : "#projects");
+    const codeEl = $("#codeEl");
+    codeEl.textContent = l.code;
+    const lang = LANG[l.lang] || "plaintext";
+    if (window.hljs && lang !== "plaintext" && hljs.getLanguage(lang)) { codeEl.className = "language-" + lang; try { hljs.highlightElement(codeEl); } catch (e) {} }
+    $("#copyBtn").addEventListener("click", async (e) => {
+      try { await navigator.clipboard.writeText(l.code); e.target.textContent = "Copied"; }
+      catch (err) { const r = document.createRange(); r.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(r); e.target.textContent = "Selected, press Ctrl+C"; }
+      setTimeout(() => (e.target.textContent = "Copy code"), 1800);
+    });
+    let typing;
+    $("#answerBox").addEventListener("input", (e) => { S.answers[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
+    $("#noteBox").addEventListener("input", (e) => { S.notes[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
+    document.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => { S.quiz[k] = +b.dataset.opt; save(); render(); }));
+    const rq = $("#retryQuiz"); if (rq) rq.addEventListener("click", () => { delete S.quiz[k]; save(); render(); });
+    const db_ = $("#doneBtn"); if (db_) db_.addEventListener("click", () => { S.done[k] = 1; save(); location.hash = next; });
+    const ub = $("#undoBtn"); if (ub) ub.addEventListener("click", () => { delete S.done[k]; save(); render(); });
+
+    // tutor
+    document.querySelectorAll("[data-tutor]").forEach((el) => { el.hidden = !sample; });
+    document.querySelectorAll("[data-tutor-off]").forEach((el) => { el.hidden = !!sample; });
+    if (!sample) return;
+    const ctx = lessonContext(m, l);
+    const allBtns = () => Array.from(document.querySelectorAll("#askBtn, [data-quick], #reviewBtn, #hintBtn, #moreBtn, #moreQuiz"));
+    const turns = [];
+    const log = $("#chatLog");
+    async function chat(question) {
+      turns.push({ role: "user", content: question });
+      const wrap = document.createElement("div"); wrap.className = "chat-turn";
+      wrap.innerHTML = `<span class="who">You</span><div>${esc(question)}</div>`;
+      const ans = document.createElement("div"); ans.className = "chat-turn";
+      ans.innerHTML = '<span class="who">Tutor</span><div class="tutor-out"></div>';
+      log.append(wrap, ans);
+      const out = ans.querySelector(".tutor-out");
+      const input = [{ role: "user", content: ctx + "\n\nThe learner's questions follow. Answer the latest one." }, ...turns.slice(-8)];
+      const text = await ask(out, input, allBtns(), { cache: false });
+      if (text) turns.push({ role: "assistant", content: text }); else turns.pop();
+    }
+    $("#askBtn").addEventListener("click", () => { const q = $("#askBox").value.trim(); if (!q) return; $("#askBox").value = ""; chat(q); });
+    $("#askBox").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("#askBtn").click(); });
+    const QUICK = {
+      simpler: "Explain this lesson again as if I am a beginner, using an everyday analogy, then restate the key idea in two sentences.",
+      walk: "Walk through the lesson's code example line by line. For each important line, say what it does and why it is written that way.",
+      example: "Give me a different, small, runnable example of the same idea, in a new domain (not loans), with a short explanation.",
+      real: "How is this lesson's idea used in real production software? Give two or three concrete situations and one common mistake people make."
+    };
+    document.querySelectorAll("[data-quick]").forEach((b) => b.addEventListener("click", () => chat(QUICK[b.dataset.quick])));
+    $("#reviewBtn").addEventListener("click", () => {
+      const a = $("#answerBox").value.trim();
+      if (!a) { $("#exOut").innerHTML = '<p class="note">Write your answer in the box first, then ask for a review.</p>'; return; }
+      ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nThe learner's answer:\n${a.slice(0, 12000)}\n\nReview it like a kind senior engineer: say what is correct, list any bugs or misunderstandings with the fix, mention one improvement in style or robustness, and end with a verdict: "Ready to move on" or "Revise and resubmit". Do not rewrite the whole solution unless it is badly wrong.`, allBtns(), { cache: false });
+    });
+    $("#hintBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nGive one helpful hint for this exercise without giving away the full solution. Two to four sentences.`, allBtns()));
+    $("#moreBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nWrite one new practice exercise for this lesson that is slightly harder than: "${plain(l.ex)}". Give the task, the expected behaviour with an example input and output, and two hints. Do not give the solution.`, allBtns(), { cache: false }));
+    $("#moreQuiz").addEventListener("click", () => ask($("#quizOut"), `${ctx}\n\nWrite 3 new multiple-choice questions about this lesson, each with options A-D. After all three, list the answers with a one-sentence explanation each under a heading "Answers". Make the wrong options plausible.`, allBtns(), { cache: false }));
+  }
+
+  function viewProjects() {
+    return `<div class="wrap">
+      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Capstone projects</span></nav>
+      <header class="mod-head"><span class="eyebrow">Practice</span><h1>Seven projects to your own SaaSForge</h1><p class="lede">Lessons teach the parts. These projects make you put them together. Each one builds on the last, and the seventh is a platform that builds platforms.</p></header>
+      ${PROJECTS.map((p) => `<article class="proj"><div class="big">P${p.n}</div><div>
+        <h3>${esc(p.title)}</h3><p>${esc(p.goal)}</p>
+        <ul class="checks">${p.checklist.map((c, j) => { const id = `p${p.n}-${j}`; return `<li><label><input type="checkbox" id="${id}" data-proj="${id}" ${S.proj[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
+        <div class="mods-used">${p.modules.map((n) => { const m = COURSE.find((x) => x.n === n); return m ? `<a href="#m-${n}">M${n} ${esc(m.title)}</a>` : ""; }).join("")}</div>
+      </div></article>`).join("")}
+    </div>`;
+  }
+
+  function render() {
+    const h = location.hash || "#home";
+    const main = $("#main");
+    let m, mm;
+    if ((mm = h.match(/^#l-(\d+)-(\d+)$/)) && (m = COURSE.find((x) => x.n === +mm[1])) && m.lessons[+mm[2]]) {
+      const i = +mm[2];
+      main.innerHTML = viewLesson(m, i);
+      if (S.last !== key(m, i)) { S.last = key(m, i); save(); }
+      if (!openMods.has(m.n)) { openMods.add(m.n); renderTree($("#search").value); }
+      bindLesson(m, i);
+    } else if ((mm = h.match(/^#m-(\d+)$/)) && (m = COURSE.find((x) => x.n === +mm[1]))) {
+      main.innerHTML = viewModule(m);
+    } else if (h === "#projects") {
+      main.innerHTML = viewProjects();
+      main.querySelectorAll("[data-proj]").forEach((c) => c.addEventListener("change", () => { S.proj[c.dataset.proj] = c.checked ? 1 : 0; save(); }));
+    } else {
+      main.innerHTML = viewHome();
+    }
+    markActive();
+  }
+  let lastHash = null;
+  function route() { render(); if (location.hash !== lastHash) { window.scrollTo(0, 0); lastHash = location.hash; } }
+  window.addEventListener("hashchange", route);
+
+  if (!COURSE.length) { $("#main").innerHTML = '<div class="wrap"><p class="note">The course content did not load. Reload the page.</p></div>'; return; }
+  const cur = location.hash.match(/^#[lm]-(\d+)/);
+  if (cur) openMods.add(+cur[1]); else { const nx = nextLesson(); if (nx) openMods.add(nx.m.n); }
+  renderTree();
+  route();
+})();
+</script>
+
+</body>
+</html>
