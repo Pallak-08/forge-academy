@@ -1,33 +1,42 @@
 # Forge Academy
 
-**A free, open roadmap from zero to job-ready software engineer.**
+**Find your path in tech. Then walk it.**
 
-Forge Academy is for college and university students, career switchers and self-learners who want a clear plan, real foundations and portfolio projects before their first engineering job.
+Forge Academy is a free, open platform with complete career roadmaps for the most in-demand tech roles. Each roadmap comes with everything you need to learn it: notes, worked code, hands-on labs, quizzes, small projects, big projects and a final capstone.
 
-## What's inside
+It is built for college students, people in their first job who want to grow or switch roles, and anyone moving into tech who is tired of stitching together ten incomplete courses.
 
-- **6 career roadmaps:** Web Developer, Backend Engineer, Security & Systems, AI Engineer, DevOps & Cloud, and a Full Roadmap that ends with building an AI SaaS builder. Each one puts the modules in order for that role and ends with a job-ready checklist.
-- **20 modules, 80 lessons, 5 levels:**
-  - Python and advanced Python
-  - HTTP and REST, FastAPI, SQL, SQLAlchemy, frontend (HTML, CSS, JavaScript)
-  - Authentication and security, concurrency and processes, Docker and sandboxing
-  - LLM APIs, prompt engineering, AI agent design, code generation, parsing and ASTs, data and document processing, browser automation with Playwright
-  - Testing, CI/CD and deployment, software design
-- **Every lesson includes** sub-topics, an explanation, a working code example, a hands-on exercise, a quiz question with an explanation, and a notes box.
-- **Projects:**
-  - 15 portfolio project ideas (beginner, intermediate and advanced for each roadmap)
-  - A 7-part capstone series where each project builds on the last
-- **Progress tracking** in your browser, with no sign-up needed.
+## Roles
 
-Many lessons use [SaaSForge](https://github.com/Pallak-08/saasforge), an open-source AI agent that builds SaaS apps, as a real-world example of how the pieces fit together.
+| Role | Stages | What you'll build at the end |
+|---|---|---|
+| Frontend Developer | 6 | Production SaaS frontend in Next.js |
+| Backend Developer | 6 | Multi-tenant SaaS backend |
+| Full-Stack Developer | 6 | A real SaaS launched to real users |
+| AI Engineer | 6 | AI app builder (like SaaSForge) |
+| DevOps & Cloud Engineer | 6 | Production platform on Kubernetes |
+| Cybersecurity Analyst | 6 | Full security assessment and report |
+| Data Analyst | 6 | Automated business intelligence system |
+| Data Scientist / ML Engineer | 6 | End-to-end ML product |
+| Mobile Developer | 6 | Published production app |
 
-## How to use it
+## What every roadmap includes
 
-1. Pick the roadmap for the job you want. You can switch later, and your progress is shared between roadmaps.
-2. Do the lessons in order. Type the code yourself, do the exercise, then answer the quiz.
-3. Build the projects and push each one to GitHub with a README and a live link.
-4. Work through the job-ready checklist before you apply.
-5. Share what you build on LinkedIn.
+- **Stages in learning order.** Each stage has a clear goal and a set of topics.
+- **Every topic has:**
+  - a checklist of what to learn
+  - full lessons where available, each with notes, a code example, an exercise and a quiz
+  - a **hands-on lab** with steps and a "done when" finish line
+- **A mini project at the end of every stage**, then a big project and a capstone.
+- **A job-ready checklist** and **common interview questions** for the role.
+- **Progress tracking** in your browser, with no sign-up. Topics shared between roles (Git, SQL, Docker and so on) count once, so switching roles never wastes progress.
+
+## What's ready now
+
+- All 9 roadmaps are complete: 99 topics, 99 labs and 72 projects.
+- 98 full lessons across 25 modules are live.
+- Backend Developer and AI Engineer have full lessons for every technical topic.
+- Other roles have full lessons for shared topics today. More lessons are added in waves, and contributions are welcome.
 
 ## Run locally
 
@@ -43,26 +52,24 @@ python3 -m http.server 8000
 ## Project structure
 
 ```
-index.html        the app: layout, styles and logic
-data/part1-5.js   course content: modules 1-20 and the capstone series
-data/tracks.js    career roadmaps, job-ready checklists and project ideas
+index.html          the app: layout, styles and logic
+data/roles.js       the 9 roadmaps: stages, projects, job-ready checklists, interview questions
+data/topics1-2.js   the topic library: what to learn, labs, links to lessons
+data/part1-7.js     full lessons, grouped into 25 modules
 ```
 
 ## Contributing
 
-Corrections, new lessons and new project ideas are welcome. Lessons are plain JavaScript objects:
+The most valuable contributions are new lessons for topics that only have a guide so far (frontend, data, mobile, DevOps and security topics).
+
+**A lesson** is a plain object inside a module in `data/partN.js`:
 
 ```js
-{
-  t: "Lesson title",
-  sub: ["sub-topic", "sub-topic"],
-  body: "<p>Explanation in HTML</p>",
-  lang: "python",
-  code: "print('example')",
-  ex: "Exercise text",
-  q: ["Question?", ["A", "B", "C", "D"], 2, "Why C is correct"]
-}
+{ t: "Title", sub: ["sub-topic"], body: "<p>Notes</p>", lang: "python", code: "...",
+  ex: "Exercise", q: ["Question?", ["A", "B", "C", "D"], 1, "Why B"] }
 ```
+
+**To link a lesson to a topic**, add its reference (`"moduleNumber-lessonIndex"`) to that topic's `les` array in `data/topics*.js`.
 
 Open an issue or a pull request.
 
@@ -77,4 +84,4 @@ Netlify, GitHub Pages and any static host work too.
 
 ---
 
-Created by **Pallak Khullar**.
+Created by **Pallak Khullar**. Many lessons use [SaaSForge](https://github.com/Pallak-08/saasforge), an open-source AI agent that builds SaaS apps, as a real-world example.

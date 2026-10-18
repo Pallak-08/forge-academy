@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Forge Academy: a free, open roadmap from zero to job-ready software engineer. Career roadmaps for web, backend, security, AI and DevOps, 80 lessons with code, quizzes and portfolio projects.">
-<meta property="og:title" content="Forge Academy: from zero to job-ready software engineer">
-<meta property="og:description" content="Free career roadmaps for web, backend, security, AI and DevOps with 80 hands-on lessons and portfolio projects.">
+<meta name="description" content="Forge Academy: free, complete career roadmaps for 9 tech roles with notes, hands-on labs, quizzes and projects. Frontend, backend, full-stack, AI, DevOps, cybersecurity, data and mobile.">
+<meta property="og:title" content="Forge Academy: find your path in tech, then walk it">
+<meta property="og:description" content="Free career roadmaps with notes, hands-on labs, quizzes and projects for 9 in-demand tech roles.">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Forge Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -259,12 +259,62 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   .proj { grid-template-columns: minmax(0, 1fr); }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+/* roles and roadmap */
+.glyph { display: inline-grid; place-items: center; min-width: 38px; height: 38px; padding: 0 8px; border-radius: 10px; background: var(--ink); color: var(--bg); font: 700 13px/1 var(--f-mono); letter-spacing: .02em; }
+.glyph.sm { min-width: 30px; height: 24px; border-radius: 6px; font-size: 10.5px; padding: 0 5px; }
+.glyph.lg { min-width: 52px; height: 52px; border-radius: 14px; font-size: 16px; }
+.card.role .row { align-items: center; }
+.card.role.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.rail-role { display: flex; flex-direction: column; gap: 4px; padding: 12px 10px; margin: 6px 0 2px; border-radius: 10px; background: var(--accent-soft); }
+.rail-role a { color: var(--ink); text-decoration: none; }
+.rail-role b { font: 700 16px/1.2 var(--f-display); }
+.rail-role .note { font-size: 12.5px; text-decoration: underline; }
+.flat { list-style: none; margin: 0 0 4px; padding: 0; }
+.flat li a { display: flex; gap: 9px; align-items: baseline; padding: 5px 10px; font-size: 13.5px; color: var(--muted); text-decoration: none; border-radius: 6px; }
+.flat li a:hover { color: var(--ink); background: var(--sunk); }
+.flat li a.on { color: var(--ink); font-weight: 600; background: var(--sunk); box-shadow: inset 2px 0 0 var(--accent); }
+.flat .glyph.sm { transform: translateY(1px); }
+.stage-dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); display: inline-grid; place-items: center; font: 600 10px/1 var(--f-mono); }
+.tick.half { border-color: var(--mark); background: linear-gradient(90deg, var(--mark) 50%, transparent 50%); }
+.how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.how > div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 15px; }
+.how b { font-family: var(--f-display); font-size: 16px; }
+.how p { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
+.mini.big { height: 8px; }
+.roadmap { display: flex; flex-direction: column; }
+.stage { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; }
+.stage-rail { display: flex; flex-direction: column; align-items: center; }
+.stage-rail::after { content: ""; flex: 1; width: 2px; background: var(--line); margin: 6px 0; }
+.stage:last-child .stage-rail::after { background: linear-gradient(var(--line), transparent); }
+.stage-n { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font: 700 15px/1 var(--f-display); background: var(--surface); border: 2px solid var(--accent); color: var(--accent); flex: none; }
+.stage.complete .stage-n { background: var(--accent); color: var(--accent-ink); }
+.stage-body { display: flex; flex-direction: column; gap: 10px; padding-bottom: 26px; min-width: 0; }
+.stage-body h2 { font-size: 21px; }
+.nodes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
+.node { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 4px 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s; }
+.node:hover { border-color: var(--accent); }
+.node.done { background: color-mix(in srgb, var(--mark) 16%, var(--surface)); border-color: color-mix(in srgb, var(--mark) 60%, var(--line)); }
+.node-t { font-weight: 600; font-size: 14px; line-height: 1.35; }
+.node-tags { grid-column: 2; display: flex; gap: 6px; flex-wrap: wrap; }
+.node-tags span { font-size: 11px; color: var(--muted); background: var(--sunk); padding: 1px 7px; border-radius: 99px; }
+.stage-proj { background: var(--surface); border-style: dashed; }
+.iq { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
+.iq li { padding-left: 4px; }
+.iq li span { display: block; margin-bottom: 4px; }
+.btn.sm { padding: 5px 10px; font-size: 12.5px; }
+.done-when { margin: 0; font-size: 14.5px; padding: 10px 12px; background: var(--good-soft); border-radius: 8px; }
+.steps-list { list-style: decimal; padding-left: 20px; }
+.steps-list li::marker { color: var(--muted); font-size: 13px; }
+.lab { border-top: 3px solid var(--accent); }
+.prose > .eyebrow { display: block; margin-bottom: 8px; }
+@media (max-width: 900px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 560px) { .how { grid-template-columns: minmax(0, 1fr); } .stage { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; } .stage-n { width: 30px; height: 30px; font-size: 13px; } }
 </style>
 
 </head>
 <body>
 <header class="top">
-  <button class="menu-btn" id="menuBtn" aria-label="Open the curriculum">☰</button>
+  <button class="menu-btn" id="menuBtn" aria-label="Open navigation">☰</button>
   <a class="brand" href="#home">
     <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 15h11l3-4H8l-1-3h13" stroke="#f2cf4e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 15v4m6-4v4" stroke="#f1f3ee" stroke-width="2.2" stroke-linecap="round"/></svg></span>
     <b>Forge Academy</b>
@@ -272,24 +322,25 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   <div class="overall">
     <span class="sync" id="sync">Saved on this device</span>
     <div class="bar" aria-hidden="true"><i id="overallBar"></i></div>
-    <span id="overallTxt">0 / 80 lessons</span>
+    <span id="overallTxt">Pick a role to start</span>
     <button class="theme-btn" id="themeBtn" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
   </div>
 </header>
 <div class="scrim" id="scrim"></div>
 
 <div class="shell">
-  <aside class="rail" id="rail" aria-label="Curriculum">
-    <input class="search" id="search" type="search" placeholder="Search lessons and topics" aria-label="Search lessons">
+  <aside class="rail" id="rail" aria-label="Navigation">
+    <input class="search" id="search" type="search" placeholder="Search topics and lessons" aria-label="Search topics and lessons">
     <nav class="rail-nav">
-      <a class="rail-link" href="#home" data-nav="home">Dashboard</a>
-      <a class="rail-link" href="#roadmaps" data-nav="roadmaps">Career roadmaps</a>
+      <a class="rail-link" href="#home" data-nav="home">Home</a>
+      <a class="rail-link" href="#roles" data-nav="roles">All roles</a>
       <a class="rail-link" href="#projects" data-nav="projects">Projects</a>
+      <a class="rail-link" href="#library" data-nav="library">Lesson library</a>
       <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
     </nav>
     <div id="tree"></div>
   </aside>
-  <main id="main"><div class="wrap"><p class="note">Loading the course…</p></div></main>
+  <main id="main"><div class="wrap"><p class="note">Loading…</p></div></main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -299,33 +350,39 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/part3.js"></script>
 <script src="data/part4.js"></script>
 <script src="data/part5.js"></script>
-<script src="data/tracks.js"></script>
+<script src="data/part6.js"></script>
+<script src="data/part7.js"></script>
+<script src="data/topics1.js"></script>
+<script src="data/topics2.js"></script>
+<script src="data/roles.js"></script>
 <script>
 (() => {
   "use strict";
   const COURSE = (window.COURSE || []).slice().sort((a, b) => a.n - b.n);
-  const PROJECTS = window.PROJECTS || [];
-  const TRACKS = window.TRACKS || [];
-  const IDEAS = window.IDEAS || [];
+  const TOPICS = window.TOPICS || {};
+  const ROLES = window.ROLES || [];
   const REPO = "https://github.com/Pallak-08/forge-academy";
   const AUTHOR = "Pallak Khullar";
   const LEVELS = {
-    1: { name: "Foundations", note: "The language and tools everything else is written in" },
+    1: { name: "Foundations", note: "Languages, tools and problem solving" },
     2: { name: "Web development", note: "APIs, databases and interfaces" },
     3: { name: "Security and systems", note: "Protecting users and running work safely" },
-    4: { name: "AI and agents", note: "The heart of SaaSForge" },
+    4: { name: "AI and agents", note: "Building with language models" },
     5: { name: "Quality and delivery", note: "Testing, shipping and design judgement" }
   };
-  const TOTAL = COURSE.reduce((s, m) => s + m.lessons.length, 0);
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
   const key = (m, i) => m.n + "-" + i;
   const lvc = (lv) => `--lvc: var(--lv${lv})`;
-  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile" };
+  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash" };
+  const modByN = (n) => COURSE.find((x) => x.n === n);
+  const lessonRef = (ref) => { const [n, i] = String(ref).split("-").map(Number); const m = modByN(n); return m && m.lessons[i] ? { m, i, l: m.lessons[i], k: n + "-" + i } : null; };
+  const roleOf = (id) => ROLES.find((r) => r.id === id);
+  const roleTopics = (r) => { const seen = new Set(), out = []; r.stages.forEach((s, si) => s.topics.forEach((id) => { if (!seen.has(id) && TOPICS[id]) { seen.add(id); out.push({ id, si }); } })); return out; };
 
-  /* ---------- state: local first, synced to the person's private store when available ---------- */
-  const LS = "forge-academy-v1";
-  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, proj: {}, jr: {}, ideas: {}, track: "", last: "", updated: 0 });
+  /* ---------- state ---------- */
+  const LS = "forge-academy-v2";
+  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, topics: {}, subs: {}, labs: {}, tnotes: {}, pj: {}, jr: {}, role: "", last: "", lastTopic: "", updated: 0 });
   let S = blank();
   try { const raw = localStorage.getItem(LS); if (raw) S = Object.assign(blank(), JSON.parse(raw)); } catch (e) {}
   let remote = null, saveTimer = null;
@@ -343,11 +400,11 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     paintProgress();
   }
   function setSync(t) { $("#sync").textContent = t; }
+  const MAPS = ["done", "quiz", "notes", "answers", "topics", "subs", "labs", "tnotes", "pj", "jr"];
   function merge(a, b) {
     const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
     const out = Object.assign(blank(), older, newer);
-    for (const k of ["done", "proj", "jr", "ideas"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
-    for (const k of ["quiz", "notes", "answers"]) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
+    for (const k of MAPS) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
     return out;
   }
   (async () => {
@@ -357,23 +414,25 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       if (!db || !user) return;
       const id = await user.id();
       if (!id) return;
-      const ref = db.doc("data/users/" + id + "/progress");
+      const ref = db.doc("data/users/" + id + "/progress-v2");
       const snap = await ref.get();
       if (snap.exists) { S = merge(S, snap.data() || {}); try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
       remote = ref;
       setSync("Saved to your account");
-      paintProgress(); renderTree(); route();
+      renderTree(); render();
     } catch (e) { /* stay local */ }
   })();
 
-  /* ---------- AI tutor ---------- */
-  let sample = null;
+  /* ---------- AI tutor (only inside Claude) ---------- */
+  let sample = null, tutorOff = false;
   (async () => {
     try { if (window.claude && window.claude.use) sample = await window.claude.use("sample"); } catch (e) { sample = null; }
+    showTutor();
+  })();
+  function showTutor() {
     document.querySelectorAll("[data-tutor]").forEach((el) => { el.hidden = !sample; });
     document.querySelectorAll("[data-tutor-off]").forEach((el) => { el.hidden = !!sample; });
-  })();
-  let tutorOff = false;
+  }
   const ERR = {
     not_granted: "The tutor needs your permission to use Claude. Reload the page to be asked again.",
     sampling_disabled: "Claude is not available for this account.",
@@ -398,17 +457,23 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     }).join("");
   }
   const plain = (html) => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent.replace(/\s+/g, " ").trim(); };
+  const BASE = `You are a patient, precise tutor inside "Forge Academy", a free platform with complete career roadmaps (notes, hands-on labs, quizzes and projects) for roles such as frontend, backend, full-stack, AI engineering, DevOps, cybersecurity, data analysis, data science and mobile development. Learners are college students and early-career people. Teach clearly and concretely: short paragraphs, small runnable examples in fenced code blocks, plain language, no hype.`;
   function lessonContext(m, l) {
-    return `You are a patient, precise programming tutor inside "Forge Academy", a free, open roadmap that takes college students and self-learners from zero to job-ready in web development, backend, security and systems, AI engineering and DevOps, using SaaSForge (an open-source AI agent that builds SaaS apps) as a running real-world example.
-Course module ${m.n}: ${m.title}. Lesson: ${l.t}.
+    return `${BASE}
+Lesson: ${l.t} (module ${m.n}: ${m.title}).
 Sub-topics: ${l.sub.join("; ")}.
 Lesson text: ${plain(l.body)}
-Lesson code example (${l.lang}):
-${l.code}
-Teach clearly and concretely. Prefer short paragraphs, small runnable code examples in fenced blocks, and plain language. Do not invent facts about SaaSForge's code beyond what the lesson says.`;
+Code example (${l.lang}):
+${l.code}`;
+  }
+  function topicContext(r, t) {
+    return `${BASE}
+Role: ${r ? r.title : "general"}. Topic: ${t.t}. ${t.d}
+Sub-topics: ${t.sub.join("; ")}.
+Hands-on lab: ${t.lab.t}: ${t.lab.steps.join(" / ")}. Done when: ${t.lab.done}`;
   }
   async function ask(out, input, btns, opts = {}) {
-    if (!sample || tutorOff) return;
+    if (!sample || tutorOff) return "";
     btns.forEach((b) => (b.disabled = true));
     out.innerHTML = '<p class="note">Thinking…</p>';
     let final = "";
@@ -424,68 +489,99 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
     } finally { btns.forEach((b) => (b.disabled = false)); }
     return final;
   }
-
-  /* ---------- progress ---------- */
-  const doneCount = () => Object.keys(S.done).filter((k) => S.done[k]).length;
-  const modDone = (m) => m.lessons.filter((_, i) => S.done[key(m, i)]).length;
-  function paintProgress() {
-    const d = doneCount();
-    $("#overallBar").style.width = (TOTAL ? (d / TOTAL) * 100 : 0) + "%";
-    $("#overallTxt").textContent = `${d} / ${TOTAL} lessons`;
-    COURSE.forEach((m) => {
-      const c = document.querySelector(`[data-cnt="${m.n}"]`);
-      if (c) c.textContent = `${modDone(m)}/${m.lessons.length}`;
-      m.lessons.forEach((_, i) => { const t = document.querySelector(`[data-tick="${key(m, i)}"]`); if (t) t.classList.toggle("done", !!S.done[key(m, i)]); });
-    });
+  function chatBox(contextFn, quick) {
+    return {
+      html: `<section class="panel" data-tutor hidden>
+        <div class="section-h"><h2>Ask the tutor</h2><span class="hint">Uses your Claude account</span></div>
+        <div class="row-btns">${Object.entries(quick).map(([k, v]) => `<button class="btn btn-quiet" type="button" data-quick="${k}">${esc(v[0])}</button>`).join("")}</div>
+        <div class="chat-log" id="chatLog"></div>
+        <textarea id="askBox" rows="2" placeholder="Ask anything about this, or paste an error you got"></textarea>
+        <div class="row-btns"><button class="btn btn-primary" type="button" id="askBtn">Ask</button><span class="hint">The conversation lasts until you leave this page.</span></div>
+      </section>`,
+      bind(extraBtns = () => []) {
+        showTutor();
+        if (!sample) return;
+        const turns = [], log = $("#chatLog");
+        const btns = () => Array.from(document.querySelectorAll("#askBtn, [data-quick]")).concat(extraBtns());
+        async function chat(q) {
+          turns.push({ role: "user", content: q });
+          const you = document.createElement("div"); you.className = "chat-turn";
+          you.innerHTML = `<span class="who">You</span><div>${esc(q)}</div>`;
+          const ans = document.createElement("div"); ans.className = "chat-turn";
+          ans.innerHTML = '<span class="who">Tutor</span><div class="tutor-out"></div>';
+          log.append(you, ans);
+          const text = await ask(ans.querySelector(".tutor-out"), [{ role: "user", content: contextFn() + "\n\nThe learner's questions follow. Answer the latest one." }, ...turns.slice(-8)], btns(), { cache: false });
+          if (text) turns.push({ role: "assistant", content: text }); else turns.pop();
+        }
+        $("#askBtn").addEventListener("click", () => { const q = $("#askBox").value.trim(); if (!q) return; $("#askBox").value = ""; chat(q); });
+        $("#askBox").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("#askBtn").click(); });
+        document.querySelectorAll("[data-quick]").forEach((b) => b.addEventListener("click", () => chat(quick[b.dataset.quick][1])));
+      }
+    };
   }
 
-  /* ---------- curriculum rail ---------- */
-  let openMods = new Set();
-  let ideaTab = "web";
-  try { ideaTab = localStorage.getItem("forge-academy-tab") || "web"; } catch (e) {}
+  /* ---------- progress ---------- */
+  const lessonsDone = () => Object.keys(S.done).filter((k) => S.done[k]).length;
+  const modDone = (m) => m.lessons.filter((_, i) => S.done[key(m, i)]).length;
+  function topicState(id) {
+    if (S.topics[id]) return "done";
+    const t = TOPICS[id]; if (!t) return "todo";
+    const any = t.sub.some((_, i) => S.subs[id + "-" + i]) || t.lab.steps.some((_, i) => S.labs[id + "-" + i]) || t.les.some((r) => S.done[r]);
+    return any ? "started" : "todo";
+  }
+  const roleDone = (r) => roleTopics(r).filter(({ id }) => S.topics[id]).length;
+  const roleCoverage = (r) => { const ts = roleTopics(r); return ts.length ? Math.round((ts.filter(({ id }) => TOPICS[id].les.length).length / ts.length) * 100) : 0; };
+  function nextTopic(r) { return roleTopics(r).find(({ id }) => !S.topics[id]) || null; }
+  function paintProgress() {
+    const r = roleOf(S.role);
+    if (r) {
+      const d = roleDone(r), tot = roleTopics(r).length;
+      $("#overallBar").style.width = (tot ? (d / tot) * 100 : 0) + "%";
+      $("#overallTxt").textContent = `${r.title}: ${d} / ${tot} topics`;
+    } else {
+      $("#overallBar").style.width = "0%";
+      $("#overallTxt").textContent = "Pick a role to start";
+    }
+    document.querySelectorAll("[data-tstate]").forEach((el) => { el.className = "tick " + ({ done: "done", started: "half" }[topicState(el.dataset.tstate)] || ""); });
+  }
+
+  /* ---------- side navigation ---------- */
   function renderTree(filter = "") {
     const q = filter.trim().toLowerCase();
     let html = "";
-    for (const lv of [1, 2, 3, 4, 5]) {
-      const mods = COURSE.filter((m) => m.level === lv);
-      let inner = "";
-      for (const m of mods) {
-        const lessons = m.lessons.map((l, i) => ({ l, i })).filter(({ l }) => !q || (m.title + " " + l.t + " " + l.sub.join(" ")).toLowerCase().includes(q));
-        if (q && !lessons.length) continue;
-        const open = q || openMods.has(m.n);
-        inner += `<div class="mod" data-mod="${m.n}">
-          <button type="button" data-toggle="${m.n}" aria-expanded="${open ? "true" : "false"}"><span class="num">${String(m.n).padStart(2, "0")}</span><span>${esc(m.title)}</span><span class="cnt" data-cnt="${m.n}"></span></button>
-          <ol ${open ? "" : "hidden"}>${lessons.map(({ l, i }) => `<li><a href="#l-${m.n}-${i}" data-lesson="${key(m, i)}"><span class="tick" data-tick="${key(m, i)}"></span><span>${esc(l.t)}</span></a></li>`).join("")}</ol>
-        </div>`;
+    if (q) {
+      const tHits = Object.entries(TOPICS).filter(([, t]) => (t.t + " " + t.sub.join(" ") + " " + t.d).toLowerCase().includes(q)).slice(0, 25);
+      const lHits = [];
+      COURSE.forEach((m) => m.lessons.forEach((l, i) => { if ((l.t + " " + l.sub.join(" ")).toLowerCase().includes(q)) lHits.push({ m, l, i }); }));
+      const r = roleOf(S.role);
+      html += `<div class="level-h"><span class="eyebrow">Topics (${tHits.length})</span></div><ol class="flat">${tHits.map(([id, t]) => `<li><a href="#x-${r && roleTopics(r).some((x) => x.id === id) ? r.id : rolesWith(id)[0] || "none"}.${id}"><span class="tick" data-tstate="${id}"></span><span>${esc(t.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No topics match.</li>'}</ol>`;
+      html += `<div class="level-h"><span class="eyebrow">Lessons (${lHits.length})</span></div><ol class="flat">${lHits.slice(0, 25).map(({ m, l, i }) => `<li><a href="#l-${m.n}-${i}"><span class="tick ${S.done[key(m, i)] ? "done" : ""}"></span><span>${esc(l.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No lessons match.</li>'}</ol>`;
+    } else {
+      const r = roleOf(S.role);
+      if (r) {
+        html += `<div class="rail-role"><span class="eyebrow">Your roadmap</span><a href="#r-${r.id}"><b>${esc(r.title)}</b></a><a class="note" href="#roles">Change role</a></div>`;
+        r.stages.forEach((s, si) => {
+          html += `<div class="level-h"><span class="stage-dot">${si + 1}</span><span class="eyebrow">${esc(s.t)}</span></div><ol class="flat">${s.topics.filter((id) => TOPICS[id]).map((id) => `<li><a href="#x-${r.id}.${id}" data-topic="${r.id}.${id}"><span class="tick" data-tstate="${id}"></span><span>${esc(TOPICS[id].t)}</span></a></li>`).join("")}</ol>`;
+        });
+      } else {
+        html += `<div class="level-h"><span class="eyebrow">Choose a role</span></div><ol class="flat">${ROLES.map((x) => `<li><a href="#r-${x.id}"><span class="glyph sm">${esc(x.glyph)}</span><span>${esc(x.title)}</span></a></li>`).join("")}</ol>`;
       }
-      if (inner) html += `<div class="level-h" style="${lvc(lv)}"><span class="dot"></span><span class="eyebrow">Level ${lv} · ${LEVELS[lv].name}</span></div>${inner}`;
     }
-    $("#tree").innerHTML = html || '<p class="note" style="padding:10px">No lessons match that search.</p>';
+    $("#tree").innerHTML = html;
     paintProgress(); markActive();
   }
-  $("#tree").addEventListener("click", (e) => {
-    const b = e.target.closest("[data-toggle]");
-    if (b) {
-      const n = +b.dataset.toggle, ol = b.nextElementSibling;
-      const open = ol.hidden; ol.hidden = !open; b.setAttribute("aria-expanded", String(open));
-      open ? openMods.add(n) : openMods.delete(n);
-      if (open && !location.hash.startsWith("#l-" + n + "-")) location.hash = "#m-" + n;
-      return;
-    }
-    if (e.target.closest("a")) document.body.classList.remove("drawer");
-  });
+  function rolesWith(id) { return ROLES.filter((r) => r.stages.some((s) => s.topics.includes(id))).map((r) => r.id); }
   $("#search").addEventListener("input", (e) => renderTree(e.target.value));
-  document.querySelector(".rail-nav").addEventListener("click", () => document.body.classList.remove("drawer"));
+  $("#rail").addEventListener("click", (e) => { if (e.target.closest("a")) document.body.classList.remove("drawer"); });
   $("#menuBtn").addEventListener("click", () => document.body.classList.toggle("drawer"));
   $("#scrim").addEventListener("click", () => document.body.classList.remove("drawer"));
   function markActive() {
     const h = location.hash || "#home";
-    document.querySelectorAll("[data-lesson]").forEach((a) => a.classList.toggle("on", h === "#l-" + a.dataset.lesson));
-    document.querySelectorAll(".mod").forEach((d) => d.classList.toggle("on", h === "#m-" + d.dataset.mod));
-    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roadmaps" && h.startsWith("#t-"))));
+    document.querySelectorAll("[data-topic]").forEach((a) => a.classList.toggle("on", h === "#x-" + a.dataset.topic));
+    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "library" && (h.startsWith("#m-") || h.startsWith("#l-")))));
   }
 
-  /* ---------- theme toggle ---------- */
+  /* ---------- theme ---------- */
   $("#themeBtn").addEventListener("click", () => {
     const root = document.documentElement;
     const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
@@ -494,191 +590,218 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
   });
   try { const t = localStorage.getItem("forge-academy-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
 
-  /* ---------- views ---------- */
-  const trackOf = (id) => TRACKS.find((t) => t.id === id);
-  const trackDone = (t) => t.modules.reduce((s, n) => { const m = COURSE.find((x) => x.n === n); return s + (m ? modDone(m) : 0); }, 0);
-  const trackTotal = (t) => t.modules.reduce((s, n) => { const m = COURSE.find((x) => x.n === n); return s + (m ? m.lessons.length : 0); }, 0);
-  function nextLesson() {
-    const t = trackOf(S.track);
-    const order = t ? t.modules.map((n) => COURSE.find((x) => x.n === n)).filter(Boolean) : COURSE;
-    for (const m of order) for (let i = 0; i < m.lessons.length; i++) if (!S.done[key(m, i)]) return { m, i };
-    return null;
+  /* ---------- shared pieces ---------- */
+  function footer() {
+    return `<footer class="site-foot"><span>Forge Academy is a free, open learning platform created by ${esc(AUTHOR)}.</span><span><a href="${REPO}" target="_blank" rel="noopener">Source on GitHub</a> · <a href="#about">About</a></span></footer>`;
   }
-  function findKey(k) {
-    const [n, i] = String(k).split("-").map(Number);
-    const m = COURSE.find((x) => x.n === n);
-    return m && m.lessons[i] ? { m, i } : null;
-  }
-  function trackCard(t) {
-    const d = trackDone(t), tot = trackTotal(t), on = S.track === t.id;
-    return `<a class="card track ${on ? "chosen" : ""}" href="#t-${t.id}">
-      <div class="row"><span class="n">${esc(t.short.toUpperCase())} ROADMAP</span>${on ? '<span class="chip">Your roadmap</span>' : `<span class="note">${t.modules.length} modules</span>`}</div>
-      <h3>${esc(t.title)}</h3><p>${esc(t.who)}</p>
-      <p class="roles">${t.roles.map(esc).join(" · ")}</p>
+  function roleCard(r) {
+    const d = roleDone(r), tot = roleTopics(r).length, on = S.role === r.id;
+    return `<a class="card role ${on ? "chosen" : ""}" href="#r-${r.id}">
+      <div class="row"><span class="glyph">${esc(r.glyph)}</span>${on ? '<span class="chip">Your path</span>' : `<span class="note">${r.stages.length} stages · ${tot} topics</span>`}</div>
+      <h3>${esc(r.title)}</h3><p>${esc(r.tagline)} ${esc(r.who)}</p>
+      <p class="roles">${r.jobs.map(esc).join(" · ")}</p>
       <div class="mini"><i style="width:${tot ? Math.round((d / tot) * 100) : 0}%"></i></div>
-      <span class="note">${d} of ${tot} lessons · ${esc(t.weeks)}</span></a>`;
+      <span class="note">${d ? `${d} of ${tot} topics done` : esc(r.duration)} · full lessons for ${roleCoverage(r)}% of topics</span></a>`;
+  }
+  function projCard(id, label, p, extraCls = "") {
+    return `<article class="idea ${extraCls}"><div class="row"><span class="chip ${label === "Capstone" ? "lvl-advanced" : label === "Big project" ? "lvl-intermediate" : "lvl-beginner"}">${esc(label)}</span><label class="built"><input type="checkbox" data-pj="${id}" ${S.pj[id] ? "checked" : ""}> I built this</label></div>
+      <h3>${esc(p.t)}</h3><p>${esc(p.brief)}</p><ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul></article>`;
   }
 
+  /* ---------- views ---------- */
   function viewHome() {
-    const d = doneCount();
-    const t = trackOf(S.track);
-    const last = findKey(S.last);
-    const nx = last && !S.done[S.last] ? last : nextLesson();
-    const quizRight = Object.entries(S.quiz).filter(([k, v]) => { const f = findKey(k); return f && f.m.lessons[f.i].q[2] === v; }).length;
-    const modsDone = COURSE.filter((m) => modDone(m) === m.lessons.length).length;
-    const built = Object.values(S.ideas).filter(Boolean).length + PROJECTS.filter((p) => p.checklist.every((_, j) => S.proj[`p${p.n}-${j}`])).length;
-    let html = `<div class="wrap wide">
+    const r = roleOf(S.role);
+    const nx = r ? nextTopic(r) : null;
+    const topicsDone = Object.values(S.topics).filter(Boolean).length;
+    const built = Object.values(S.pj).filter(Boolean).length;
+    const labsDone = Object.values(S.labs).filter(Boolean).length;
+    return `<div class="wrap wide">
       <section class="hero">
         <div>
-          <span class="eyebrow">Free and open · for students and self-learners · 20 modules · 80 lessons</span>
-          <h1 style="margin-top:10px">From zero to <em>job-ready</em> software engineer.</h1>
-          <p>Pick a career roadmap, learn each topic from first principles with working code, test yourself, and build portfolio projects you can put on GitHub and LinkedIn. Web development, backend, security and systems, AI engineering and DevOps, all in one place.</p>
-          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roadmaps">${t ? "Change roadmap" : "Choose your roadmap"}</a><a class="btn btn-line" href="#about">How to use this</a></div>
+          <span class="eyebrow">Free and open · ${ROLES.length} career roadmaps · ${Object.keys(TOPICS).length} topics · ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} full lessons</span>
+          <h1 style="margin-top:10px">Find your path in tech. <em>Then walk it.</em></h1>
+          <p>One place with the complete roadmap for the role you want, and everything to learn it: notes, worked code, hands-on labs, quizzes, small projects, big projects and a final capstone. No more stitching together ten half-finished courses.</p>
+          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">${r ? "See all roles" : "Choose a role"}</a><a class="btn btn-line" href="#about">How it works</a></div>
         </div>
         <div class="continue">
-          ${nx ? `<span class="eyebrow">${d ? "Continue" : "Start here"}${t ? " · " + esc(t.short) + " roadmap" : ""} · Module ${nx.m.n}</span>
-          <h3>${esc(nx.m.lessons[nx.i].t)}</h3>
-          <span class="meta">${esc(nx.m.title)} · lesson ${nx.i + 1} of ${nx.m.lessons.length}</span>
-          <div><a class="btn btn-primary" href="#l-${nx.m.n}-${nx.i}">${d ? "Continue lesson" : "Begin lesson 1"}</a></div>`
-          : `<span class="eyebrow">Roadmap complete</span><h3>You finished every lesson${t ? " in the " + esc(t.title) + " roadmap" : ""}.</h3><span class="meta">Build the projects and check off the job-ready list.</span><div><a class="btn btn-primary" href="#projects">Open projects</a></div>`}
+          ${r && nx ? `<span class="eyebrow">Continue · ${esc(r.title)} · Stage ${nx.si + 1}</span>
+            <h3>${esc(TOPICS[nx.id].t)}</h3><span class="meta">${esc(r.stages[nx.si].t)}: ${esc(r.stages[nx.si].goal)}</span>
+            <div><a class="btn btn-primary" href="#x-${r.id}.${nx.id}">Continue</a></div>`
+          : r ? `<span class="eyebrow">${esc(r.title)}</span><h3>Every topic is done.</h3><span class="meta">Finish the big project and capstone, then the job-ready checklist.</span><div><a class="btn btn-primary" href="#r-${r.id}">Open roadmap</a></div>`
+          : `<span class="eyebrow">Start here</span><h3>Not sure which role fits?</h3><span class="meta">Read the one-line description of each role below and pick the one that sounds like you. You can switch any time and keep your progress.</span><div><a class="btn btn-primary" href="#roles">Compare roles</a></div>`}
         </div>
       </section>
       <section class="stats" aria-label="Your progress">
-        <div class="stat"><b>${d}</b><span>of ${TOTAL} lessons done</span></div>
-        <div class="stat"><b>${modsDone}</b><span>of ${COURSE.length} modules finished</span></div>
-        <div class="stat"><b>${quizRight}</b><span>quiz answers correct</span></div>
+        <div class="stat"><b>${topicsDone}</b><span>topics completed</span></div>
+        <div class="stat"><b>${lessonsDone()}</b><span>lessons finished</span></div>
+        <div class="stat"><b>${labsDone}</b><span>lab steps done</span></div>
         <div class="stat"><b>${built}</b><span>projects built</span></div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>Career roadmaps</h2><span>Each one is an ordered path through the modules, with projects and a job-ready checklist</span></div>
-        <div class="cards">${TRACKS.map(trackCard).join("")}</div>
+        <div class="level-title" style="--lvc: var(--accent)"><h2>Career roadmaps</h2><span>Each role has its own stages, topics, labs and projects</span></div>
+        <div class="cards">${ROLES.map(roleCard).join("")}</div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>Capstone series</h2><span>Seven projects that build on each other, ending with your own AI app builder</span></div>
-        <div class="path">${PROJECTS.map((p) => `<a href="#projects"><b>P${p.n}</b>${esc(p.title)}</a>`).join("")}</div>
-      </section>`;
+        <div class="level-title" style="--lvc: var(--mark)"><h2>How every roadmap works</h2><span>The same rhythm for every role</span></div>
+        <div class="how">
+          <div><b>1. Pick a role</b><p>See the full map: stages, topics, projects and the job-ready checklist.</p></div>
+          <div><b>2. Learn each topic</b><p>Sub-topics to cover, full lessons with notes, code and quizzes where available.</p></div>
+          <div><b>3. Do the lab</b><p>A hands-on task with steps and a clear "done when" for every topic.</p></div>
+          <div><b>4. Build and show</b><p>A mini project per stage, then a big project and a capstone for your portfolio.</p></div>
+        </div>
+      </section>
+      ${footer()}
+    </div>`;
+  }
+
+  function viewRoles() {
+    return `<div class="wrap wide">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>All roles</span></nav>
+      <header class="mod-head"><span class="eyebrow">Choose a direction</span><h1>Career roadmaps</h1><p class="lede">Each roadmap is built for one role, in the order you should learn things, with a project at the end of every stage. Topics shared between roles (like Git or SQL) count once, so switching roles never wastes your progress.</p></header>
+      <div class="cards">${ROLES.map(roleCard).join("")}</div>
+      ${footer()}
+    </div>`;
+  }
+
+  function viewRole(r) {
+    const d = roleDone(r), tot = roleTopics(r).length;
+    const jrDone = r.jobReady.filter((_, j) => S.jr[`${r.id}-${j}`]).length;
+    return `<div class="wrap">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#roles">All roles</a><span>›</span><span>${esc(r.title)}</span></nav>
+      <header class="mod-head role-head">
+        <div class="row-btns"><span class="glyph lg">${esc(r.glyph)}</span><span class="eyebrow">${esc(r.duration)}</span></div>
+        <h1>${esc(r.title)}</h1><p class="lede">${esc(r.tagline)} ${esc(r.who)}</p>
+        <p class="roles" style="margin:0">Job titles: ${r.jobs.map(esc).join(" · ")}</p>
+        <div class="row-btns">${S.role === r.id ? '<span class="done-pill">This is your path</span>' : '<button class="btn btn-primary" type="button" id="pickRole">Make this my path</button>'}
+          <span class="note">${d} of ${tot} topics done · full lessons for ${roleCoverage(r)}% of topics, labs for all</span></div>
+        <div class="mini big"><i style="width:${tot ? Math.round((d / tot) * 100) : 0}%"></i></div>
+      </header>
+      <section class="roadmap">${r.stages.map((s, si) => {
+        const ids = s.topics.filter((id) => TOPICS[id]);
+        const sd = ids.filter((id) => S.topics[id]).length;
+        return `<div class="stage ${sd === ids.length ? "complete" : ""}">
+          <div class="stage-rail"><span class="stage-n">${si + 1}</span></div>
+          <div class="stage-body">
+            <div class="section-h"><div><span class="eyebrow">Stage ${si + 1} · ${sd}/${ids.length} topics</span><h2>${esc(s.t)}</h2></div></div>
+            <p class="note" style="margin:0">${esc(s.goal)}</p>
+            <div class="nodes">${ids.map((id) => { const t = TOPICS[id], st = topicState(id);
+              return `<a class="node ${st}" href="#x-${r.id}.${id}"><span class="tick" data-tstate="${id}"></span><span class="node-t">${esc(t.t)}</span><span class="node-tags">${t.les.length ? `<span>${t.les.length} lesson${t.les.length > 1 ? "s" : ""}</span>` : "<span>guide</span>"}<span>lab</span></span></a>`; }).join("")}</div>
+            ${projCard(`${r.id}-s${si}`, "Mini project", s.mini, "stage-proj")}
+          </div></div>`;
+      }).join("")}</section>
+      <section class="panel"><h2>Big project</h2>${projCard(`${r.id}-big`, "Big project", r.big)}</section>
+      <section class="panel"><h2>Final capstone</h2>${projCard(`${r.id}-cap`, "Capstone", r.capstone)}</section>
+      <section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${r.jobReady.length}</span></div>
+        <p class="hint" style="margin:0">Tick each item when you can do it without notes and can point to a project that shows it.</p>
+        <ul class="checks">${r.jobReady.map((c, j) => { const id = `${r.id}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
+      </section>
+      <section class="panel"><h2>Common interview questions</h2>
+        <ol class="iq">${r.interview.map((q, j) => `<li><span>${esc(q)}</span><button class="btn btn-quiet sm" type="button" data-tutor hidden data-iq="${j}">Practise with the tutor</button></li>`).join("")}</ol>
+        <div class="tutor-out" id="iqOut"></div>
+      </section>
+      ${footer()}
+    </div>`;
+  }
+
+  function viewTopic(r, id) {
+    const t = TOPICS[id];
+    const order = r ? roleTopics(r) : [];
+    const pos = order.findIndex((x) => x.id === id);
+    const stage = r && pos >= 0 ? r.stages[order[pos].si] : null;
+    const prev = pos > 0 ? `#x-${r.id}.${order[pos - 1].id}` : "";
+    const next = pos >= 0 && pos < order.length - 1 ? `#x-${r.id}.${order[pos + 1].id}` : (r ? `#r-${r.id}` : "");
+    const lessons = t.les.map(lessonRef).filter(Boolean);
+    const subDone = t.sub.filter((_, i) => S.subs[id + "-" + i]).length;
+    const labDone = t.lab.steps.filter((_, i) => S.labs[id + "-" + i]).length;
+    const also = rolesWith(id).filter((x) => !r || x !== r.id).map(roleOf);
+    const tutor = chatBox(() => topicContext(r, t), {
+      teach: ["Teach me this topic", "Teach this topic from scratch as structured notes: a short intro, one section per sub-topic with a small example, common mistakes, and a 5-question self-check at the end."],
+      lab: ["Help me start the lab", "I'm starting the hands-on lab for this topic. Break the first two steps into smaller actions, list what I need installed, and tell me what success looks like for each step. Do not do the whole lab for me."],
+      why: ["Why does this matter for the job?", "Explain why this topic matters in day-to-day work for this role, with two concrete workplace examples and what interviewers typically ask about it."]
+    });
+    return { html: `<div class="wrap" style="--lvc: var(--accent)">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span>${r ? `<a href="#r-${r.id}">${esc(r.title)}</a><span>›</span><span>Stage ${order[pos].si + 1}: ${esc(stage.t)}</span>` : "<span>Topic</span>"}</nav>
+      <header class="lesson-head"><span class="tag">${r ? `Topic ${pos + 1} of ${order.length}` : "Topic"}</span><h1>${esc(t.t)}</h1><p class="lede" style="margin-top:8px">${esc(t.d)}</p></header>
+      <section class="panel"><div class="section-h"><h2>What to learn</h2><span class="note">${subDone} of ${t.sub.length}</span></div>
+        <ul class="checks">${t.sub.map((s, i) => `<li><label><input type="checkbox" data-sub="${id}-${i}" ${S.subs[id + "-" + i] ? "checked" : ""}><span>${esc(s)}</span></label></li>`).join("")}</ul></section>
+      <section class="panel"><div class="section-h"><h2>Lessons</h2>${lessons.length ? `<span class="note">${lessons.filter((x) => S.done[x.k]).length} of ${lessons.length} done</span>` : ""}</div>
+        ${lessons.length ? `<div class="lesson-list">${lessons.map((x) => `<a href="#l-${x.m.n}-${x.i}"><span class="tick ${S.done[x.k] ? "done" : ""}"></span><span><b>${esc(x.l.t)}</b><small>Notes · code example · exercise · quiz</small></span><span class="go">Open ›</span></a>`).join("")}</div>`
+        : `<p style="margin:0">Full lessons for this topic are coming in a later update. Until then, use the checklist above as your study guide, learn each item from the official documentation for the tool, and prove it with the lab below.</p><p class="hint" data-tutor hidden style="margin:0">Use "Teach me this topic" below to get structured notes from the tutor now.</p>`}
+      </section>
+      <section class="panel lab"><div class="section-h"><h2>Hands-on lab: ${esc(t.lab.t)}</h2><span class="note">${labDone} of ${t.lab.steps.length} steps</span></div>
+        <ol class="checks steps-list">${t.lab.steps.map((s, i) => `<li><label><input type="checkbox" data-lab="${id}-${i}" ${S.labs[id + "-" + i] ? "checked" : ""}><span>${esc(s)}</span></label></li>`).join("")}</ol>
+        <p class="done-when"><b>Done when:</b> ${esc(t.lab.done)}</p>
+        <textarea id="tnoteBox" rows="3" placeholder="Lab notes: commands you ran, links to your repo, what you learned">${esc(S.tnotes[id] || "")}</textarea>
+      </section>
+      ${tutor.html}
+      ${also.length ? `<p class="note">Also part of: ${also.map((x) => `<a href="#x-${x.id}.${id}">${esc(x.title)}</a>`).join(", ")}. Your progress counts in every roadmap.</p>` : ""}
+      <footer class="lesson-foot">
+        <div class="row-btns">${prev ? `<a class="btn btn-line" href="${prev}">‹ Previous topic</a>` : ""}</div>
+        <div class="row-btns">${S.topics[id] ? `<span class="done-pill">Topic complete</span><button class="btn btn-line" type="button" id="undoTopic">Mark as not done</button>${next ? `<a class="btn btn-primary" href="${next}">${pos < order.length - 1 ? "Next topic ›" : "Back to roadmap"}</a>` : ""}` : `<button class="btn btn-primary" type="button" id="doneTopic">Mark topic complete${next ? " and continue" : ""}</button>`}</div>
+      </footer>
+      ${footer()}
+    </div>`, bind() {
+      tutor.bind();
+      let typing;
+      $("#tnoteBox").addEventListener("input", (e) => { S.tnotes[id] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
+      const dt = $("#doneTopic"); if (dt) dt.addEventListener("click", () => { S.topics[id] = 1; save(); if (next) location.hash = next; else render(); });
+      const ut = $("#undoTopic"); if (ut) ut.addEventListener("click", () => { delete S.topics[id]; save(); render(); });
+    } };
+  }
+
+  function viewLibrary() {
+    let html = `<div class="wrap wide"><nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Lesson library</span></nav>
+      <header class="mod-head"><span class="eyebrow">Every full lesson in one place</span><h1>Lesson library</h1><p class="lede">${COURSE.length} modules and ${COURSE.reduce((s, m) => s + m.lessons.length, 0)} lessons. Each lesson has notes, a code example, an exercise and a quiz. Roadmap topics link to the lessons they need, so most people reach these from their roadmap.</p></header>`;
     for (const lv of [1, 2, 3, 4, 5]) {
       const mods = COURSE.filter((m) => m.level === lv);
-      html += `<section class="level-block" style="${lvc(lv)}">
-        <div class="level-title"><h2>Level ${lv} · ${LEVELS[lv].name}</h2><span>${LEVELS[lv].note}</span></div>
-        <div class="cards">${mods.map((m) => {
-          const md_ = modDone(m), pct = Math.round((md_ / m.lessons.length) * 100);
-          return `<a class="card" href="#m-${m.n}" style="${lvc(lv)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")}</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${pct}%"></i></div></a>`;
-        }).join("")}</div></section>`;
+      if (!mods.length) continue;
+      html += `<section class="level-block" style="${lvc(lv)}"><div class="level-title"><h2>Level ${lv} · ${LEVELS[lv].name}</h2><span>${LEVELS[lv].note}</span></div>
+        <div class="cards">${mods.map((m) => { const md_ = modDone(m); return `<a class="card" href="#m-${m.n}" style="${lvc(lv)}"><div class="row"><span class="n">MODULE ${String(m.n).padStart(2, "0")}</span><span class="note">${md_}/${m.lessons.length}</span></div><h3>${esc(m.title)}</h3><p>${esc(m.blurb)}</p><div class="mini"><i style="width:${Math.round((md_ / m.lessons.length) * 100)}%"></i></div></a>`; }).join("")}</div></section>`;
     }
-    html += footer() + "</div>";
-    return html;
-  }
-
-  function footer() {
-    return `<footer class="site-foot"><span>Forge Academy is a free, open learning roadmap created by ${esc(AUTHOR)}.</span><span><a href="${REPO}" target="_blank" rel="noopener">Source on GitHub</a> · <a href="#about">About</a></span></footer>`;
-  }
-
-  function viewRoadmaps() {
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Career roadmaps</span></nav>
-      <header class="mod-head"><span class="eyebrow">Choose a direction</span><h1>Career roadmaps</h1><p class="lede">Not sure where to start? Pick the job you want. Each roadmap orders the modules for that role, suggests portfolio projects and ends with a checklist of what interviewers expect you to show. You can switch at any time; your progress is shared across roadmaps.</p></header>
-      <div class="cards">${TRACKS.map(trackCard).join("")}</div>
-      ${footer()}
-    </div>`;
-  }
-
-  function viewTrack(t) {
-    const ideas = IDEAS.filter((x) => x.track === t.id);
-    const caps = t.id === "full" ? PROJECTS : PROJECTS.filter((p) => p.modules.some((n) => t.modules.includes(n))).slice(0, 4);
-    const jrDone = t.jobReady.filter((_, j) => S.jr[`${t.id}-${j}`]).length;
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><a href="#roadmaps">Career roadmaps</a><span>›</span><span>${esc(t.title)}</span></nav>
-      <header class="mod-head"><span class="eyebrow">${esc(t.short)} roadmap · ${esc(t.weeks)}</span><h1>${esc(t.title)}</h1><p class="lede">${esc(t.who)}</p>
-        <p class="roles" style="margin:0">Leads to: ${t.roles.map(esc).join(" · ")}</p>
-        <div class="row-btns">${S.track === t.id ? '<span class="done-pill">This is your roadmap</span>' : `<button class="btn btn-primary" type="button" id="pickTrack">Make this my roadmap</button>`}<span class="note">${trackDone(t)} of ${trackTotal(t)} lessons done</span></div>
-      </header>
-      <section class="panel"><h2>Your path, in order</h2>
-        <ol class="steps">${t.modules.map((n, idx) => { const m = COURSE.find((x) => x.n === n); if (!m) return ""; const md_ = modDone(m), full = md_ === m.lessons.length;
-          return `<li class="${full ? "full" : ""}" style="${lvc(m.level)}"><span class="step-n">${idx + 1}</span><a href="#m-${m.n}"><b>${esc(m.title)}</b><small>${esc(m.blurb)}</small></a><span class="note">${md_}/${m.lessons.length}</span></li>`; }).join("")}</ol>
-      </section>
-      <section class="panel"><h2>Portfolio projects for this roadmap</h2>
-        ${ideas.length ? ideas.map(ideaCard).join("") : ""}
-        ${caps.length ? `<p class="note" style="margin:0">Also from the capstone series: ${caps.map((p) => `<a href="#projects">P${p.n} ${esc(p.title)}</a>`).join(", ")}.</p>` : ""}
-      </section>
-      <section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${t.jobReady.length}</span></div>
-        <p class="hint" style="margin:0">Tick each item when you can do it without notes and can show it in a project.</p>
-        <ul class="checks">${t.jobReady.map((c, j) => { const id = `${t.id}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
-      </section>
-      ${footer()}
-    </div>`;
-  }
-
-  function ideaCard(x) {
-    const id = `${x.track}-${x.title}`.toLowerCase().replace(/[^a-z0-9]+/g, "-");
-    return `<article class="idea"><div class="row"><span class="chip lvl-${x.level.toLowerCase()}">${esc(x.level)}</span><label class="built"><input type="checkbox" data-idea="${id}" ${S.ideas[id] ? "checked" : ""}> I built this</label></div>
-      <h3>${esc(x.title)}</h3><p>${esc(x.pitch)}</p>
-      <ul>${x.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul>
-      <p class="note" style="margin:0"><b>Stretch goal:</b> ${esc(x.stretch)}</p></article>`;
-  }
-
-  function viewAbout() {
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>About</span></nav>
-      <header class="mod-head"><span class="eyebrow">About Forge Academy</span><h1>A free roadmap for anyone learning to build software</h1>
-        <p class="lede">Forge Academy was made by ${esc(AUTHOR)} to help college students and self-learners prepare for real engineering work: not only knowing topics, but building and shipping things with them.</p></header>
-      <section class="panel prose"><h2>Who it is for</h2>
-        <p>Students in college or university who want a clear plan alongside their degree, people switching into tech, and anyone who wants a solid foundation before their first job. You need a laptop and curiosity; no prior experience is assumed in Level 1.</p></section>
-      <section class="panel prose"><h2>How to use it</h2>
-        <p><b>1. Pick a roadmap</b> for the job you want. If you are unsure, start with Web Developer; you can switch later and keep your progress.</p>
-        <p><b>2. Do the lessons in order.</b> Read, type the code yourself (do not just copy it), do the exercise, then answer the quiz.</p>
-        <p><b>3. Build the projects.</b> Push each one to GitHub with a README and a live link. Projects are what get you interviews.</p>
-        <p><b>4. Work through the job-ready checklist</b> for your roadmap before applying.</p>
-        <p><b>5. Share your progress.</b> Post what you built on LinkedIn; teaching others is the fastest way to learn.</p></section>
-      <section class="panel prose"><h2>The running example: SaaSForge</h2>
-        <p>Many lessons point to <b>SaaSForge</b>, an open-source AI agent that turns a plain-English brief or an existing HTML tool into a tested, deployed SaaS platform. It uses almost every topic in this course, so it shows how the pieces fit together in a real system. You do not need it to follow the lessons.</p></section>
-      <section class="panel prose"><h2>Your progress and privacy</h2>
-        <p>There are no accounts. Lessons done, quiz answers, notes and checklists are saved in your own browser on this device. Clearing site data resets them.</p></section>
-      <section class="panel prose"><h2>Contribute</h2>
-        <p>Found a mistake or want to add a lesson? The course content lives in plain JavaScript files in the <a href="${REPO}" target="_blank" rel="noopener">GitHub repository</a>. Open an issue or a pull request.</p></section>
-      ${footer()}
-    </div>`;
+    return html + footer() + "</div>";
   }
 
   function viewModule(m) {
-    const proj = PROJECTS.filter((p) => p.modules.includes(m.n));
+    const usedBy = Object.entries(TOPICS).filter(([, t]) => t.les.some((r) => r.startsWith(m.n + "-"))).map(([id]) => id);
+    const roles = [...new Set(usedBy.flatMap(rolesWith))].map(roleOf).filter(Boolean);
     return `<div class="wrap" style="${lvc(m.level)}">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Level ${m.level} · ${LEVELS[m.level].name}</span></nav>
-      <header class="mod-head"><span class="tag">Module ${m.n} of ${COURSE.length}</span><h1>${esc(m.title)}</h1><p class="lede">${esc(m.blurb)}</p></header>
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#library">Lesson library</a><span>›</span><span>Module ${m.n}</span></nav>
+      <header class="mod-head"><span class="tag">Level ${m.level} · ${LEVELS[m.level].name}</span><h1>${esc(m.title)}</h1><p class="lede">${esc(m.blurb)}</p></header>
+      ${roles.length ? `<p class="note" style="margin:0">Used in: ${roles.map((r) => `<a href="#r-${r.id}">${esc(r.title)}</a>`).join(", ")}</p>` : ""}
       <div class="saas"><b>Real-world example: SaaSForge.</b> ${m.saas}</div>
       <div class="section-h"><h2>Lessons</h2><span class="note">${modDone(m)} of ${m.lessons.length} done</span></div>
       <div class="lesson-list">${m.lessons.map((l, i) => `<a href="#l-${m.n}-${i}"><span class="tick ${S.done[key(m, i)] ? "done" : ""}"></span><span><b>${i + 1}. ${esc(l.t)}</b><small>${esc(l.sub.join(" · "))}</small></span><span class="go">Open ›</span></a>`).join("")}</div>
-      ${proj.length ? `<div class="panel"><h2>Practise it in a project</h2>${proj.map((p) => `<p style="margin:0">Capstone ${p.n}: <a href="#projects">${esc(p.title)}</a>. ${esc(p.goal)}</p>`).join("")}</div>` : ""}
+      ${footer()}
     </div>`;
+  }
+
+  function lessonBackLink(k) {
+    const parts = String(S.lastTopic).split("|");
+    if (parts.length === 2 && TOPICS[parts[1]] && TOPICS[parts[1]].les.includes(k)) return { href: `#x-${parts[0]}.${parts[1]}`, label: TOPICS[parts[1]].t };
+    return null;
   }
 
   function viewLesson(m, i) {
     const l = m.lessons[i], k = key(m, i);
-    const prev = i > 0 ? `#l-${m.n}-${i - 1}` : (COURSE.find((x) => x.n === m.n - 1) ? `#l-${m.n - 1}-${COURSE.find((x) => x.n === m.n - 1).lessons.length - 1}` : "");
-    const next = i < m.lessons.length - 1 ? `#l-${m.n}-${i + 1}` : (COURSE.find((x) => x.n === m.n + 1) ? `#l-${m.n + 1}-0` : "");
+    const back = lessonBackLink(k);
+    const prev = i > 0 ? `#l-${m.n}-${i - 1}` : "";
+    const next = back ? (() => { const t = TOPICS[S.lastTopic.split("|")[1]]; const j = t.les.indexOf(k); return j < t.les.length - 1 ? "#l-" + t.les[j + 1] : back.href; })() : (i < m.lessons.length - 1 ? `#l-${m.n}-${i + 1}` : `#m-${m.n}`);
     const chosen = S.quiz[k];
-    return `<div class="wrap" style="${lvc(m.level)}">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><a href="#m-${m.n}">Module ${m.n}: ${esc(m.title)}</a><span>›</span><span>Lesson ${i + 1} of ${m.lessons.length}</span></nav>
+    const tutor = chatBox(() => lessonContext(m, l), {
+      simpler: ["Explain it more simply", "Explain this lesson again as if I am a beginner, using an everyday analogy, then restate the key idea in two sentences."],
+      walk: ["Walk through the code", "Walk through the lesson's code example line by line. For each important line, say what it does and why it is written that way."],
+      example: ["Show another example", "Give me a different, small, runnable example of the same idea in a new domain, with a short explanation."],
+      real: ["How is this used at work?", "How is this lesson's idea used in real production software? Give two or three concrete situations and one common mistake people make."]
+    });
+    return { html: `<div class="wrap" style="${lvc(m.level)}">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span>${back ? `<a href="${back.href}">Topic: ${esc(back.label)}</a>` : `<a href="#m-${m.n}">Module ${m.n}: ${esc(m.title)}</a>`}<span>›</span><span>Lesson</span></nav>
       <header class="lesson-head"><span class="tag">Level ${m.level} · ${LEVELS[m.level].name}</span><h1>${esc(l.t)}</h1></header>
       <section class="subs"><span class="eyebrow">Sub-topics in this lesson</span><ul>${l.sub.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></section>
-      <section class="prose">${l.body}</section>
+      <section class="prose"><span class="eyebrow">Notes</span>${l.body}</section>
       <section class="code"><div class="code-bar"><span>${esc(l.lang)}</span><button type="button" id="copyBtn">Copy code</button></div><pre><code id="codeEl"></code></pre></section>
-
-      <section class="panel" data-tutor hidden>
-        <div class="section-h"><h2>Ask the tutor</h2><span class="hint">Answers use your Claude account</span></div>
-        <div class="row-btns">
-          <button class="btn btn-quiet" type="button" data-quick="simpler">Explain it more simply</button>
-          <button class="btn btn-quiet" type="button" data-quick="walk">Walk through the code line by line</button>
-          <button class="btn btn-quiet" type="button" data-quick="example">Show another example</button>
-          <button class="btn btn-quiet" type="button" data-quick="real">How is this used in real products?</button>
-        </div>
-        <div class="chat-log" id="chatLog"></div>
-        <textarea id="askBox" rows="2" placeholder="Ask anything about this lesson, or paste an error you got"></textarea>
-        <div class="row-btns"><button class="btn btn-primary" type="button" id="askBtn">Ask</button><span class="hint">The tutor remembers this lesson's conversation until you leave the page.</span></div>
-      </section>
-
+      ${tutor.html}
       <section class="panel">
-        <div class="section-h"><h2>Your turn</h2></div>
+        <div class="section-h"><h2>Exercise</h2></div>
         <div class="prose"><p>${l.ex}</p></div>
         <textarea class="mono" id="answerBox" rows="7" placeholder="Write or paste your solution here. It is saved as you type.">${esc(S.answers[k] || "")}</textarea>
         <div class="row-btns" data-tutor hidden>
@@ -689,151 +812,145 @@ Teach clearly and concretely. Prefer short paragraphs, small runnable code examp
         <p class="hint" data-tutor-off>Run your solution, then compare it with the lesson's example. Stuck? Re-read the sub-topics and try a smaller version first.</p>
         <div class="tutor-out" id="exOut"></div>
       </section>
-
       <section class="panel">
-        <div class="section-h"><h2>Check yourself</h2>${chosen !== undefined ? '<button class="btn btn-line" type="button" id="retryQuiz">Try again</button>' : ""}</div>
+        <div class="section-h"><h2>Quiz</h2>${chosen !== undefined ? '<button class="btn btn-line" type="button" id="retryQuiz">Try again</button>' : ""}</div>
         <p class="quiz-q" style="margin:0">${l.q[0]}</p>
-        <div class="opts">${l.q[1].map((o, j) => {
-          const cls = chosen === undefined ? "" : j === l.q[2] ? "right" : j === chosen ? "wrong" : "";
-          return `<button type="button" class="opt ${cls}" data-opt="${j}" ${chosen !== undefined ? "disabled" : ""}><b>${"ABCD"[j]}</b><span>${o}</span></button>`;
-        }).join("")}</div>
+        <div class="opts">${l.q[1].map((o, j) => { const cls = chosen === undefined ? "" : j === l.q[2] ? "right" : j === chosen ? "wrong" : ""; return `<button type="button" class="opt ${cls}" data-opt="${j}" ${chosen !== undefined ? "disabled" : ""}><b>${"ABCD"[j]}</b><span>${o}</span></button>`; }).join("")}</div>
         ${chosen !== undefined ? `<div class="verdict ${chosen === l.q[2] ? "ok" : "no"}"><b>${chosen === l.q[2] ? "Correct." : "Not quite."}</b> ${esc(l.q[3])}</div>` : ""}
         <div class="row-btns" data-tutor hidden><button class="btn btn-quiet" type="button" id="moreQuiz">Quiz me with 3 more questions</button></div>
         <div class="tutor-out" id="quizOut"></div>
       </section>
-
       <section class="panel">
         <div class="section-h"><h2>My notes</h2><span class="hint">Saved as you type</span></div>
         <textarea id="noteBox" rows="4" placeholder="What clicked, what to revisit, questions for later">${esc(S.notes[k] || "")}</textarea>
       </section>
-
       <footer class="lesson-foot">
         <div class="row-btns">${prev ? `<a class="btn btn-line" href="${prev}">‹ Previous</a>` : ""}</div>
-        <div class="row-btns">
-          ${S.done[k] ? `<span class="done-pill">Completed</span><button class="btn btn-line" type="button" id="undoBtn">Mark as not done</button>` : `<button class="btn btn-primary" type="button" id="doneBtn">Mark complete${next ? " and continue" : ""}</button>`}
-          ${next && S.done[k] ? `<a class="btn btn-primary" href="${next}">Next lesson ›</a>` : ""}
-        </div>
+        <div class="row-btns">${S.done[k] ? `<span class="done-pill">Completed</span><button class="btn btn-line" type="button" id="undoBtn">Mark as not done</button><a class="btn btn-primary" href="${next}">${back && next === back.href ? "Back to topic ›" : "Next ›"}</a>` : `<button class="btn btn-primary" type="button" id="doneBtn">Mark complete and continue</button>`}</div>
       </footer>
-    </div>`;
+    </div>`, bind() {
+      const codeEl = $("#codeEl");
+      codeEl.textContent = l.code;
+      const lang = LANG[l.lang] || "plaintext";
+      if (window.hljs && lang !== "plaintext" && hljs.getLanguage(lang)) { codeEl.className = "language-" + lang; try { hljs.highlightElement(codeEl); } catch (e) {} }
+      $("#copyBtn").addEventListener("click", async (e) => {
+        try { await navigator.clipboard.writeText(l.code); e.target.textContent = "Copied"; }
+        catch (err) { const rg = document.createRange(); rg.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); e.target.textContent = "Selected, press Ctrl+C"; }
+        setTimeout(() => (e.target.textContent = "Copy code"), 1800);
+      });
+      let typing;
+      $("#answerBox").addEventListener("input", (e) => { S.answers[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
+      $("#noteBox").addEventListener("input", (e) => { S.notes[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
+      document.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => { S.quiz[k] = +b.dataset.opt; save(); keepScroll(); }));
+      const rq = $("#retryQuiz"); if (rq) rq.addEventListener("click", () => { delete S.quiz[k]; save(); keepScroll(); });
+      const d = $("#doneBtn"); if (d) d.addEventListener("click", () => { S.done[k] = 1; save(); location.hash = next; });
+      const u = $("#undoBtn"); if (u) u.addEventListener("click", () => { delete S.done[k]; save(); keepScroll(); });
+      const extra = () => Array.from(document.querySelectorAll("#reviewBtn, #hintBtn, #moreBtn, #moreQuiz"));
+      tutor.bind(extra);
+      if (!sample) return;
+      const ctx = lessonContext(m, l);
+      const all = () => Array.from(document.querySelectorAll("#askBtn, [data-quick]")).concat(extra());
+      $("#reviewBtn").addEventListener("click", () => {
+        const a = $("#answerBox").value.trim();
+        if (!a) { $("#exOut").innerHTML = '<p class="note">Write your answer in the box first, then ask for a review.</p>'; return; }
+        ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nThe learner's answer:\n${a.slice(0, 12000)}\n\nReview it like a kind senior engineer: say what is correct, list any bugs or misunderstandings with the fix, mention one improvement, and end with a verdict: "Ready to move on" or "Revise and resubmit". Do not rewrite the whole solution unless it is badly wrong.`, all(), { cache: false });
+      });
+      $("#hintBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nGive one helpful hint without giving away the solution. Two to four sentences.`, all()));
+      $("#moreBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nWrite one new practice exercise for this lesson that is slightly harder than: "${plain(l.ex)}". Give the task, an example input and output, and two hints. No solution.`, all(), { cache: false }));
+      $("#moreQuiz").addEventListener("click", () => ask($("#quizOut"), `${ctx}\n\nWrite 3 new multiple-choice questions about this lesson, each with options A-D. After all three, list the answers with one-sentence explanations under a heading "Answers".`, all(), { cache: false }));
+    } };
   }
 
-  function bindLesson(m, i) {
-    const l = m.lessons[i], k = key(m, i);
-    const next = i < m.lessons.length - 1 ? `#l-${m.n}-${i + 1}` : (COURSE.find((x) => x.n === m.n + 1) ? `#l-${m.n + 1}-0` : "#projects");
-    const codeEl = $("#codeEl");
-    codeEl.textContent = l.code;
-    const lang = LANG[l.lang] || "plaintext";
-    if (window.hljs && lang !== "plaintext" && hljs.getLanguage(lang)) { codeEl.className = "language-" + lang; try { hljs.highlightElement(codeEl); } catch (e) {} }
-    $("#copyBtn").addEventListener("click", async (e) => {
-      try { await navigator.clipboard.writeText(l.code); e.target.textContent = "Copied"; }
-      catch (err) { const r = document.createRange(); r.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(r); e.target.textContent = "Selected, press Ctrl+C"; }
-      setTimeout(() => (e.target.textContent = "Copy code"), 1800);
-    });
-    let typing;
-    $("#answerBox").addEventListener("input", (e) => { S.answers[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
-    $("#noteBox").addEventListener("input", (e) => { S.notes[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
-    document.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => { S.quiz[k] = +b.dataset.opt; save(); render(); }));
-    const rq = $("#retryQuiz"); if (rq) rq.addEventListener("click", () => { delete S.quiz[k]; save(); render(); });
-    const db_ = $("#doneBtn"); if (db_) db_.addEventListener("click", () => { S.done[k] = 1; save(); location.hash = next; });
-    const ub = $("#undoBtn"); if (ub) ub.addEventListener("click", () => { delete S.done[k]; save(); render(); });
-
-    // tutor
-    document.querySelectorAll("[data-tutor]").forEach((el) => { el.hidden = !sample; });
-    document.querySelectorAll("[data-tutor-off]").forEach((el) => { el.hidden = !!sample; });
-    if (!sample) return;
-    const ctx = lessonContext(m, l);
-    const allBtns = () => Array.from(document.querySelectorAll("#askBtn, [data-quick], #reviewBtn, #hintBtn, #moreBtn, #moreQuiz"));
-    const turns = [];
-    const log = $("#chatLog");
-    async function chat(question) {
-      turns.push({ role: "user", content: question });
-      const wrap = document.createElement("div"); wrap.className = "chat-turn";
-      wrap.innerHTML = `<span class="who">You</span><div>${esc(question)}</div>`;
-      const ans = document.createElement("div"); ans.className = "chat-turn";
-      ans.innerHTML = '<span class="who">Tutor</span><div class="tutor-out"></div>';
-      log.append(wrap, ans);
-      const out = ans.querySelector(".tutor-out");
-      const input = [{ role: "user", content: ctx + "\n\nThe learner's questions follow. Answer the latest one." }, ...turns.slice(-8)];
-      const text = await ask(out, input, allBtns(), { cache: false });
-      if (text) turns.push({ role: "assistant", content: text }); else turns.pop();
-    }
-    $("#askBtn").addEventListener("click", () => { const q = $("#askBox").value.trim(); if (!q) return; $("#askBox").value = ""; chat(q); });
-    $("#askBox").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("#askBtn").click(); });
-    const QUICK = {
-      simpler: "Explain this lesson again as if I am a beginner, using an everyday analogy, then restate the key idea in two sentences.",
-      walk: "Walk through the lesson's code example line by line. For each important line, say what it does and why it is written that way.",
-      example: "Give me a different, small, runnable example of the same idea, in a new domain (not loans), with a short explanation.",
-      real: "How is this lesson's idea used in real production software? Give two or three concrete situations and one common mistake people make."
-    };
-    document.querySelectorAll("[data-quick]").forEach((b) => b.addEventListener("click", () => chat(QUICK[b.dataset.quick])));
-    $("#reviewBtn").addEventListener("click", () => {
-      const a = $("#answerBox").value.trim();
-      if (!a) { $("#exOut").innerHTML = '<p class="note">Write your answer in the box first, then ask for a review.</p>'; return; }
-      ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nThe learner's answer:\n${a.slice(0, 12000)}\n\nReview it like a kind senior engineer: say what is correct, list any bugs or misunderstandings with the fix, mention one improvement in style or robustness, and end with a verdict: "Ready to move on" or "Revise and resubmit". Do not rewrite the whole solution unless it is badly wrong.`, allBtns(), { cache: false });
-    });
-    $("#hintBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nExercise: ${plain(l.ex)}\n\nGive one helpful hint for this exercise without giving away the full solution. Two to four sentences.`, allBtns()));
-    $("#moreBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nWrite one new practice exercise for this lesson that is slightly harder than: "${plain(l.ex)}". Give the task, the expected behaviour with an example input and output, and two hints. Do not give the solution.`, allBtns(), { cache: false }));
-    $("#moreQuiz").addEventListener("click", () => ask($("#quizOut"), `${ctx}\n\nWrite 3 new multiple-choice questions about this lesson, each with options A-D. After all three, list the answers with a one-sentence explanation each under a heading "Answers". Make the wrong options plausible.`, allBtns(), { cache: false }));
-  }
-
+  let projRole = "";
   function viewProjects() {
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Dashboard</a><span>›</span><span>Capstone projects</span></nav>
-      <header class="mod-head"><span class="eyebrow">Practice</span><h1>Projects</h1><p class="lede">Lessons teach the parts; projects prove you can put them together. Start with ideas for your roadmap, or follow the capstone series, where each project builds on the last and the seventh is a platform that builds platforms.</p></header>
-      <div class="section-h"><h2>Project ideas by roadmap</h2></div>
-      <div class="tabs" role="tablist">${TRACKS.filter((t) => t.id !== "full").map((t) => `<button type="button" role="tab" class="tab ${ideaTab === t.id ? "on" : ""}" data-tab="${t.id}">${esc(t.short)}</button>`).join("")}</div>
-      <div class="ideas">${IDEAS.filter((x) => x.track === ideaTab).map(ideaCard).join("")}</div>
-      <div class="section-h"><h2>Capstone series</h2></div>
-      ${PROJECTS.map((p) => `<article class="proj"><div class="big">P${p.n}</div><div>
-        <h3>${esc(p.title)}</h3><p>${esc(p.goal)}</p>
-        <ul class="checks">${p.checklist.map((c, j) => { const id = `p${p.n}-${j}`; return `<li><label><input type="checkbox" id="${id}" data-proj="${id}" ${S.proj[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul>
-        <div class="mods-used">${p.modules.map((n) => { const m = COURSE.find((x) => x.n === n); return m ? `<a href="#m-${n}">M${n} ${esc(m.title)}</a>` : ""; }).join("")}</div>
-      </div></article>`).join("")}
+    const r = roleOf(projRole) || roleOf(S.role) || ROLES[0];
+    projRole = r.id;
+    const total = ROLES.reduce((s, x) => s + x.stages.length + 2, 0);
+    return `<div class="wrap wide">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Projects</span></nav>
+      <header class="mod-head"><span class="eyebrow">${total} projects across ${ROLES.length} roles</span><h1>Projects</h1><p class="lede">Projects are what get you interviews. Every role has a mini project after each stage, one big project and a final capstone. Push each one to GitHub with a README, screenshots and a live link.</p></header>
+      <div class="tabs" role="tablist">${ROLES.map((x) => `<button type="button" role="tab" class="tab ${x.id === r.id ? "on" : ""}" data-prole="${x.id}">${esc(x.title)}</button>`).join("")}</div>
+      <div class="ideas">${r.stages.map((s, si) => projCard(`${r.id}-s${si}`, "Mini project", s.mini)).join("")}${projCard(`${r.id}-big`, "Big project", r.big)}${projCard(`${r.id}-cap`, "Capstone", r.capstone)}</div>
+      <p class="note">See where each project fits on the <a href="#r-${r.id}">${esc(r.title)} roadmap</a>.</p>
       ${footer()}
     </div>`;
   }
 
+  function viewAbout() {
+    return `<div class="wrap">
+      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>About</span></nav>
+      <header class="mod-head"><span class="eyebrow">About Forge Academy</span><h1>One place for the whole path</h1>
+        <p class="lede">Forge Academy was created by ${esc(AUTHOR)} to fix a problem every student runs into: too many sources, none complete, and no clear route from where you are to the job you want.</p></header>
+      <section class="panel prose"><h2>What makes it different</h2>
+        <p>Roadmap sites show you <i>what</i> to learn. Video courses teach <i>some</i> of it. Forge Academy puts the complete roadmap for each role together with the material to learn it: notes, worked code, hands-on labs with clear finish lines, quizzes, and projects at every stage, ending in a capstone you can show employers.</p></section>
+      <section class="panel prose"><h2>Who it is for</h2>
+        <p>College and university students who want a plan alongside their degree, people in their first job who want to grow or switch roles, and anyone changing careers into tech. Level 1 topics assume no experience.</p></section>
+      <section class="panel prose"><h2>How to use it</h2>
+        <p><b>1. Pick a role.</b> Read the descriptions and choose the one that sounds like you. You can switch later; shared topics keep their progress.</p>
+        <p><b>2. Go stage by stage.</b> For each topic, tick off the sub-topics as you learn them, open the full lessons where available, and finish the lab.</p>
+        <p><b>3. Build the stage project</b> before moving on. Put it on GitHub with a README and a live link.</p>
+        <p><b>4. Finish with the big project and capstone</b>, then work through the job-ready checklist and practise the interview questions.</p>
+        <p><b>5. Share your journey</b> on LinkedIn. Explaining what you built is part of getting hired.</p></section>
+      <section class="panel prose"><h2>What's ready now</h2>
+        <p>All ${ROLES.length} roadmaps are complete: every stage, topic, lab and project. Full lessons (notes, code, exercise and quiz) are being added in waves. Backend and AI Engineer have full lessons for every technical topic today; other roles have full lessons for shared topics, with more on the way. Topics without a lesson yet still have a study checklist and a lab.</p></section>
+      <section class="panel prose"><h2>The running example: SaaSForge</h2>
+        <p>Many lessons point to <b>SaaSForge</b>, an open-source AI agent that turns a plain-English brief or an existing HTML tool into a tested, deployed web app. It uses most of the backend, AI and DevOps topics here, so it shows how the pieces fit together in a real system.</p></section>
+      <section class="panel prose"><h2>Your progress and privacy</h2>
+        <p>There are no accounts. Everything you tick, write and complete is saved in your own browser on this device. Clearing site data resets it.</p></section>
+      <section class="panel prose"><h2>Contribute</h2>
+        <p>Spotted a mistake, or want to add a lesson, lab or role? All content lives in plain JavaScript files in the <a href="${REPO}" target="_blank" rel="noopener">GitHub repository</a>. Open an issue or a pull request.</p></section>
+      ${footer()}
+    </div>`;
+  }
+
+  /* ---------- router ---------- */
+  function keepScroll() { const y = scrollY; render(); scrollTo(0, y); }
   function render() {
     const h = location.hash || "#home";
     const main = $("#main");
-    let m, mm;
-    if ((mm = h.match(/^#l-(\d+)-(\d+)$/)) && (m = COURSE.find((x) => x.n === +mm[1])) && m.lessons[+mm[2]]) {
-      const i = +mm[2];
-      main.innerHTML = viewLesson(m, i);
-      if (S.last !== key(m, i)) { S.last = key(m, i); save(); }
-      if (!openMods.has(m.n)) { openMods.add(m.n); renderTree($("#search").value); }
-      bindLesson(m, i);
-    } else if ((mm = h.match(/^#m-(\d+)$/)) && (m = COURSE.find((x) => x.n === +mm[1]))) {
+    let mm, m, view = null;
+    if ((mm = h.match(/^#l-(\d+)-(\d+)$/)) && (m = modByN(+mm[1])) && m.lessons[+mm[2]]) {
+      view = viewLesson(m, +mm[2]);
+      if (S.last !== key(m, +mm[2])) { S.last = key(m, +mm[2]); save(); }
+    } else if ((mm = h.match(/^#x-([a-z-]+)\.([a-z0-9-]+)$/)) && TOPICS[mm[2]]) {
+      const r = roleOf(mm[1]);
+      view = viewTopic(r && r.stages.some((s) => s.topics.includes(mm[2])) ? r : null, mm[2]);
+      const lt = (r ? r.id : "none") + "|" + mm[2];
+      if (S.lastTopic !== lt) { S.lastTopic = lt; save(); }
+    } else if ((mm = h.match(/^#r-([a-z-]+)$/)) && roleOf(mm[1])) {
+      const r = roleOf(mm[1]);
+      main.innerHTML = viewRole(r);
+      const pk = $("#pickRole"); if (pk) pk.addEventListener("click", () => { S.role = r.id; save(); renderTree($("#search").value); render(); });
+      main.querySelectorAll("[data-iq]").forEach((b) => b.addEventListener("click", () => {
+        if (!sample) return;
+        ask($("#iqOut"), `${BASE}\n\nRole: ${r.title}. Help me practise this interview question: "${r.interview[+b.dataset.iq]}". First give the key points a strong answer should cover, then a model answer in about 150 words, then two follow-up questions an interviewer might ask.`, Array.from(main.querySelectorAll("[data-iq]")));
+        $("#iqOut").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }));
+    } else if ((mm = h.match(/^#m-(\d+)$/)) && (m = modByN(+mm[1]))) {
       main.innerHTML = viewModule(m);
+    } else if (h === "#roles") { main.innerHTML = viewRoles();
     } else if (h === "#projects") {
       main.innerHTML = viewProjects();
-      main.querySelectorAll("[data-proj]").forEach((c) => c.addEventListener("change", () => { S.proj[c.dataset.proj] = c.checked ? 1 : 0; save(); }));
-      main.querySelectorAll("[data-tab]").forEach((b) => b.addEventListener("click", () => { ideaTab = b.dataset.tab; try { localStorage.setItem("forge-academy-tab", ideaTab); } catch (e) {} render(); }));
-    } else if (h === "#roadmaps") {
-      main.innerHTML = viewRoadmaps();
-    } else if (h === "#about") {
-      main.innerHTML = viewAbout();
-    } else if ((mm = h.match(/^#t-([a-z]+)$/)) && trackOf(mm[1])) {
-      const t = trackOf(mm[1]);
-      main.innerHTML = viewTrack(t);
-      const pk = $("#pickTrack"); if (pk) pk.addEventListener("click", () => { S.track = t.id; save(); render(); });
-    } else {
-      main.innerHTML = viewHome();
-    }
-    main.querySelectorAll("[data-jr]").forEach((c) => c.addEventListener("change", () => { S.jr[c.dataset.jr] = c.checked ? 1 : 0; save(); const y = scrollY; render(); scrollTo(0, y); }));
-    main.querySelectorAll("[data-idea]").forEach((c) => c.addEventListener("change", () => { S.ideas[c.dataset.idea] = c.checked ? 1 : 0; save(); }));
-    markActive();
+      main.querySelectorAll("[data-prole]").forEach((b) => b.addEventListener("click", () => { projRole = b.dataset.prole; render(); }));
+    } else if (h === "#library") { main.innerHTML = viewLibrary();
+    } else if (h === "#about") { main.innerHTML = viewAbout();
+    } else { main.innerHTML = viewHome(); }
+    if (view) { main.innerHTML = view.html; view.bind(); }
+    main.querySelectorAll("[data-sub]").forEach((c) => c.addEventListener("change", () => { S.subs[c.dataset.sub] = c.checked ? 1 : 0; save(); keepScroll(); }));
+    main.querySelectorAll("[data-lab]").forEach((c) => c.addEventListener("change", () => { S.labs[c.dataset.lab] = c.checked ? 1 : 0; save(); keepScroll(); }));
+    main.querySelectorAll("[data-jr]").forEach((c) => c.addEventListener("change", () => { S.jr[c.dataset.jr] = c.checked ? 1 : 0; save(); keepScroll(); }));
+    main.querySelectorAll("[data-pj]").forEach((c) => c.addEventListener("change", () => { S.pj[c.dataset.pj] = c.checked ? 1 : 0; save(); }));
+    showTutor(); paintProgress(); markActive();
   }
   let lastHash = null;
   function route() { render(); if (location.hash !== lastHash) { window.scrollTo(0, 0); lastHash = location.hash; } }
   window.addEventListener("hashchange", route);
 
-  if (!COURSE.length) { $("#main").innerHTML = '<div class="wrap"><p class="note">The course content did not load. Reload the page.</p></div>'; return; }
-  const cur = location.hash.match(/^#[lm]-(\d+)/);
-  if (cur) openMods.add(+cur[1]); else { const nx = nextLesson(); if (nx) openMods.add(nx.m.n); }
+  if (!ROLES.length || !COURSE.length) { $("#main").innerHTML = '<div class="wrap"><p class="note">The course content did not load. Reload the page.</p></div>'; return; }
   renderTree();
   route();
 })();
+
 </script>
 
 </body>
