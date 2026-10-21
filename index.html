@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Forge Academy: free, structured career roadmaps for 14 tech roles: stages, modules and lessons with notes, hands-on labs, quizzes and projects.">
+<meta name="description" content="Forge Academy: free, structured career roadmaps for the 6 most in-demand tech roles of 2026: stages, modules and lessons with notes, hands-on labs, quizzes and projects.">
 <meta property="og:title" content="Forge Academy: find your path in tech, then walk it">
-<meta property="og:description" content="Free career roadmaps with notes, hands-on labs, quizzes and projects for 14 in-demand tech roles.">
+<meta property="og:description" content="Free career roadmaps with notes, hands-on labs, quizzes and projects for the 6 most in-demand tech roles of 2026.">
 <style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
 <title>Forge Academy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -369,6 +369,15 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 .banner.soft { background: var(--sunk); border-color: var(--line); }
 .flat .cnt { margin-left: auto; font: 500 11px/1 var(--f-mono); color: var(--muted); }
 @media (max-width: 560px) { .lrow { grid-template-columns: 16px minmax(0, 1fr); } .lnum, .lrow .badge { display: none; } .lt small { white-space: normal; } }
+
+/* deeper lessons */
+.prose.deep { border-left: 3px solid var(--accent); padding-left: 16px; }
+.mistakes { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
+.mistakes li::marker { content: "✗  "; color: #c62828; }
+.practice { margin: 0; padding-left: 22px; display: grid; gap: 14px; }
+.practice details { margin-top: 6px; }
+.practice summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; }
+.practice details .prose { margin-top: 8px; padding: 10px 12px; background: var(--sunk); border-radius: 8px; }
 </style>
 
 </head>
@@ -433,17 +442,21 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/part24.js?v=c8481457"></script>
 <script src="data/part25.js?v=567ea33f"></script>
 <script src="data/part26.js?v=55ae0d2e"></script>
+<script src="data/part27.js?v=be9a7b0d"></script>
+<script src="data/part28.js?v=990635d8"></script>
 <script src="data/cur1.js?v=febe51c1"></script>
 <script src="data/cur2.js?v=31675bf6"></script>
 <script src="data/cur3.js?v=9c1ff7ad"></script>
-<script src="data/roles2.js?v=55cbc93c"></script>
+<script src="data/roles2.js?v=b6348c61"></script>
 <script>
 (() => {
   "use strict";
   /* ---------- data ---------- */
   const COURSE = window.COURSE || [];
-  const MODS = window.MODS || [];
   const ROLES = window.ROLES2 || [];
+  /* only show modules that belong to at least one role roadmap */
+  const USED = new Set(ROLES.flatMap((r) => r.stages.flatMap((s) => s.mods)));
+  const MODS = (window.MODS || []).filter((m) => USED.has(m.id));
   /* newly written lessons declare which module they fill; swap each matching outline for the written lesson */
   for (const c of COURSE) {
     if (!c.fills) continue;
@@ -878,11 +891,18 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
         ${tutor.html}${notesBox}${foot}${footer()}</div>`, bind() { tutor.bind(); bindLessonCommon(k, next); } };
     }
     const L = l.l, chosen = S.quiz[k];
+    const DP = (window.DEEP || {})[l.ref];
     return { html: `<div class="wrap">${crumbs}
       <header class="lesson-head"><span class="tag" style="--lvc: var(--accent)">${esc(m.t)}</span><h1>${esc(L.t)}</h1></header>
       <section class="subs"><span class="eyebrow">Sub-topics in this lesson</span><ul>${L.sub.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></section>
       <section class="prose"><span class="eyebrow">Notes</span>${safe(L.body)}</section>
       <section class="code"><div class="code-bar"><span>${esc(L.lang)}</span><button type="button" id="copyBtn">Copy code</button></div><pre><code id="codeEl"></code></pre></section>
+      ${DP ? `${DP.more ? `<section class="prose deep"><span class="eyebrow">Going deeper</span>${safe(DP.more)}</section>` : ""}
+      ${DP.example ? `<section class="panel"><div class="section-h"><h2>Worked example: ${esc(DP.example.t)}</h2></div>${DP.example.intro ? `<div class="prose"><p>${safe(DP.example.intro)}</p></div>` : ""}
+        <section class="code"><div class="code-bar"><span>${esc(DP.example.lang)}</span><button type="button" id="copyBtn2">Copy code</button></div><pre><code id="codeEl2"></code></pre></section>
+        ${DP.example.after ? `<div class="prose"><p>${safe(DP.example.after)}</p></div>` : ""}</section>` : ""}
+      ${DP.mistakes ? `<section class="panel"><h2>Common mistakes</h2><ul class="mistakes">${DP.mistakes.map((m) => `<li>${safe(m)}</li>`).join("")}</ul></section>` : ""}
+      ${DP.practice ? `<section class="panel"><h2>Practice problems</h2><ol class="practice">${DP.practice.map((p) => `<li><div>${safe(p[0])}</div><details><summary>Show answer</summary><div class="prose">${safe(p[1])}</div></details></li>`).join("")}</ol></section>` : ""}` : ""}
       ${tutor.html}
       <section class="panel"><div class="section-h"><h2>Exercise</h2></div>
         <div class="prose"><p>${safe(L.ex)}</p></div>
@@ -897,6 +917,13 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       ${notesBox}${foot}
     </div>`, bind() {
       const codeEl = $("#codeEl"); codeEl.textContent = L.code;
+      const c2 = $("#codeEl2");
+      if (c2 && DP && DP.example) {
+        c2.textContent = DP.example.code;
+        const lg2 = LANG[DP.example.lang] || "plaintext";
+        if (window.hljs && lg2 !== "plaintext" && hljs.getLanguage(lg2)) { c2.className = "language-" + lg2; try { hljs.highlightElement(c2); } catch (e) {} }
+        $("#copyBtn2").addEventListener("click", async (e) => { try { await navigator.clipboard.writeText(DP.example.code); e.target.textContent = "Copied"; } catch (err) { e.target.textContent = "Select and copy"; } setTimeout(() => (e.target.textContent = "Copy code"), 1800); });
+      }
       const lang = LANG[L.lang] || "plaintext";
       if (window.hljs && lang !== "plaintext" && hljs.getLanguage(lang)) { codeEl.className = "language-" + lang; try { hljs.highlightElement(codeEl); } catch (e) {} }
       $("#copyBtn").addEventListener("click", async (e) => {

@@ -21,35 +21,29 @@ Modules are shared between roles, so "Git and GitHub" is the same module everywh
 
 ## Roles
 
-| Role | Modules | Lessons | Fully written | Capstone |
-|---|---|---|---|---|
-| Frontend Developer | 18 | 77 | 32% | Production SaaS frontend |
-| Backend Developer | 22 | 113 | 53% | Multi-tenant SaaS backend |
-| Full Stack Developer | 26 | 124 | 45% | Launch a real SaaS |
-| DevOps Engineer | 16 | 81 | 33% | Production platform on Kubernetes |
-| DevSecOps Engineer | 21 | 94 | 23% | Secure cloud platform |
-| AI Engineer | 16 | 94 | 70% | AI app builder (like SaaSForge) |
-| AI and Data Scientist | 16 | 79 | 54% | End-to-end ML product |
-| Data Analyst | 10 | 44 | 52% | Business intelligence system |
-| Data Engineer | 17 | 79 | 39% | Real-time data platform |
-| Machine Learning / MLOps Engineer | 22 | 110 | 45% | Production ML system |
-| Android Developer | 12 | 56 | 39% | Published Android app |
-| iOS Developer | 12 | 55 | 40% | Published iOS app |
-| Cyber Security Analyst | 19 | 87 | 18% | Security programme for a startup |
-| QA Engineer | 15 | 80 | 44% | Quality programme for an app |
+Forge Academy focuses on the six roles with the strongest hiring demand in 2026 (AI, cybersecurity, cloud and data roles lead hiring surveys), so each one can go deep instead of spreading thin.
 
-The role list mirrors the popular roles on [roadmap.sh](https://roadmap.sh), and every role page links to its roadmap.sh counterpart as a second opinion. All syllabi, lessons, labs and projects here are original.
+| Role | Modules | Lessons | Capstone |
+|---|---|---|---|
+| AI / ML Engineer | 21 | 113 | AI app builder (like SaaSForge) |
+| Cyber Security Analyst | 19 | 87 | Security programme for a startup |
+| Cloud & DevOps Engineer | 17 | 84 | Production platform on Kubernetes |
+| Data Engineer | 17 | 79 | Real-time data platform |
+| Data Analyst | 10 | 44 | Business intelligence system |
+| Full Stack Developer | 26 | 124 | Launch a real SaaS |
+
+Every role page links to its roadmap.sh counterpart as a second opinion. All syllabi, lessons, labs and projects here are original.
 
 ## Two ways to learn
 
 - **Role roadmaps:** a ready-made path for one job, in the right order.
-- **Module catalog:** all 71 modules in 11 areas (foundations, frontend, backend, DevOps and cloud, security, QA, data, machine learning, AI engineering, mobile, career).
+- **Module catalog:** all 62 modules (foundations, frontend, backend, DevOps and cloud, security, QA, data, machine learning, AI engineering, mobile, career).
 - **My path:** start from any role, then add modules from other areas or skip ones you don't need, or build a path entirely from the catalog.
 
 ## What's ready now
 
-- All 14 roadmaps, 71 modules and 323 lessons are fully outlined; every module has a lab and a project.
-- 288 lessons are fully written with notes, code, an exercise and a quiz. The rest are being written in waves, role by role.
+- All 6 roadmaps are fully written: every lesson has notes, worked code, an exercise and a quiz; every module has a lab and a project.
+- Lessons are being expanded with deeper notes, worked examples, common mistakes and practice problems, role by role.
 - Progress is saved in your browser, with no sign-up.
 
 ## Run locally
