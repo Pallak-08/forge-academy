@@ -34,11 +34,13 @@ Forge Academy focuses on the six roles with the strongest hiring demand in 2026 
 
 Every role page links to its roadmap.sh counterpart as a second opinion. All syllabi, lessons, labs and projects here are original.
 
-## Two ways to learn
+## Three ways to learn
 
+- **Build a project (start here):** tell Forge what you want to build — "an AI chatbot that answers questions from my PDFs", "an online store with payments" — and it turns that into an ordered path of exactly the skills that project needs, each module marked with *why* it's there, ending in the project itself as your capstone. Pick from a library of ready-made project blueprints, or describe your own in a sentence and let Forge map the skills for you.
 - **Role roadmaps:** a ready-made path for one job, in the right order.
-- **Module catalog:** all 62 modules (foundations, frontend, backend, DevOps and cloud, security, QA, data, machine learning, AI engineering, mobile, career).
-- **My path:** start from any role, then add modules from other areas or skip ones you don't need, or build a path entirely from the catalog.
+- **My path:** start from a project *or* a role, then add modules from other areas, drop ones you don't need, or build a path entirely from the catalog. Progress is the same wherever a module appears.
+
+The **module catalog** holds all the shared modules (foundations, frontend, backend, DevOps and cloud, security, QA, data, machine learning, AI engineering, mobile, career) that these paths are assembled from.
 
 ## What's ready now
 
@@ -61,9 +63,11 @@ python3 -m http.server 8000
 
 ```
 index.html            the app: layout, styles and logic
-data/roles2.js        the 14 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
-data/cur1-3.js        the 71 modules: lessons (full or outline), lab and project
+data/roles2.js        the 6 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
+data/projects.js      the project blueprints: each maps a thing to build to an ordered set of modules, with a reason per module
+data/cur1-3.js        the modules: lessons (full or outline), lab and project
 data/part*.js         the full written lessons (newer files declare the module they fill)
+data/deep*.js         deeper lesson content: extended notes, worked examples, common mistakes and practice
 ```
 
 ## Contributing
