@@ -3,1154 +3,508 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Forge Academy: free, structured career roadmaps for the 6 most in-demand tech roles of 2026: stages, modules and lessons with notes, hands-on labs, quizzes and projects.">
-<meta property="og:title" content="Forge Academy: find your path in tech, then walk it">
-<meta property="og:description" content="Free career roadmaps with notes, hands-on labs, quizzes and projects for the 6 most in-demand tech roles of 2026.">
-<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
-<title>Forge Academy</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<title>Forge Labs</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
 <style>
-/* Layout: sticky top bar; curriculum rail on the left (drawer on phones); one reading column for lessons. */
-:root {
-  --bg: #f1f3ee; --surface: #ffffff; --sunk: #e7eae3; --ink: #18201c; --muted: #5b6560; --line: #d6dbd2;
-  --accent: #0e7563; --accent-ink: #ffffff; --accent-soft: #d5ece6; --mark: #f2cf4e; --mark-ink: #3d3200;
-  --good: #1f7a3d; --good-soft: #dcefe1; --bad: #b3361f; --bad-soft: #f7e0da;
-  --code-bg: #141a19; --code-ink: #dfe7e3; --code-line: #26302e;
-  --lv1: #2f6fb3; --lv2: #0e7563; --lv3: #9a5a12; --lv4: #7a3fb0; --lv5: #b3361f;
-  --f-display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
-  --f-body: "IBM Plex Sans", "Segoe UI", system-ui, -apple-system, sans-serif;
-  --f-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-  --radius: 10px; --rail: 300px; --top: 60px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f1312; --surface: #161c1a; --sunk: #1c2421; --ink: #e4e9e6; --muted: #97a39d; --line: #2a3330;
-    --accent: #3cc0a3; --accent-ink: #062019; --accent-soft: #163a32; --mark: #e6c449; --mark-ink: #2a2200;
-    --good: #5cc983; --good-soft: #17301f; --bad: #f08a72; --bad-soft: #3a1d17;
-    --code-bg: #0b0f0e; --code-ink: #dfe7e3; --code-line: #1f2826;
-    --lv1: #7fb0ea; --lv2: #3cc0a3; --lv3: #e0a050; --lv4: #b98ae6; --lv5: #f08a72;
-    color-scheme: dark;
+  :root{
+    --bg:#f6f1e9; --surface:#fffdf9; --fg:#201c15; --muted:#716a5c; --line:#e7ddcd; --line2:#f0e9db;
+    --accent:#d4831a; --accent-ink:#5a3408; --good:#1b9c6b; --good-soft:#e4f5ec; --bad:#c6482f; --bad-soft:#fbe9e4;
+    --editor-bg:#1c1a17; --editor-fg:#f4ede0; --editor-line:#2e2a24;
+    --disp:"Bricolage Grotesque",-apple-system,system-ui,sans-serif;
+    --body:"IBM Plex Sans",-apple-system,system-ui,sans-serif;
+    --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
   }
-}
-:root[data-theme="dark"] {
-  --bg: #0f1312; --surface: #161c1a; --sunk: #1c2421; --ink: #e4e9e6; --muted: #97a39d; --line: #2a3330;
-  --accent: #3cc0a3; --accent-ink: #062019; --accent-soft: #163a32; --mark: #e6c449; --mark-ink: #2a2200;
-  --good: #5cc983; --good-soft: #17301f; --bad: #f08a72; --bad-soft: #3a1d17;
-  --code-bg: #0b0f0e; --code-ink: #dfe7e3; --code-line: #1f2826;
-  --lv1: #7fb0ea; --lv2: #3cc0a3; --lv3: #e0a050; --lv4: #b98ae6; --lv5: #f08a72;
-  color-scheme: dark;
-}
-* { box-sizing: border-box; }
-html, body { height: 100%; }
-body { background: var(--bg); color: var(--ink); font: 15.5px/1.6 var(--f-body); }
-a { color: var(--accent); }
-button { font: inherit; color: inherit; cursor: pointer; }
-:focus-visible { outline: 3px solid color-mix(in srgb, var(--accent) 55%, transparent); outline-offset: 2px; border-radius: 6px; }
-code { font-family: var(--f-mono); font-size: .86em; background: var(--sunk); padding: .08em .35em; border-radius: 4px; }
-h1, h2, h3 { font-family: var(--f-display); line-height: 1.15; text-wrap: balance; margin: 0; letter-spacing: -.01em; }
-.eyebrow { font: 600 11.5px/1 var(--f-body); letter-spacing: .09em; text-transform: uppercase; color: var(--muted); }
+  @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+    --bg:#15130f; --surface:#1e1b16; --fg:#f2ece0; --muted:#a79e8d; --line:#2f2a22; --line2:#262218;
+    --accent:#f0a93e; --accent-ink:#1c1304; --good:#45c492; --good-soft:#132a22; --bad:#f08763; --bad-soft:#2b1812;
+    --editor-bg:#121010; --editor-fg:#f1eadd; --editor-line:#262220; color-scheme:dark;
+  }}
+  :root[data-theme="dark"]{
+    --bg:#15130f; --surface:#1e1b16; --fg:#f2ece0; --muted:#a79e8d; --line:#2f2a22; --line2:#262218;
+    --accent:#f0a93e; --accent-ink:#1c1304; --good:#45c492; --good-soft:#132a22; --bad:#f08763; --bad-soft:#2b1812;
+    --editor-bg:#121010; --editor-fg:#f1eadd; --editor-line:#262220; color-scheme:dark;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--bg);color:var(--fg);font-family:var(--body);line-height:1.5;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+  .gut{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+  h1,h2,h3{font-family:var(--disp);margin:0;text-wrap:balance;letter-spacing:-.015em}
+  button{font-family:var(--body);cursor:pointer}
+  img{max-width:100%}
+  [hidden]{display:none!important}
 
-/* top bar */
-.top { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; height: var(--top); display: flex; align-items: center; gap: 14px;
-  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
-  background: color-mix(in srgb, var(--surface) 92%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); min-width: 0; }
-.brand-mark { width: 30px; height: 30px; border-radius: 8px; background: #18201c; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); display: grid; place-items: center; flex: none; }
-.brand-mark svg { width: 18px; height: 18px; }
-.brand b { font: 800 19px/1 var(--f-display); white-space: nowrap; }
-.menu-btn { display: none; background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px; }
-.overall { flex: 1; display: flex; align-items: center; gap: 12px; justify-content: flex-end; min-width: 0; }
-.overall .bar { width: min(260px, 30vw); height: 8px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
-.overall .bar i { display: block; height: 100%; background: var(--accent); width: 0; transition: width .4s; }
-.overall span { font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
-.sync { font-size: 12px; color: var(--muted); white-space: nowrap; }
-.theme-btn { background: none; border: 1px solid var(--line); border-radius: 8px; padding: 6px; display: grid; place-items: center; }
-.theme-btn svg { width: 16px; height: 16px; }
+  header{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
+  body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--surface);z-index:21}
+  .head-in{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:14px;padding-block:12px}
+  .brand{display:flex;align-items:center;gap:10px;min-width:0;background:none;border:0;padding:0;color:inherit;text-align:left}
+  .mark{width:34px;height:34px;flex:none;border-radius:9px;background:var(--accent);display:grid;place-items:center}
+  .mark svg{width:20px;height:20px}
+  .brand b{font-family:var(--disp);font-weight:800;font-size:1.02rem;letter-spacing:-.02em;white-space:nowrap}
+  .brand small{display:block;color:var(--muted);font-size:.72rem;letter-spacing:.05em;text-transform:uppercase}
+  .hspace{margin-left:auto}
+  .theme-btn{background:none;border:1px solid var(--line);border-radius:9px;width:36px;height:36px;color:var(--muted);display:grid;place-items:center}
+  .theme-btn svg{width:17px;height:17px}
 
-/* shell */
-.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: calc(100% - var(--top)); }
-.rail { border-right: 1px solid var(--line); background: var(--surface); position: sticky; top: calc(var(--top) + env(safe-area-inset-top, 0px));
-  height: calc(100vh - var(--top) - env(safe-area-inset-top, 0px)); overflow-y: auto; padding: 14px 12px 40px max(12px, env(safe-area-inset-left, 0px)); }
-.search { width: 100%; padding: 9px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); font: inherit; font-size: 14px; }
-.rail-nav { display: flex; flex-direction: column; gap: 2px; margin: 12px 0 8px; }
-.rail-link { display: flex; align-items: center; gap: 9px; padding: 7px 10px; border-radius: 8px; text-decoration: none; color: var(--ink); font-weight: 500; font-size: 14.5px; }
-.rail-link:hover, .rail-link.on { background: var(--sunk); }
-.level-h { display: flex; align-items: center; gap: 8px; margin: 18px 10px 6px; }
-.level-h .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--lvc); }
-.mod { border-radius: 8px; }
-.mod > button { width: 100%; text-align: left; background: none; border: 0; display: grid; grid-template-columns: 26px 1fr auto; gap: 6px; align-items: center; padding: 7px 8px; border-radius: 8px; font-size: 14px; }
-.mod > button:hover { background: var(--sunk); }
-.mod.on > button { background: var(--accent-soft); }
-.mod .num { font: 600 11px/1 var(--f-mono); color: var(--muted); }
-.mod .cnt { font-size: 11.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
-.mod ol { list-style: none; margin: 2px 0 6px 32px; padding: 0; border-left: 1px solid var(--line); }
-.mod li a { display: flex; gap: 8px; align-items: baseline; padding: 4px 10px; font-size: 13.5px; color: var(--muted); text-decoration: none; border-radius: 0 6px 6px 0; }
-.mod li a:hover { color: var(--ink); background: var(--sunk); }
-.mod li a.on { color: var(--ink); font-weight: 600; box-shadow: inset 2px 0 0 var(--accent); }
-.tick { width: 14px; height: 14px; flex: none; border-radius: 4px; border: 1.5px solid var(--line); display: inline-grid; place-items: center; transform: translateY(2px); }
-.tick.done { background: var(--mark); border-color: var(--mark); }
-.tick.done::after { content: ""; width: 7px; height: 4px; border: 2px solid var(--mark-ink); border-top: 0; border-right: 0; transform: rotate(-45deg) translate(1px, -1px); }
+  main{max-width:1180px;margin:0 auto;padding-block:22px 48px}
 
-main { min-width: 0; padding-block: 28px 80px; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
-.wide { max-width: 1080px; }
-.crumbs { font-size: 13px; color: var(--muted); display: flex; gap: 6px; flex-wrap: wrap; }
-.crumbs a { color: var(--muted); }
+  /* ---------- gallery ---------- */
+  .hero{background:var(--surface);border:1px solid var(--line);border-radius:20px;padding:26px;margin-bottom:26px}
+  .hero .eyebrow{color:var(--accent);font-size:.74rem;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+  .hero h1{font-size:2rem;margin:8px 0 0;max-width:20ch}
+  .hero h1 em{font-style:normal;color:var(--accent)}
+  .hero p{color:var(--muted);margin:10px 0 0;max-width:60ch;font-size:1rem}
+  .hero .chips{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+  .hchip{background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:6px 13px;font-size:.82rem;color:var(--muted)}
+  .hchip b{color:var(--fg)}
 
-/* home */
-.hero { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 28px; align-items: end; padding: 8px 0 6px; }
-.hero h1 { font-size: clamp(32px, 5vw, 52px); font-weight: 800; }
-.hero h1 em { font-style: normal; background: linear-gradient(transparent 62%, var(--mark) 62%, var(--mark) 92%, transparent 92%); padding: 0 .08em; color: var(--ink); }
-.hero p { color: var(--muted); max-width: 58ch; margin: 12px 0 0; }
-.continue { background: var(--ink); color: var(--bg); border-radius: var(--radius); padding: 18px; display: flex; flex-direction: column; gap: 10px; }
-.continue .eyebrow { color: color-mix(in srgb, var(--bg) 65%, transparent); }
-.continue h3 { font-size: 20px; }
-.continue .meta { font-size: 13px; color: color-mix(in srgb, var(--bg) 70%, transparent); }
-.btn { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 8px; padding: 9px 15px; font-weight: 600; font-size: 14.5px; text-decoration: none; }
-.btn-primary { background: var(--accent); color: var(--accent-ink); }
-.btn-quiet { background: var(--sunk); color: var(--ink); }
-.btn-line { background: transparent; border: 1px solid var(--line); color: var(--ink); }
-.btn[disabled] { opacity: .5; cursor: default; }
-.stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; }
-.stat { background: var(--surface); padding: 14px 16px; }
-.stat b { display: block; font: 700 26px/1.1 var(--f-display); font-variant-numeric: tabular-nums; }
-.stat span { font-size: 12.5px; color: var(--muted); }
-.level-block { display: flex; flex-direction: column; gap: 10px; }
-.level-title { display: flex; align-items: baseline; gap: 10px; border-bottom: 2px solid var(--lvc); padding-bottom: 6px; }
-.level-title h2 { font-size: 20px; }
-.level-title span { color: var(--muted); font-size: 13.5px; }
-.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 12px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 15px; text-decoration: none; color: var(--ink); display: flex; flex-direction: column; gap: 8px; transition: border-color .15s, transform .15s; }
-.card:hover { border-color: var(--lvc, var(--accent)); transform: translateY(-1px); }
-.card .row { display: flex; justify-content: space-between; align-items: center; }
-.card .n { font: 600 12px/1 var(--f-mono); color: var(--lvc); }
-.card h3 { font-size: 17px; }
-.card p { margin: 0; font-size: 13.5px; color: var(--muted); }
-.mini { height: 5px; background: var(--sunk); border-radius: 99px; overflow: hidden; }
-.mini i { display: block; height: 100%; background: var(--lvc, var(--accent)); }
-.path { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 8px; counter-reset: p; }
-.path a { background: var(--surface); border: 1px solid var(--line); border-radius: 8px; padding: 10px; text-decoration: none; color: var(--ink); font-size: 13px; font-weight: 500; display: flex; flex-direction: column; gap: 6px; }
-.path a b { font: 600 11px/1 var(--f-mono); color: var(--muted); }
+  .track{margin-bottom:30px}
+  .track-h{display:flex;align-items:baseline;gap:10px;margin:0 2px 14px}
+  .track-h h2{font-size:1.25rem}
+  .track-h span{color:var(--muted);font-size:.85rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(248px,1fr));gap:16px}
+  .labcard{display:flex;flex-direction:column;gap:0;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:0;overflow:hidden;text-align:left;color:inherit;transition:transform .12s,border-color .2s,box-shadow .2s}
+  .labcard:hover{transform:translateY(-3px);border-color:var(--accent);box-shadow:0 10px 24px -14px rgba(0,0,0,.3)}
+  .labcard .thumb{height:92px;display:grid;place-items:center;font-size:2.5rem;position:relative}
+  .labcard .thumb .lvl{position:absolute;top:10px;right:10px;background:rgba(0,0,0,.28);color:#fff;border-radius:99px;padding:3px 10px;font-size:.68rem;font-weight:600;letter-spacing:.03em}
+  .labcard .b{padding:14px 15px 16px}
+  .labcard h3{font-size:1.05rem}
+  .labcard p{color:var(--muted);font-size:.86rem;margin:6px 0 0}
+  .labcard .meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;align-items:center}
+  .tag{background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px 8px;font-size:.72rem;color:var(--muted)}
+  .tag.api{border-color:color-mix(in srgb,var(--accent) 45%,transparent);color:var(--accent)}
+  .labcard .status{margin-left:auto;font-size:.74rem;font-weight:600;color:var(--good)}
+  .labcard.soon{opacity:.72;cursor:default}
+  .labcard.soon:hover{transform:none;border-color:var(--line);box-shadow:none}
+  .labcard.custom .thumb{background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--good)))}
 
-/* module & lesson */
-.mod-head { display: flex; flex-direction: column; gap: 10px; }
-.mod-head h1 { font-size: clamp(28px, 4vw, 40px); }
-.tag { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 600; color: var(--lvc); }
-.tag::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--lvc); }
-.lede { color: var(--muted); font-size: 16.5px; margin: 0; max-width: 64ch; }
-.saas { border: 1px solid var(--line); border-left: 4px solid var(--mark); background: var(--surface); padding: 12px 15px; border-radius: 0 8px 8px 0; font-size: 14.5px; }
-.saas b { font-family: var(--f-display); }
-.lesson-list { display: flex; flex-direction: column; border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--surface); }
-.lesson-list a { display: grid; grid-template-columns: 22px 1fr auto; gap: 12px; align-items: start; padding: 14px 16px; text-decoration: none; color: var(--ink); border-top: 1px solid var(--line); }
-.lesson-list a:first-child { border-top: 0; }
-.lesson-list a:hover { background: var(--sunk); }
-.lesson-list small { display: block; color: var(--muted); font-size: 13px; margin-top: 2px; }
-.lesson-list .go { color: var(--muted); font-size: 13px; }
-.lesson-head h1 { font-size: clamp(26px, 4vw, 38px); margin-top: 4px; }
-.subs { display: flex; flex-direction: column; gap: 6px; padding: 14px 16px; background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); }
-.subs ul { margin: 4px 0 0; padding-left: 20px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 24px; font-size: 14.5px; }
-.prose p { margin: 0 0 12px; max-width: 68ch; }
-.prose p:last-child { margin-bottom: 0; }
-.section-h { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-.section-h h2 { font-size: 19px; }
-.code { background: var(--code-bg); color: var(--code-ink); border-radius: var(--radius); overflow: hidden; border: 1px solid var(--code-line); }
-.code-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 12px; border-bottom: 1px solid var(--code-line); font: 12px/1 var(--f-mono); color: #8fa19a; }
-.code-bar button { background: #22302c; color: #dfe7e3; border: 0; border-radius: 6px; padding: 5px 10px; font-size: 12px; }
-.code pre { margin: 0; padding: 14px 16px; overflow-x: auto; font: 13.2px/1.6 var(--f-mono); tab-size: 4; }
-.code pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
-.hljs-keyword, .hljs-built_in, .hljs-selector-tag, .hljs-doctag { color: #7cc7ff; }
-.hljs-string, .hljs-attr + .hljs-string, .hljs-regexp { color: #b5e28a; }
-.hljs-number, .hljs-literal { color: #f5b971; }
-.hljs-comment, .hljs-quote { color: #6f817b; font-style: italic; }
-.hljs-title, .hljs-title.function_, .hljs-section { color: #f2cf4e; }
-.hljs-attr, .hljs-attribute, .hljs-property, .hljs-variable, .hljs-params { color: #d6c3ff; }
-.hljs-meta, .hljs-tag, .hljs-name { color: #8fd8c8; }
-.hljs-type, .hljs-class .hljs-title { color: #ffaf9e; }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-.panel h2 { font-size: 18px; }
-textarea, .field { width: 100%; border: 1px solid var(--line); border-radius: 8px; background: var(--bg); color: var(--ink); padding: 10px 12px; font: 14px/1.5 var(--f-body); resize: vertical; }
-textarea.mono { font-family: var(--f-mono); font-size: 13px; }
-.row-btns { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
-.hint { font-size: 12.5px; color: var(--muted); }
-.quiz-q { font-weight: 600; }
-.opts { display: grid; gap: 8px; }
-.opt { text-align: left; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; display: flex; gap: 10px; align-items: baseline; }
-.opt:hover:not([disabled]) { border-color: var(--accent); }
-.opt b { font: 600 12px/1 var(--f-mono); color: var(--muted); }
-.opt.right { background: var(--good-soft); border-color: var(--good); }
-.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
-.opt[disabled] { cursor: default; }
-.verdict { font-size: 14px; padding: 10px 12px; border-radius: 8px; }
-.verdict.ok { background: var(--good-soft); }
-.verdict.no { background: var(--bad-soft); }
-.tutor-out { font-size: 14.5px; border-top: 1px dashed var(--line); padding-top: 12px; }
-.tutor-out:empty { display: none; }
-.tutor-out p { margin: 0 0 10px; }
-.tutor-out pre { background: var(--code-bg); color: var(--code-ink); padding: 12px; border-radius: 8px; overflow-x: auto; font: 13px/1.55 var(--f-mono); }
-.tutor-out pre code { background: none; padding: 0; color: inherit; }
-.tutor-out ul, .tutor-out ol { margin: 0 0 10px; padding-left: 22px; }
-.chat-turn { display: flex; flex-direction: column; gap: 4px; }
-.chat-turn .who { font: 600 11px/1 var(--f-body); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
-.chat-log { display: flex; flex-direction: column; gap: 14px; }
-.chat-log:empty { display: none; }
-.lesson-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 18px; }
-.done-pill { display: inline-flex; align-items: center; gap: 8px; background: var(--mark); color: var(--mark-ink); padding: 6px 12px; border-radius: 99px; font-weight: 600; font-size: 13px; }
-.note { font-size: 13px; color: var(--muted); }
+  /* ---------- lab view ---------- */
+  .crumbs{display:flex;align-items:center;gap:8px;font-size:.85rem;color:var(--muted);margin-bottom:16px}
+  .crumbs button{background:none;border:0;color:var(--accent);font-size:.85rem;padding:0;cursor:pointer}
+  .work{display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);gap:18px;align-items:start}
+  @media (max-width:880px){.work{grid-template-columns:1fr}}
+  .panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+  .panel .eyebrow{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .panel h1{font-size:1.45rem;margin-top:4px}
+  .panel .lede{color:var(--muted);font-size:.94rem;margin:9px 0 0}
+  .goals{list-style:none;margin:16px 0 0;padding:0;display:flex;flex-direction:column;gap:10px}
+  .goal{display:flex;gap:11px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:12px;background:var(--bg);transition:.3s}
+  .goal .tick{width:22px;height:22px;flex:none;border-radius:50%;border:2px solid var(--line);display:grid;place-items:center;transition:.3s}
+  .goal .tick svg{width:12px;height:12px;opacity:0;transition:opacity .3s}
+  .goal.done{border-color:var(--good);background:var(--good-soft)}
+  .goal.done .tick{background:var(--good);border-color:var(--good)}
+  .goal.done .tick svg{opacity:1}
+  .goal b{display:block;font-size:.92rem}
+  .goal small{color:var(--muted);font-size:.82rem}
+  .verdict{margin-top:14px;border-radius:12px;padding:12px 14px;font-size:.9rem}
+  .verdict.ok{background:var(--good-soft);color:var(--good);border:1px solid color-mix(in srgb,var(--good) 40%,transparent)}
+  .verdict.no{background:var(--bad-soft);color:var(--bad);border:1px solid color-mix(in srgb,var(--bad) 40%,transparent)}
+  .verdict ul{margin:6px 0 0;padding-left:18px}.verdict code{font-family:var(--mono);font-size:.82em;background:color-mix(in srgb,var(--fg) 8%,transparent);padding:1px 5px;border-radius:5px}
+  .win{margin-top:14px;border-radius:12px;padding:16px;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,var(--good)));color:var(--accent-ink)}
+  .win h3{font-size:1.15rem}.win p{margin:6px 0 0;font-size:.9rem;opacity:.92}
 
-/* projects */
-.proj { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 18px; display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 14px; }
-.proj .big { font: 800 34px/1 var(--f-display); color: var(--accent); }
-.proj h3 { font-size: 19px; }
-.proj p { margin: 4px 0 8px; color: var(--muted); font-size: 14.5px; }
-.checks { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
-.checks label { display: flex; gap: 10px; align-items: baseline; font-size: 14.5px; cursor: pointer; }
-.checks input { accent-color: var(--accent); transform: translateY(2px); }
-.mods-used { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.mods-used a { font-size: 12px; background: var(--sunk); color: var(--ink); text-decoration: none; padding: 3px 8px; border-radius: 99px; }
-
-
-.card.track.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.card.track .n { color: var(--accent); }
-.roles { font-size: 13px; color: var(--ink); font-weight: 500; }
-.chip { display: inline-flex; align-items: center; font-size: 11.5px; font-weight: 600; padding: 3px 9px; border-radius: 99px; background: var(--accent-soft); color: var(--ink); }
-.chip.lvl-beginner { background: var(--good-soft); }
-.chip.lvl-intermediate { background: color-mix(in srgb, var(--mark) 35%, var(--surface)); }
-.chip.lvl-advanced { background: var(--bad-soft); }
-.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
-.steps li { display: grid; grid-template-columns: 30px minmax(0, 1fr) auto; gap: 12px; align-items: start; padding: 10px 0; border-top: 1px solid var(--line); }
-.steps li:first-child { border-top: 0; }
-.steps .step-n { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--lvc); display: grid; place-items: center; font: 600 12px/1 var(--f-mono); color: var(--lvc); }
-.steps li.full .step-n { background: var(--lvc); color: var(--surface); }
-.steps a { text-decoration: none; color: var(--ink); }
-.steps small { display: block; color: var(--muted); font-size: 13px; }
-.idea { border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; background: var(--bg); }
-.idea .row { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
-.idea h3 { font-size: 17px; }
-.idea p { margin: 0; font-size: 14.5px; }
-.idea ul { margin: 2px 0 4px; padding-left: 20px; font-size: 14px; }
-.built { font-size: 13px; color: var(--muted); display: flex; gap: 6px; align-items: center; cursor: pointer; }
-.built input { accent-color: var(--accent); }
-.ideas { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
-.ideas .idea { background: var(--surface); }
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-.tab { border: 1px solid var(--line); background: var(--surface); border-radius: 99px; padding: 6px 14px; font-size: 14px; font-weight: 500; }
-.tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-.site-foot { display: flex; justify-content: space-between; gap: 10px; flex-wrap: wrap; border-top: 1px solid var(--line); padding-top: 16px; font-size: 13px; color: var(--muted); }
-.site-foot a { color: var(--muted); }
-.scrim { display: none; }
-@media (max-width: 900px) {
-  .shell { grid-template-columns: minmax(0, 1fr); }
-  .menu-btn { display: inline-block; }
-  .rail { position: fixed; left: 0; top: calc(var(--top) + env(safe-area-inset-top, 0px)); bottom: 0; width: min(330px, 88vw); z-index: 40; transform: translateX(-102%); transition: transform .25s; height: auto; box-shadow: 0 10px 40px rgba(0,0,0,.25); }
-  body.drawer .rail { transform: none; }
-  body.drawer .scrim { display: block; position: fixed; inset: 0; background: rgba(0,0,0,.35); z-index: 35; }
-  .hero { grid-template-columns: minmax(0, 1fr); }
-  .path { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .overall .bar { display: none; }
-  .sync { display: none; }
-}
-@media (max-width: 560px) {
-  .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .subs ul { grid-template-columns: minmax(0, 1fr); }
-  .brand b { font-size: 17px; }
-  #overallTxt { display: none; }
-  .proj { grid-template-columns: minmax(0, 1fr); }
-}
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-/* roles and roadmap */
-.glyph { display: inline-grid; place-items: center; min-width: 38px; height: 38px; padding: 0 8px; border-radius: 10px; background: var(--ink); color: var(--bg); font: 700 13px/1 var(--f-mono); letter-spacing: .02em; }
-.glyph.sm { min-width: 30px; height: 24px; border-radius: 6px; font-size: 10.5px; padding: 0 5px; }
-.glyph.lg { min-width: 52px; height: 52px; border-radius: 14px; font-size: 16px; }
-.card.role .row { align-items: center; }
-.card.role.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.rail-role { display: flex; flex-direction: column; gap: 4px; padding: 12px 10px; margin: 6px 0 2px; border-radius: 10px; background: var(--accent-soft); }
-.rail-role a { color: var(--ink); text-decoration: none; }
-.rail-role b { font: 700 16px/1.2 var(--f-display); }
-.rail-role .note { font-size: 12.5px; text-decoration: underline; }
-.flat { list-style: none; margin: 0 0 4px; padding: 0; }
-.flat li a { display: flex; gap: 9px; align-items: baseline; padding: 5px 10px; font-size: 13.5px; color: var(--muted); text-decoration: none; border-radius: 6px; }
-.flat li a:hover { color: var(--ink); background: var(--sunk); }
-.flat li a.on { color: var(--ink); font-weight: 600; background: var(--sunk); box-shadow: inset 2px 0 0 var(--accent); }
-.flat .glyph.sm { transform: translateY(1px); }
-.stage-dot { width: 18px; height: 18px; border-radius: 50%; border: 1.5px solid var(--accent); color: var(--accent); display: inline-grid; place-items: center; font: 600 10px/1 var(--f-mono); }
-.tick.half { border-color: var(--mark); background: linear-gradient(90deg, var(--mark) 50%, transparent 50%); }
-.how { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.how > div { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 14px 15px; }
-.how b { font-family: var(--f-display); font-size: 16px; }
-.how p { margin: 6px 0 0; font-size: 13.5px; color: var(--muted); }
-.mini.big { height: 8px; }
-.roadmap { display: flex; flex-direction: column; }
-.stage { display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 14px; }
-.stage-rail { display: flex; flex-direction: column; align-items: center; }
-.stage-rail::after { content: ""; flex: 1; width: 2px; background: var(--line); margin: 6px 0; }
-.stage:last-child .stage-rail::after { background: linear-gradient(var(--line), transparent); }
-.stage-n { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; font: 700 15px/1 var(--f-display); background: var(--surface); border: 2px solid var(--accent); color: var(--accent); flex: none; }
-.stage.complete .stage-n { background: var(--accent); color: var(--accent-ink); }
-.stage-body { display: flex; flex-direction: column; gap: 10px; padding-bottom: 26px; min-width: 0; }
-.stage-body h2 { font-size: 21px; }
-.nodes { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 8px; }
-.node { display: grid; grid-template-columns: 16px minmax(0, 1fr); gap: 4px 10px; align-items: start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s; }
-.node:hover { border-color: var(--accent); }
-.node.done { background: color-mix(in srgb, var(--mark) 16%, var(--surface)); border-color: color-mix(in srgb, var(--mark) 60%, var(--line)); }
-.node-t { font-weight: 600; font-size: 14px; line-height: 1.35; }
-.node-tags { grid-column: 2; display: flex; gap: 6px; flex-wrap: wrap; }
-.node-tags span { font-size: 11px; color: var(--muted); background: var(--sunk); padding: 1px 7px; border-radius: 99px; }
-.stage-proj { background: var(--surface); border-style: dashed; }
-.iq { margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 10px; }
-.iq li { padding-left: 4px; }
-.iq li span { display: block; margin-bottom: 4px; }
-.btn.sm { padding: 5px 10px; font-size: 12.5px; }
-.done-when { margin: 0; font-size: 14.5px; padding: 10px 12px; background: var(--good-soft); border-radius: 8px; }
-.steps-list { list-style: decimal; padding-left: 20px; }
-.steps-list li::marker { color: var(--muted); font-size: 13px; }
-.lab { border-top: 3px solid var(--accent); }
-.prose > .eyebrow { display: block; margin-bottom: 8px; }
-@media (max-width: 900px) { .how { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 560px) { .how { grid-template-columns: minmax(0, 1fr); } .stage { grid-template-columns: 32px minmax(0, 1fr); gap: 10px; } .stage-n { width: 30px; height: 30px; font-size: 13px; } }
-
-/* skills catalog and my path */
-.area-chips { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 8px; }
-.area-chip { display: flex; flex-direction: column; gap: 2px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s; }
-.area-chip:hover { border-color: var(--accent); }
-.area-chip b { font-family: var(--f-display); font-size: 15px; }
-.area-chip span { font-size: 12.5px; color: var(--muted); }
-.banner { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; padding: 14px 18px; border-radius: var(--radius); background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent); }
-.banner b { font-family: var(--f-display); font-size: 16px; }
-.banner p { margin: 2px 0 0; font-size: 14px; color: var(--muted); max-width: 62ch; }
-.big-search { font-size: 15px; padding: 11px 14px; }
-.area-jump { display: flex; flex-wrap: wrap; gap: 6px; }
-.area-jump a { font-size: 13px; padding: 4px 10px; border-radius: 99px; background: var(--sunk); color: var(--ink); text-decoration: none; }
-.area-jump a:hover { background: var(--accent-soft); }
-.area-block { scroll-margin-top: calc(var(--top) + 16px); }
-.skills { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
-.skill { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 12px 14px; display: flex; flex-direction: column; gap: 6px; }
-.skill.in { border-color: var(--accent); box-shadow: inset 3px 0 0 var(--accent); }
-.skill .row { display: flex; justify-content: space-between; align-items: center; }
-.skill a { color: var(--ink); text-decoration: none; }
-.skill a:hover h3 { text-decoration: underline; }
-.skill h3 { font-size: 15.5px; }
-.skill p { margin: 0; font-size: 13.5px; color: var(--muted); }
-.node-wrap { position: relative; }
-.node-wrap .node { padding-right: 34px; height: 100%; }
-.node-x { position: absolute; top: 6px; right: 6px; width: 24px; height: 24px; border-radius: 6px; border: 0; background: transparent; color: var(--muted); font-size: 17px; line-height: 1; }
-.node-x:hover { background: var(--bad-soft); color: var(--bad); }
-.base-pick { display: flex; flex-direction: column; gap: 6px; }
-.base-pick .tab { font-size: 13px; padding: 5px 12px; }
-.skip-list { display: flex; flex-wrap: wrap; gap: 6px; }
-.skip-chip { border: 1px dashed var(--line); background: var(--bg); border-radius: 99px; padding: 5px 12px; font-size: 13px; }
-.skip-chip:hover { border-color: var(--accent); }
-.stage.extra .stage-n { border-style: dashed; }
-.rail-meta { font-size: 12px; color: var(--muted); }
-.rail-links { display: flex; gap: 12px; }
-.btn.on-dark { background: color-mix(in srgb, var(--bg) 18%, transparent); color: var(--bg); }
-/* v3: modules and lessons */
-.mcards { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: 10px; }
-.mcard { display: flex; flex-direction: column; gap: 6px; padding: 12px 14px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s, transform .15s; height: 100%; box-sizing: border-box; }
-.mcard:hover { border-color: var(--accent); }
-.mcard .row { display: flex; justify-content: space-between; align-items: center; }
-.mcard h3 { margin: 0; font-size: 15.5px; line-height: 1.3; }
-.mcard p { margin: 0; font-size: 13px; color: var(--muted); line-height: 1.45; flex: 1; }
-.mcard .node-tags { grid-column: auto; }
-.mcard.done { background: color-mix(in srgb, var(--mark) 14%, var(--surface)); border-color: color-mix(in srgb, var(--mark) 60%, var(--line)); }
-.mcard.started { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
-.node-wrap .mcard { padding-right: 34px; }
-.stage.extra .stage-n { border-style: dashed; }
-.lessons { display: flex; flex-direction: column; gap: 6px; }
-.lrow { display: grid; grid-template-columns: 16px 24px minmax(0, 1fr) auto; gap: 10px; align-items: center; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); text-decoration: none; color: var(--ink); transition: border-color .15s; }
-.lrow:hover { border-color: var(--accent); }
-.lnum { font: 600 12px/1 var(--f-mono); color: var(--muted); text-align: right; }
-.lt { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-.lt b { font-size: 14.5px; font-weight: 600; }
-.lt small { font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.badge { font-size: 11px; padding: 2px 8px; border-radius: 99px; background: var(--sunk); color: var(--muted); white-space: nowrap; }
-.badge.full { background: var(--accent-soft); color: var(--accent); font-weight: 600; }
-.banner.soft { background: var(--sunk); border-color: var(--line); }
-.flat .cnt { margin-left: auto; font: 500 11px/1 var(--f-mono); color: var(--muted); }
-@media (max-width: 560px) { .lrow { grid-template-columns: 16px minmax(0, 1fr); } .lnum, .lrow .badge { display: none; } .lt small { white-space: normal; } }
-
-/* deeper lessons */
-.prose.deep { border-left: 3px solid var(--accent); padding-left: 16px; }
-.mistakes { margin: 0; padding-left: 20px; display: grid; gap: 8px; }
-.mistakes li::marker { content: "✗  "; color: #c62828; }
-.practice { margin: 0; padding-left: 22px; display: grid; gap: 14px; }
-.practice details { margin-top: 6px; }
-.practice summary { cursor: pointer; color: var(--accent); font-weight: 600; font-size: 14px; }
-.practice details .prose { margin-top: 8px; padding: 10px 12px; background: var(--sunk); border-radius: 8px; }
-
-/* project-first build flow */
-.build-hero { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: clamp(20px, 4vw, 40px); margin-bottom: 28px; }
-.build-hero h1 { font-size: clamp(1.9rem, 1.3rem + 2.5vw, 3rem); margin: 6px 0 10px; }
-.build-hero .lede { max-width: 70ch; }
-#buildBox, #buildBox:focus { width: 100%; box-sizing: border-box; margin: 14px 0 10px; font: 1rem/1.5 var(--f-sans, inherit); padding: 14px; border: 1.5px solid var(--line); border-radius: 12px; background: var(--bg); color: var(--ink); resize: vertical; }
-#buildBox:focus { border-color: var(--accent); outline: none; }
-.card.project { display: flex; flex-direction: column; gap: 8px; }
-.card.project.chosen { border-color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
-.card.project .roles { font-size: 12px; color: var(--muted); margin: 0; }
-.why-note { font-size: 12.5px; color: var(--muted); margin: 2px 0 0; line-height: 1.4; }
-.why-note span { color: var(--accent); font-weight: 600; }
-.build-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-.area-chip.as-btn { cursor: pointer; border: 1px solid var(--line); font: inherit; }
-.area-chip.as-btn.on { border-color: var(--accent); background: var(--accent-soft); }
-.checks.tight { margin: 8px 0 4px; }
-.checks.tight li { padding: 2px 0; }
-.cta-panel { display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; background: var(--accent-soft); border-color: color-mix(in srgb, var(--accent) 30%, transparent); }
-.cta-panel h2 { margin: 0 0 4px; }
+  .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:10px}
+  .btn{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:10px;padding:9px 14px;font-weight:600;font-size:.88rem;display:inline-flex;align-items:center;gap:7px;transition:transform .08s,filter .15s}
+  .btn:active{transform:translateY(1px)} .btn svg{width:15px;height:15px}
+  .btn.run{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+  .btn.check{background:var(--good);border-color:var(--good);color:#fff}
+  .btn.ghost{background:transparent}.btn:hover{filter:brightness(1.05)}.spacer{margin-left:auto}
+  .editor-wrap{border:1px solid var(--editor-line);border-radius:14px;overflow:hidden;background:var(--editor-bg)}
+  .editor-bar{display:flex;align-items:center;gap:8px;padding:9px 12px;border-bottom:1px solid var(--editor-line);color:#b9b1a2;font-family:var(--mono);font-size:.76rem}
+  .dot{width:11px;height:11px;border-radius:50%;flex:none}
+  textarea#code{width:100%;min-height:330px;resize:vertical;border:0;outline:0;background:var(--editor-bg);color:var(--editor-fg);font-family:var(--mono);font-size:13px;line-height:1.65;padding:14px 16px;tab-size:2;white-space:pre;overflow:auto}
+  .todo-hint{font-size:.78rem;color:var(--muted);margin:8px 2px 0}.todo-hint code{background:var(--line);padding:1px 5px;border-radius:5px;font-family:var(--mono);font-size:.74rem}
+  .preview-wrap{margin-top:16px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+  .preview-bar{display:flex;align-items:center;gap:8px;padding:8px 12px;border-bottom:1px solid var(--line);font-size:.78rem;color:var(--muted)}
+  .preview-bar .pill{margin-left:auto;background:var(--bg);border:1px solid var(--line);border-radius:7px;padding:2px 9px;font-family:var(--mono);font-size:.7rem}
+  iframe#preview{width:100%;height:360px;border:0;background:#fff;display:block}
+  .console{font-family:var(--mono);font-size:.76rem;color:var(--muted);background:var(--bg);border-top:1px solid var(--line);padding:8px 12px;max-height:92px;overflow:auto;white-space:pre-wrap;word-break:break-word}
+  .console:empty{display:none}.console .err{color:var(--bad)}
+  .note{color:var(--muted);font-size:.82rem;margin-top:16px}
+  .prog{display:flex;align-items:center;gap:10px}
+  .prog .bar{width:120px;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+  .prog .bar i{display:block;height:100%;width:0;background:var(--good);transition:width .5s cubic-bezier(.2,.8,.2,1)}
+  .prog span{font-size:.8rem;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
+  canvas#confetti{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:50;display:none}
+  @media (prefers-reduced-motion:reduce){.goal,.btn,.labcard,.prog .bar i{transition:none}}
 </style>
-
 </head>
 <body>
-<header class="top">
-  <button class="menu-btn" id="menuBtn" aria-label="Open navigation">☰</button>
-  <a class="brand" href="#home">
-    <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 15h11l3-4H8l-1-3h13" stroke="#f2cf4e" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 15v4m6-4v4" stroke="#f1f3ee" stroke-width="2.2" stroke-linecap="round"/></svg></span>
-    <b>Forge Academy</b>
-  </a>
-  <div class="overall">
-    <span class="sync" id="sync">Saved on this device</span>
-    <div class="bar" aria-hidden="true"><i id="overallBar"></i></div>
-    <span id="overallTxt">Pick a role to start</span>
-    <button class="theme-btn" id="themeBtn" aria-label="Switch light or dark theme"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
+<header>
+  <div class="head-in gut">
+    <button class="brand" id="homeBtn">
+      <span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="M4 15h11l3-4H8l-1-3h13" stroke="#201c15" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/><path d="M9 15v4m6-4v4" stroke="#201c15" stroke-width="2.3" stroke-linecap="round"/></svg></span>
+      <span style="min-width:0"><b>Forge Labs</b><small>Build it to learn it</small></span>
+    </button>
+    <span class="hspace"></span>
+    <div class="prog" id="headProg" hidden><div class="bar"><i id="pbar"></i></div><span id="ptxt"></span></div>
+    <button class="theme-btn" id="themeBtn" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8.5" stroke="currentColor" stroke-width="2"/><path d="M12 3.5a8.5 8.5 0 0 1 0 17z" fill="currentColor"/></svg></button>
   </div>
 </header>
-<div class="scrim" id="scrim"></div>
+<main id="app" class="gut"></main>
+<canvas id="confetti"></canvas>
 
-<div class="shell">
-  <aside class="rail" id="rail" aria-label="Navigation">
-    <input class="search" id="search" type="search" placeholder="Search modules and lessons" aria-label="Search modules and lessons">
-    <nav class="rail-nav">
-      <a class="rail-link" href="#home" data-nav="home">Home</a>
-      <a class="rail-link" href="#roles" data-nav="roles">Role roadmaps</a>
-      <a class="rail-link" href="#my" data-nav="my">My path</a>
-      <a class="rail-link" href="#catalog" data-nav="catalog">Module catalog</a>
-      <a class="rail-link" href="#library" data-nav="library">Lesson library</a>
-      <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
-    </nav>
-    <div id="tree"></div>
-  </aside>
-  <main id="main"><div class="wrap"><p class="note">Loading…</p></div></main>
-</div>
+<!-- ================= LAB CODE (text, not executed here) ================= -->
+<script type="text/plain" id="country-explorer.starter">
+// COUNTRIES is ready for you: 24 countries, each like
+// { name:"India", flag:"🇮🇳", region:"Asia", population:1428627663 }
+const app = document.getElementById("app");
+const search = document.getElementById("search");
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/dockerfile.min.js"></script>
-<script src="data/part1.js?v=4aa69f50"></script>
-<script src="data/part2.js?v=63f9c8b5"></script>
-<script src="data/part3.js?v=bc512857"></script>
-<script src="data/part4.js?v=382f906b"></script>
-<script src="data/part5.js?v=e9b84204"></script>
-<script src="data/part6.js?v=505ffc4e"></script>
-<script src="data/part7.js?v=61b3e8ea"></script>
-<script src="data/part8.js?v=983f817f"></script>
-<script src="data/part9.js?v=970866b4"></script>
-<script src="data/part10.js?v=724abe70"></script>
-<script src="data/part11.js?v=89f3517a"></script>
-<script src="data/part12.js?v=cf124ec9"></script>
-<script src="data/part13.js?v=39a1136a"></script>
-<script src="data/part14.js?v=5b82831a"></script>
-<script src="data/part15.js?v=e5066af5"></script>
-<script src="data/part16.js?v=9be9447a"></script>
-<script src="data/part17.js?v=9b885a98"></script>
-<script src="data/part18.js?v=c73e2640"></script>
-<script src="data/part19.js?v=0e1a76c3"></script>
-<script src="data/part20.js?v=4d8ba6c9"></script>
-<script src="data/part21.js?v=94476b80"></script>
-<script src="data/part22.js?v=f101e65f"></script>
-<script src="data/part23.js?v=a6d94947"></script>
-<script src="data/part24.js?v=c8481457"></script>
-<script src="data/part25.js?v=567ea33f"></script>
-<script src="data/part26.js?v=55ae0d2e"></script>
-<script src="data/part27.js?v=be9a7b0d"></script>
-<script src="data/part28.js?v=990635d8"></script>
-<script src="data/part29.js?v=25fcf6b6"></script>
-<script src="data/deep1.js?v=cc075df7"></script>
-<script src="data/deep2.js?v=3909b385"></script>
-<script src="data/deep3.js?v=68d504ff"></script>
-<script src="data/deep4.js?v=0b24f78e"></script>
-<script src="data/deep5.js?v=e5bb9ba7"></script>
-<script src="data/deep6.js?v=94f0cf11"></script>
-<script src="data/deep7.js?v=c6b32ed7"></script>
-<script src="data/deep8.js?v=f5fedaba"></script>
-<script src="data/cur1.js?v=febe51c1"></script>
-<script src="data/cur2.js?v=129cd7e4"></script>
-<script src="data/cur3.js?v=9c1ff7ad"></script>
-<script src="data/roles2.js?v=be08093d"></script>
-<script>
-(() => {
-  "use strict";
-  /* ---------- data ---------- */
-  const COURSE = window.COURSE || [];
-  const ROLES = window.ROLES2 || [];
-  /* show modules used by any role roadmap */
-  const USED = new Set(ROLES.flatMap((r) => r.stages.flatMap((s) => s.mods)));
-  const MODS = (window.MODS || []).filter((m) => USED.has(m.id));
-  /* newly written lessons declare which module they fill; swap each matching outline for the written lesson */
-  for (const c of COURSE) {
-    if (!c.fills) continue;
-    const m = MODS.find((x) => x.id === c.fills); if (!m) continue;
-    c.lessons.forEach((l, j) => { const i = m.les.findIndex((x) => Array.isArray(x) && x[0] === l.t); if (i >= 0) m.les[i] = c.n + "-" + j; else console.warn("No outline for", c.fills, l.t); });
-  }
-  const REPO = "https://github.com/Pallak-08/forge-academy";
-  const AUTHOR = "Pallak Khullar";
-  const AREAS = [
-    { id: "foundations", t: "Foundations", d: "Computers, the internet, tools and programming" },
-    { id: "frontend", t: "Frontend", d: "Interfaces in the browser" },
-    { id: "backend", t: "Backend", d: "APIs, databases and systems" },
-    { id: "devops", t: "DevOps and cloud", d: "Infrastructure, delivery and reliability" },
-    { id: "security", t: "Security", d: "Protecting systems and responding to threats" },
-    { id: "qa", t: "Quality assurance", d: "Testing and quality" },
-    { id: "data", t: "Data", d: "Analysis, modelling and pipelines" },
-    { id: "ml", t: "Machine learning", d: "Models that learn from data" },
-    { id: "ai", t: "AI engineering", d: "Products built on language models" },
-    { id: "mobile", t: "Mobile", d: "Apps for Android and iOS" },
-    { id: "career", t: "Career", d: "Getting hired and growing" }
-  ];
-  const $ = (s, r = document) => r.querySelector(s);
-  const safe = (s) => String(s).replace(/<(?=\/?(script|textarea|style|iframe|title)\b)/gi, "&lt;");
-  const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
-  const LANG = { html: "xml", text: "plaintext", javascript: "javascript", python: "python", sql: "sql", css: "css", yaml: "yaml", json: "json", dockerfile: "dockerfile", bash: "bash", typescript: "typescript", nginx: "nginx", ini: "ini" };
-  const modById = (id) => MODS.find((m) => m.id === id);
-  const areaById = (id) => AREAS.find((a) => a.id === id);
-  const courseLesson = (ref) => { const [n, i] = String(ref).split("-").map(Number); const c = COURSE.find((x) => x.n === n); return c && c.lessons[i] ? c.lessons[i] : null; };
-  /* a lesson inside a module: full (ref to a written lesson) or an outline */
-  function lessonAt(m, i) {
-    const x = m.les[i];
-    if (typeof x === "string") { const l = courseLesson(x); return l ? { full: true, ref: x, t: l.t, sub: l.sub, l, key: "L" + x } : null; }
-    return { full: false, t: x[0], sub: x[1], key: "O" + m.id + ":" + i };
-  }
-  const lessonsOf = (m) => m.les.map((_, i) => lessonAt(m, i)).filter(Boolean);
-  const rolesWith = (mid) => ROLES.filter((r) => r.stages.some((s) => s.mods.includes(mid)));
+function render(list){
+  app.innerHTML = list.map(c => `
+    <article class="card">
+      <span class="flag">  /* TODO 2: show the flag — put ${c.flag} here */  </span>
+      <div><b>${c.name}</b><small>${c.region} · ${c.population.toLocaleString()}</small></div>
+    </article>`).join("");
+}
+render(COUNTRIES);
 
-  /* ---------- state (local first; synced to the person's private store inside Claude) ---------- */
-  const LS = "forge-academy-v3";
-  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, subs: {}, labs: {}, pj: {}, jr: {}, extra: {}, skip: {}, role: "", last: "", ctx: "", updated: 0 });
-  const MAPS = ["done", "quiz", "notes", "answers", "subs", "labs", "pj", "jr", "extra", "skip"];
-  let S = blank();
-  try {
-    const raw = localStorage.getItem(LS);
-    if (raw) S = Object.assign(blank(), JSON.parse(raw));
-    else {
-      const old = JSON.parse(localStorage.getItem("forge-academy-v2") || "null");     // carry over finished lessons
-      if (old) { for (const k of Object.keys(old.done || {})) S.done["L" + k] = 1; for (const k of ["quiz", "notes", "answers"]) for (const [kk, v] of Object.entries(old[k] || {})) S[k]["L" + kk] = v; }
-    }
-  } catch (e) {}
-  /* retire the old project-first base: fold any saved custom path into added modules, drop the rest */
-  if (S.project === "custom" && S.customPath && Array.isArray(S.customPath.mods)) { for (const id of S.customPath.mods) S.extra[id] = 1; }
-  delete S.project; delete S.customPath;
-  let remote = null, saveTimer = null;
-  function save() {
-    S.updated = Date.now();
-    try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {}
-    if (remote) {
-      clearTimeout(saveTimer); setSync("Saving…");
-      saveTimer = setTimeout(async () => { try { await remote.set(JSON.parse(JSON.stringify(S))); setSync("Saved to your account"); } catch (e) { setSync("Saved on this device"); } }, 1200);
-    }
-    paintProgress();
-  }
-  function setSync(t) { $("#sync").textContent = t; }
-  function merge(a, b) {
-    const newer = (a.updated || 0) >= (b.updated || 0) ? a : b, older = newer === a ? b : a;
-    const out = Object.assign(blank(), older, newer);
-    for (const k of MAPS) out[k] = Object.assign({}, older[k] || {}, newer[k] || {});
-    return out;
-  }
-  (async () => {
-    try {
-      if (!window.claude || !window.claude.use) return;
-      const [db, user] = await Promise.all([window.claude.use("db"), window.claude.use("user")]);
-      if (!db || !user) return;
-      const id = await user.id(); if (!id) return;
-      const ref = db.doc("data/users/" + id + "/progress-v3");
-      const snap = await ref.get();
-      if (snap.exists) { S = merge(S, snap.data() || {}); try { localStorage.setItem(LS, JSON.stringify(S)); } catch (e) {} }
-      remote = ref; setSync("Saved to your account"); renderTree(); render();
-    } catch (e) {}
-  })();
-
-  /* ---------- AI tutor (only inside Claude) ---------- */
-  let sample = null, tutorOff = false;
-  (async () => { try { if (window.claude && window.claude.use) sample = await window.claude.use("sample"); } catch (e) { sample = null; } showTutor(); })();
-  function showTutor() {
-    document.querySelectorAll("[data-tutor]").forEach((el) => { el.hidden = !sample; });
-    document.querySelectorAll("[data-tutor-off]").forEach((el) => { el.hidden = !!sample; });
-  }
-  const ERR = { not_granted: "The tutor needs your permission to use Claude. Reload the page to be asked again.", sampling_disabled: "Claude is not available for this account.", rate_limited: "Too many questions in a short time. Wait a minute and ask again.", session_expired: "Your session expired. Sign in to Claude again.", refused: "The tutor could not answer that. Try rephrasing the question.", prompt_too_large: "That was too much text at once. Paste a shorter excerpt.", cancelled: "" };
-  function md(t) {
-    return String(t).split(/```[a-zA-Z0-9_+-]*\n?/).map((p, i) => {
-      if (i % 2) return `<pre><code>${esc(p.replace(/\n$/, ""))}</code></pre>`;
-      return esc(p).split(/\n{2,}/).map((blk) => {
-        let b = blk.replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
-        const lines = b.split("\n");
-        if (lines.every((l) => /^\s*[-*] /.test(l) || !l.trim())) return "<ul>" + lines.filter((l) => l.trim()).map((l) => "<li>" + l.replace(/^\s*[-*] /, "") + "</li>").join("") + "</ul>";
-        if (lines.every((l) => /^\s*\d+[.)] /.test(l) || !l.trim())) return "<ol>" + lines.filter((l) => l.trim()).map((l) => "<li>" + l.replace(/^\s*\d+[.)] /, "") + "</li>").join("") + "</ol>";
-        b = b.replace(/^#{1,4} (.*)$/gm, "<b>$1</b>");
-        return b.trim() ? "<p>" + b.replace(/\n/g, "<br>") + "</p>" : "";
-      }).join("");
-    }).join("");
-  }
-  const plain = (html) => { const d = document.createElement("div"); d.innerHTML = html; return d.textContent.replace(/\s+/g, " ").trim(); };
-  const BASE = `You are a patient, precise tutor inside "Forge Academy", a free platform with complete career roadmaps (role → stages → modules → lessons, each with notes, code, labs, quizzes and projects) for students and early-career people. Teach clearly and concretely: short paragraphs, small runnable examples in fenced code blocks, plain language.`;
-  async function ask(out, input, btns, opts = {}) {
-    if (!sample || tutorOff) return "";
-    btns.forEach((b) => (b.disabled = true));
-    out.innerHTML = '<p class="note">Thinking…</p>';
-    let final = "";
-    try {
-      const { text, truncated } = await sample(input, Object.assign({ onText: ({ text }) => { out.innerHTML = md(text); } }, opts));
-      final = text; out.innerHTML = md(text) + (truncated ? '<p class="note">The answer was cut short. Ask for less at a time.</p>' : "");
-    } catch (e) {
-      const code = e && e.code;
-      if (code === "not_granted" || code === "sampling_disabled") tutorOff = true;
-      const msg = code in ERR ? ERR[code] : "Something went wrong reaching the tutor. Try again in a moment.";
-      out.innerHTML = (e && e.text ? md(e.text) : "") + (msg ? `<p class="note">${esc(msg)}</p>` : "");
-    } finally { btns.forEach((b) => (b.disabled = false)); }
-    return final;
-  }
-  function chatBox(contextFn, quick) {
-    return {
-      html: `<section class="panel" data-tutor hidden>
-        <div class="section-h"><h2>Ask the tutor</h2><span class="hint">Uses your Claude account</span></div>
-        <div class="row-btns">${Object.entries(quick).map(([k, v]) => `<button class="btn btn-quiet" type="button" data-quick="${k}">${esc(v[0])}</button>`).join("")}</div>
-        <div class="chat-log" id="chatLog"></div>
-        <textarea id="askBox" rows="2" placeholder="Ask anything about this, or paste an error you got"></textarea>
-        <div class="row-btns"><button class="btn btn-primary" type="button" id="askBtn">Ask</button><span class="hint">The conversation lasts until you leave this page.</span></div>
-      </section>`,
-      bind(extra = () => []) {
-        showTutor(); if (!sample) return;
-        const turns = [], log = $("#chatLog");
-        const btns = () => Array.from(document.querySelectorAll("#askBtn, [data-quick]")).concat(extra());
-        async function chat(q) {
-          turns.push({ role: "user", content: q });
-          const you = document.createElement("div"); you.className = "chat-turn"; you.innerHTML = `<span class="who">You</span><div>${esc(q)}</div>`;
-          const ans = document.createElement("div"); ans.className = "chat-turn"; ans.innerHTML = '<span class="who">Tutor</span><div class="tutor-out"></div>';
-          log.append(you, ans);
-          const text = await ask(ans.querySelector(".tutor-out"), [{ role: "user", content: contextFn() + "\n\nThe learner's questions follow. Answer the latest one." }, ...turns.slice(-8)], btns(), { cache: false });
-          if (text) turns.push({ role: "assistant", content: text }); else turns.pop();
-        }
-        $("#askBtn").addEventListener("click", () => { const q = $("#askBox").value.trim(); if (!q) return; $("#askBox").value = ""; chat(q); });
-        $("#askBox").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) $("#askBtn").click(); });
-        document.querySelectorAll("[data-quick]").forEach((b) => b.addEventListener("click", () => chat(quick[b.dataset.quick][1])));
-      }
-    };
-  }
-
-  /* ---------- helpers ---------- */
-  const areaOrder = (id) => { const m = modById(id); return m ? AREAS.findIndex((x) => x.id === m.area) : 99; };
-
-  /* ---------- paths: a role base, minus skipped modules, plus added modules ---------- */
-  function myRole() {
-    const role = ROLES.find((r) => r.id === S.role) || null;
-    let stages, baseMods, capstone = null, tagline, jobs = [], duration = "", jobReady = [], interview = [], big = null;
-    if (role) {
-      baseMods = [...new Set(role.stages.flatMap((s) => s.mods))];
-      stages = role.stages.map((s) => Object.assign({}, s, { mods: s.mods.filter((m) => !S.skip[m]) }));
-      capstone = role.capstone; big = role.big; tagline = `Built on ${role.title}, customised by you.`;
-      jobs = role.jobs; duration = role.duration; jobReady = role.jobReady; interview = role.interview;
-    } else {
-      baseMods = []; stages = []; tagline = "Modules you picked yourself.";
-    }
-    const have = new Set(stages.flatMap((s) => s.mods));
-    const extras = Object.keys(S.extra).filter((id) => S.extra[id] && modById(id) && !have.has(id));
-    extras.sort((a, b) => areaOrder(a) - areaOrder(b));
-    if (extras.length) stages = [...stages, { t: "Modules you added", goal: "Extra modules you added yourself.", mods: extras, extra: true }];
-    const skipped = [...new Set(baseMods)].filter((m) => S.skip[m]);
-    const baseTitle = role ? role.title : "";
-    const baseId = role ? role.id : "custom";
-    const baseSub = role ? esc(duration) + " for the base roadmap" : "Custom path";
-    const extraBit = `${extras.length ? `, plus ${extras.length} module${extras.length > 1 ? "s" : ""} you added` : ""}${skipped.length ? `, minus ${skipped.length} you skipped` : ""}`;
-    const baseLede = role ? `Built on the <a href="#r-${role.id}">${esc(role.title)}</a> roadmap${extraBit}.` : "A path made only from modules you picked.";
-    return { id: "my", title: "My path", glyph: "ME", base: !!role, role, extras, skipped, stages,
-      baseKind: role ? "role" : "", baseTitle, baseId, baseSub, baseLede,
-      tagline, who: role ? role.who : "", jobs, duration, big, capstone, jobReady, interview };
-  }
-  const hasPath = () => !!(S.role || Object.values(S.extra).some(Boolean));
-  const roleOf = (id) => (id === "my" ? myRole() : ROLES.find((r) => r.id === id));
-  const pathMods = (r) => { const seen = new Set(), out = []; r.stages.forEach((s, si) => s.mods.forEach((id) => { if (!seen.has(id) && modById(id)) { seen.add(id); out.push({ id, si }); } })); return out; };
-  const inPath = (id) => hasPath() && pathMods(myRole()).some((x) => x.id === id);
-  function addToPath(id) { if (S.skip[id]) delete S.skip[id]; else S.extra[id] = 1; save(); }
-  function removeFromPath(id) { if (S.extra[id]) delete S.extra[id]; else S.skip[id] = 1; save(); }
-
-  /* ---------- progress ---------- */
-  const modProgress = (m) => { const ls = lessonsOf(m); return { done: ls.filter((l) => S.done[l.key]).length, total: ls.length, full: ls.filter((l) => l.full).length }; };
-  const modDone = (m) => { const p = modProgress(m); return p.total > 0 && p.done === p.total; };
-  function roleProgress(r) {
-    let done = 0, total = 0, full = 0;
-    for (const { id } of pathMods(r)) { const p = modProgress(modById(id)); done += p.done; total += p.total; full += p.full; }
-    return { done, total, full, pct: total ? Math.round((done / total) * 100) : 0, fullPct: total ? Math.round((full / total) * 100) : 0 };
-  }
-  function nextLesson(r) {
-    for (const { id, si } of pathMods(r)) { const m = modById(id); const ls = lessonsOf(m); for (let i = 0; i < m.les.length; i++) { const l = lessonAt(m, i); if (l && !S.done[l.key]) return { m, i, l, si }; } }
-    return null;
-  }
-  function paintProgress() {
-    const r = hasPath() ? myRole() : null;
-    if (r) { const p = roleProgress(r); $("#overallBar").style.width = p.pct + "%"; $("#overallTxt").textContent = `My path: ${p.done} / ${p.total} lessons`; }
-    else { $("#overallBar").style.width = "0%"; $("#overallTxt").textContent = "Pick a role to start"; }
-    document.querySelectorAll("[data-mstate]").forEach((el) => { const m = modById(el.dataset.mstate); const p = modProgress(m); el.className = "tick " + (p.total && p.done === p.total ? "done" : p.done ? "half" : ""); });
-  }
-
-  /* ---------- side navigation ---------- */
-  function renderTree(filter = "") {
-    const q = filter.trim().toLowerCase();
-    let html = "";
-    if (q) {
-      const mHits = MODS.filter((m) => (m.t + " " + m.d).toLowerCase().includes(q)).slice(0, 20);
-      const lHits = [];
-      for (const m of MODS) m.les.forEach((_, i) => { const l = lessonAt(m, i); if (l && (l.t + " " + l.sub.join(" ")).toLowerCase().includes(q) && !lHits.some((h) => h.l.key === l.key)) lHits.push({ m, i, l }); });
-      html += `<div class="level-h"><span class="eyebrow">Modules (${mHits.length})</span></div><ol class="flat">${mHits.map((m) => `<li><a href="#mod-${m.id}"><span class="tick" data-mstate="${m.id}"></span><span>${esc(m.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No modules match.</li>'}</ol>`;
-      html += `<div class="level-h"><span class="eyebrow">Lessons (${lHits.length})</span></div><ol class="flat">${lHits.slice(0, 30).map(({ m, i, l }) => `<li><a href="#l-${m.id}.${i}"><span class="tick ${S.done[l.key] ? "done" : ""}"></span><span>${esc(l.t)}</span></a></li>`).join("") || '<li class="note" style="padding:4px 10px">No lessons match.</li>'}</ol>`;
-    } else if (hasPath()) {
-      const r = myRole(), p = roleProgress(r);
-      html += `<div class="rail-role"><span class="eyebrow">My path · ${p.pct}%</span><a href="#my"><b>${esc(r.baseTitle || "Custom path")}</b></a><span class="rail-meta">${r.extras.length ? `+${r.extras.length} added` : ""}${r.extras.length && r.skipped.length ? " · " : ""}${r.skipped.length ? `${r.skipped.length} skipped` : ""}</span><span class="rail-links"><a class="note" href="#my">Customise</a><a class="note" href="#catalog">Add modules</a></span></div>`;
-      r.stages.forEach((s, si) => {
-        html += `<div class="level-h"><span class="stage-dot">${s.extra ? "+" : si + 1}</span><span class="eyebrow">${esc(s.t)}</span></div><ol class="flat">${s.mods.filter(modById).map((id) => { const m = modById(id), pr = modProgress(m); return `<li><a href="#mod-${id}" data-modlink="${id}"><span class="tick" data-mstate="${id}"></span><span>${esc(m.t)}</span><span class="cnt">${pr.done}/${pr.total}</span></a></li>`; }).join("")}</ol>`;
-      });
-    } else {
-      html += `<div class="rail-role"><span class="eyebrow">Start here</span><a href="#roles"><b>Choose a role</b></a><span class="rail-meta">A complete roadmap for one job</span></div>`;
-      html += `<div class="level-h"><span class="eyebrow">Roles</span></div><ol class="flat">${ROLES.map((x) => `<li><a href="#r-${x.id}"><span class="glyph sm">${esc(x.glyph)}</span><span>${esc(x.title)}</span></a></li>`).join("")}</ol>`;
-    }
-    $("#tree").innerHTML = html; paintProgress(); markActive();
-  }
-  $("#search").addEventListener("input", (e) => renderTree(e.target.value));
-  $("#rail").addEventListener("click", (e) => { if (e.target.closest("a")) document.body.classList.remove("drawer"); });
-  $("#menuBtn").addEventListener("click", () => document.body.classList.toggle("drawer"));
-  $("#scrim").addEventListener("click", () => document.body.classList.remove("drawer"));
-  function markActive() {
-    const h = location.hash || "#home";
-    const curMod = (h.match(/^#mod-([a-z0-9-]+)$/) || h.match(/^#l-([a-z0-9-]+)\./) || [])[1];
-    document.querySelectorAll("[data-modlink]").forEach((a) => a.classList.toggle("on", a.dataset.modlink === curMod));
-    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "catalog" && (h.startsWith("#mod-") || h.startsWith("#l-")) && !inPath(curMod))));
-  }
-
-  /* ---------- theme ---------- */
-  $("#themeBtn").addEventListener("click", () => {
-    const root = document.documentElement;
-    const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
-    root.dataset.theme = dark ? "light" : "dark";
-    try { localStorage.setItem("forge-academy-theme", root.dataset.theme); } catch (e) {}
+search.addEventListener("input", () => {
+  const q = search.value.toLowerCase();
+  const matches = COUNTRIES.filter(c => {
+    return true;   // TODO 3: keep c only if c.name (lowercased) includes q
   });
-  try { const t = localStorage.getItem("forge-academy-theme"); if (t) document.documentElement.dataset.theme = t; } catch (e) {}
-
-  /* ---------- shared pieces ---------- */
-  const footer = () => `<footer class="site-foot"><span>Forge Academy is a free, open learning platform created by ${esc(AUTHOR)}. All syllabi and lessons are original.</span><span><a href="${REPO}" target="_blank" rel="noopener">Source on GitHub</a> · <a href="#about">About</a></span></footer>`;
-  function roleCard(r) {
-    const p = roleProgress(r), on = S.role === r.id;
-    return `<a class="card role ${on ? "chosen" : ""}" href="#r-${r.id}">
-      <div class="row"><span class="glyph">${esc(r.glyph)}</span>${on ? '<span class="chip">My path</span>' : `<span class="note">${r.stages.length} stages · ${pathMods(r).length} modules</span>`}</div>
-      <h3>${esc(r.title)}</h3><p>${esc(r.tagline)}</p>
-      <p class="roles">${r.jobs.map(esc).join(" · ")}</p>
-      <div class="mini"><i style="width:${p.pct}%"></i></div>
-      <span class="note">${p.done ? `${p.done} of ${p.total} lessons done` : `${p.total} lessons · ${esc(r.duration)}`}</span></a>`;
-  }
-  function projCard(id, label, p) {
-    const cls = label === "Capstone" ? "lvl-advanced" : label === "Big project" ? "lvl-intermediate" : "lvl-beginner";
-    return `<article class="idea"><div class="row"><span class="chip ${cls}">${esc(label)}</span><label class="built"><input type="checkbox" data-pj="${id}" ${S.pj[id] ? "checked" : ""}> I built this</label></div>
-      <h3>${esc(p.t)}</h3><p>${esc(p.brief)}</p><ul>${p.features.map((f) => `<li>${esc(f)}</li>`).join("")}</ul></article>`;
-  }
-  function modCard(m, r, editable, why) {
-    const p = modProgress(m), a = areaById(m.area);
-    const link = `<a class="mcard ${p.total && p.done === p.total ? "done" : p.done ? "started" : ""}" href="#mod-${m.id}">
-      <div class="row"><span class="tick" data-mstate="${m.id}"></span><span class="note">${p.done}/${p.total} lessons</span></div>
-      <h3>${esc(m.t)}</h3><p>${esc(m.d)}</p>
-      ${why ? `<p class="why-note"><span>Why:</span> ${esc(why)}</p>` : ""}
-      <div class="node-tags"><span>${p.total} lessons</span><span>${p.full} full</span><span>lab</span><span>project</span>${editable && a ? `<span>${esc(a.t)}</span>` : ""}</div>
-      <div class="mini"><i style="width:${p.total ? Math.round((p.done / p.total) * 100) : 0}%"></i></div></a>`;
-    return editable ? `<div class="node-wrap">${link}<button class="node-x" type="button" data-unpath="${m.id}" aria-label="Remove ${esc(m.t)} from my path" title="Remove from my path">×</button></div>` : link;
-  }
-  const lessonRow = (m, i, l) => `<a class="lrow" href="#l-${m.id}.${i}"><span class="tick ${S.done[l.key] ? "done" : ""}"></span><span class="lnum">${i + 1}</span><span class="lt"><b>${esc(l.t)}</b><small>${esc(l.sub.slice(0, 5).join(" · "))}</small></span><span class="badge ${l.full ? "full" : ""}">${l.full ? "Full lesson" : "Outline"}</span></a>`;
-
-  /* ---------- views ---------- */
-  function viewHome() {
-    const r = hasPath() ? myRole() : null;
-    const nx = r ? nextLesson(r) : null;
-    const lessonsDone = Object.values(S.done).filter(Boolean).length;
-    const modsDone = MODS.filter(modDone).length;
-    const labsDone = Object.values(S.labs).filter(Boolean).length;
-    const built = Object.values(S.pj).filter(Boolean).length;
-    const totalLessons = MODS.reduce((s, m) => s + m.les.length, 0);
-    return `<div class="wrap wide">
-      <section class="hero">
-        <div>
-          <span class="eyebrow">Free and open · ${ROLES.length} roles · ${MODS.length} modules · ${totalLessons} lessons</span>
-          <h1 style="margin-top:10px">Find your path in tech. <em>Then walk it.</em></h1>
-          <p>Complete roadmaps for three of the most in-demand tech roles, each one a clear route from zero to job-ready: stages in the right order, detailed lessons, hands-on labs, assignments and a final capstone. No more stitching together ten half-finished courses.</p>
-          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">Choose your role</a><a class="btn btn-line" href="#catalog">Browse modules</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
-        </div>
-        <div class="continue">
-          ${r && nx ? `<span class="eyebrow">Continue · ${esc(nx.m.t)}</span><h3>${esc(nx.l.t)}</h3><span class="meta">${esc(r.stages[nx.si] ? r.stages[nx.si].t : "")} · lesson ${nx.i + 1} of ${nx.m.les.length}</span><div><a class="btn btn-primary" href="#l-${nx.m.id}.${nx.i}">Continue</a></div>`
-          : r ? `<span class="eyebrow">My path</span><h3>Every lesson is done.</h3><span class="meta">Finish the big project and capstone, then the job-ready checklist.</span><div><a class="btn btn-primary" href="#my">Open my path</a></div>`
-          : `<span class="eyebrow">Start here</span><h3>Pick the role that fits you.</h3><span class="meta">Each roadmap takes you from the basics to a portfolio of projects and a job-ready checklist. Switch anytime — shared modules keep your progress.</span><div class="row-btns"><a class="btn btn-primary" href="#roles">See the roles</a></div>`}
-        </div>
-      </section>
-      <section class="stats" aria-label="Your progress">
-        <div class="stat"><b>${lessonsDone}</b><span>lessons finished</span></div>
-        <div class="stat"><b>${modsDone}</b><span>modules completed</span></div>
-        <div class="stat"><b>${labsDone}</b><span>lab steps done</span></div>
-        <div class="stat"><b>${built}</b><span>projects built</span></div>
-      </section>
-      <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>Choose your role</h2><span>Complete roadmaps for three of the most in-demand tech roles</span></div>
-        <div class="cards">${ROLES.map(roleCard).join("")}</div>
-      </section>
-      <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>Module catalog</h2><span>${MODS.length} modules in ${AREAS.length} areas. Add any module to your path</span></div>
-        <div class="area-chips">${AREAS.map((a) => `<a class="area-chip" href="#catalog" data-area-jump="${a.id}"><b>${esc(a.t)}</b><span>${MODS.filter((m) => m.area === a.id).length} modules</span></a>`).join("")}</div>
-      </section>
-      <section class="level-block">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>How it is organised</h2><span>The same structure everywhere</span></div>
-        <div class="how">
-          <div><b>Role</b><p>A complete roadmap for one job, from zero to job-ready, with a job-ready checklist and interview questions.</p></div>
-          <div><b>Stage</b><p>A group of modules in the order you should learn them, each with a clear goal.</p></div>
-          <div><b>Module</b><p>One skill, such as React or Docker: several lessons, a hands-on lab and a project.</p></div>
-          <div><b>Lesson</b><p>Notes, worked code, an exercise and a quiz. Lessons still being written show their full outline.</p></div>
-        </div>
-      </section>
-      ${footer()}
-    </div>`;
-  }
-
-  function viewRoles() {
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Role roadmaps</span></nav>
-      <header class="mod-head"><span class="eyebrow">${ROLES.length} roles</span><h1>Role roadmaps</h1><p class="lede">Each roadmap is a complete path for one job: stages in learning order, the modules inside each stage, and the lessons inside each module. Modules shared between roles (like Git or SQL) are the same module, so switching roles never wastes progress.</p></header>
-      <div class="banner"><div><b>Want something in between?</b><p>Start from the closest role, then add modules from other areas or skip ones you don't need.</p></div><a class="btn btn-primary" href="#catalog">Browse modules</a></div>
-      <div class="cards">${ROLES.map(roleCard).join("")}</div>
-      ${footer()}
-    </div>`;
-  }
-
-  function viewRole(r) {
-    const my = r.id === "my";
-    const rid = my ? r.baseId : r.id;
-    const p = roleProgress(r);
-    const jrDone = r.jobReady.filter((_, j) => S.jr[`${rid}-${j}`]).length;
-    const head = my ? `
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>My path</span></nav>
-      <header class="mod-head role-head">
-        <div class="row-btns"><span class="glyph lg">${esc(r.glyph)}</span><span class="eyebrow">${r.baseSub}</span></div>
-        <h1>My path</h1>
-        <p class="lede">${r.baseLede} Remove any module with ×, or add more from the catalog.</p>
-        <div class="base-pick"><span class="eyebrow">Base roadmap</span><div class="tabs">${ROLES.map((x) => `<button type="button" class="tab ${S.role === x.id ? "on" : ""}" data-base="${x.id}">${esc(x.title)}</button>`).join("")}<button type="button" class="tab ${!S.role ? "on" : ""}" data-base="">None</button></div></div>
-        <div class="row-btns"><a class="btn btn-primary" href="#catalog">Add modules</a><span class="note">${p.done} of ${p.total} lessons done</span></div>
-        <div class="mini big"><i style="width:${p.pct}%"></i></div>
-      </header>` : `
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#roles">Role roadmaps</a><span>›</span><span>${esc(r.title)}</span></nav>
-      <header class="mod-head role-head">
-        <div class="row-btns"><span class="glyph lg">${esc(r.glyph)}</span><span class="eyebrow">${esc(r.duration)}</span></div>
-        <h1>${esc(r.title)}</h1><p class="lede">${esc(r.tagline)} ${esc(r.who)}</p>
-        <p class="roles" style="margin:0">Job titles: ${r.jobs.map(esc).join(" · ")}</p>
-        <div class="row-btns">${S.role === r.id ? '<span class="done-pill">My path is based on this</span><a class="btn btn-line" href="#my">Open my path</a>' : '<button class="btn btn-primary" type="button" id="pickRole">Make this my path</button>'}
-          <span class="note">${r.stages.length} stages · ${pathMods(r).length} modules · ${p.total} lessons (${p.fullPct}% fully written, the rest outlined)</span></div>
-        <div class="mini big"><i style="width:${p.pct}%"></i></div>
-      </header>`;
-    const empty = my && !r.stages.length ? `<div class="banner"><div><b>Your path is empty.</b><p>Choose a base roadmap above, or add modules from the catalog.</p></div><a class="btn btn-primary" href="#catalog">Browse modules</a></div>` : "";
-    return `<div class="wrap">${head}${empty}
-      <section class="roadmap">${r.stages.map((s, si) => {
-        const ms = s.mods.map(modById).filter(Boolean);
-        const sd = ms.filter(modDone).length;
-        return `<div class="stage ${sd === ms.length && ms.length ? "complete" : ""} ${s.extra ? "extra" : ""}">
-          <div class="stage-rail"><span class="stage-n">${s.extra ? "+" : si + 1}</span></div>
-          <div class="stage-body">
-            <div class="section-h"><div><span class="eyebrow">${s.extra ? "Added by you" : "Stage " + (si + 1)} · ${sd}/${ms.length} modules complete</span><h2>${esc(s.t)}</h2></div></div>
-            <p class="note" style="margin:0">${esc(s.goal)}</p>
-            ${ms.length ? `<div class="mcards">${ms.map((m) => modCard(m, r, my, "")).join("")}</div>` : '<p class="note" style="margin:0">You skipped every module in this stage.</p>'}
-          </div></div>`;
-      }).join("")}</section>
-      ${my && r.skipped.length ? `<section class="panel"><h2>Skipped modules</h2><p class="hint" style="margin:0">Modules from ${esc(r.baseTitle)} you removed. Put any back with one click.</p><div class="skip-list">${r.skipped.map((id) => `<button type="button" class="skip-chip" data-repath="${id}">↺ ${esc(modById(id).t)}</button>`).join("")}</div></section>` : ""}
-      ${r.big ? `<section class="panel"><h2>Big project</h2>${projCard(`${rid}-big`, "Big project", r.big)}</section>` : ""}
-      ${r.capstone ? `<section class="panel"><h2>Final capstone</h2>${projCard(`${rid}-cap`, "Capstone", r.capstone)}</section>` : ""}
-      ${r.jobReady.length ? `<section class="panel"><div class="section-h"><h2>Job-ready checklist</h2><span class="note">${jrDone} of ${r.jobReady.length}</span></div>
-        <p class="hint" style="margin:0">Tick each item when you can do it without notes and can point to a project that shows it.</p>
-        <ul class="checks">${r.jobReady.map((c, j) => { const id = `${rid}-${j}`; return `<li><label><input type="checkbox" data-jr="${id}" ${S.jr[id] ? "checked" : ""}><span>${esc(c)}</span></label></li>`; }).join("")}</ul></section>` : ""}
-      ${r.interview.length ? `<section class="panel"><h2>Common interview questions</h2>
-        <ol class="iq">${r.interview.map((q, j) => `<li><span>${esc(q)}</span><button class="btn btn-quiet sm" type="button" data-tutor hidden data-iq="${j}">Practise with the tutor</button></li>`).join("")}</ol>
-        <div class="tutor-out" id="iqOut"></div></section>` : ""}
-      ${footer()}
-    </div>`;
-  }
-
-  function ctxRole() { const id = String(S.ctx || ""); return id && roleOf(id) ? roleOf(id) : (hasPath() ? myRole() : null); }
-  function neighbours(m) {
-    const r = ctxRole(); if (!r) return {};
-    const list = pathMods(r); const idx = list.findIndex((x) => x.id === m.id);
-    if (idx < 0) return { r: null };
-    return { r, idx, total: list.length, stage: r.stages[list[idx].si], prev: idx > 0 ? list[idx - 1].id : "", next: idx < list.length - 1 ? list[idx + 1].id : "" };
-  }
-
-  function viewModule(m) {
-    const p = modProgress(m), a = areaById(m.area), nb = neighbours(m);
-    const roles = rolesWith(m.id);
-    const labDone = m.lab.steps.filter((_, i) => S.labs[m.id + "-" + i]).length;
-    const tutor = chatBox(() => `${BASE}\nModule: ${m.t}. ${m.d}\nLessons: ${lessonsOf(m).map((l) => l.t).join("; ")}.\nLab: ${m.lab.t}: ${m.lab.steps.join(" / ")}.`, {
-      plan: ["Give me a study plan", "Make a 2-week study plan for this module, with what to do each day, which lessons to read, and when to do the lab and project."],
-      lab: ["Help me start the lab", "I'm starting this module's hands-on lab. Break the first two steps into smaller actions, list what I need installed, and what success looks like. Do not do the whole lab for me."],
-      why: ["Why does this matter at work?", "Explain why this module matters in day-to-day work, with two concrete workplace examples and what interviewers typically ask about it."]
-    });
-    return { html: `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span>${nb.r ? `<a href="${nb.r.id === "my" ? "#my" : "#r-" + nb.r.id}">${esc(nb.r.title)}</a><span>›</span><span>${nb.stage.extra ? "Added by you" : esc(nb.stage.t)}</span>` : `<a href="#catalog">Module catalog</a><span>›</span><span>${esc(a ? a.t : "")}</span>`}</nav>
-      <header class="mod-head"><span class="tag" style="--lvc: var(--accent)">${nb.r ? `Module ${nb.idx + 1} of ${nb.total}` : "Module"}${a ? " · " + esc(a.t) : ""}</span><h1>${esc(m.t)}</h1><p class="lede">${esc(m.d)}</p>
-        <div class="row-btns">${inPath(m.id) ? `<span class="chip">In my path</span><button class="btn btn-line sm" type="button" data-unpath="${m.id}">Remove from my path</button>` : `<button class="btn btn-line sm" type="button" data-addpath="${m.id}">+ Add to my path</button>`}<span class="note">${p.done} of ${p.total} lessons done · ${p.full} full, ${p.total - p.full} outlined</span></div>
-        <div class="mini big"><i style="width:${p.total ? Math.round((p.done / p.total) * 100) : 0}%"></i></div>
-        ${roles.length ? `<p class="hint" style="margin:0">Part of: ${roles.map((x) => `<a href="#r-${x.id}">${esc(x.title)}</a>`).join(", ")}</p>` : ""}
-      </header>
-      <section class="panel"><div class="section-h"><h2>Lessons</h2><span class="note">${p.done}/${p.total}</span></div>
-        <div class="lessons">${m.les.map((_, i) => { const l = lessonAt(m, i); return l ? lessonRow(m, i, l) : ""; }).join("")}</div></section>
-      <section class="panel lab"><div class="section-h"><h2>Hands-on lab: ${esc(m.lab.t)}</h2><span class="note">${labDone} of ${m.lab.steps.length} steps</span></div>
-        <ol class="checks steps-list">${m.lab.steps.map((s, i) => `<li><label><input type="checkbox" data-lab="${m.id}-${i}" ${S.labs[m.id + "-" + i] ? "checked" : ""}><span>${esc(s)}</span></label></li>`).join("")}</ol>
-        <p class="done-when"><b>Done when:</b> ${esc(m.lab.done)}</p></section>
-      <section class="panel"><h2>Module project</h2>${projCard("m-" + m.id, "Mini project", m.proj)}</section>
-      ${tutor.html}
-      <footer class="lesson-foot">
-        <div class="row-btns">${nb.prev ? `<a class="btn btn-line" href="#mod-${nb.prev}">‹ ${esc(modById(nb.prev).t)}</a>` : ""}</div>
-        <div class="row-btns">${nb.next ? `<a class="btn btn-primary" href="#mod-${nb.next}">Next module: ${esc(modById(nb.next).t)} ›</a>` : nb.r ? `<a class="btn btn-primary" href="${nb.r.id === "my" ? "#my" : "#r-" + nb.r.id}">Back to roadmap</a>` : ""}</div>
-      </footer>
-      ${footer()}
-    </div>`, bind() { tutor.bind(); } };
-  }
-
-  function viewLesson(m, i) {
-    const l = lessonAt(m, i); const k = l.key;
-    const prev = i > 0 ? `#l-${m.id}.${i - 1}` : `#mod-${m.id}`;
-    const next = i < m.les.length - 1 ? `#l-${m.id}.${i + 1}` : `#mod-${m.id}`;
-    const crumbs = `<nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#mod-${m.id}">${esc(m.t)}</a><span>›</span><span>Lesson ${i + 1} of ${m.les.length}</span></nav>`;
-    const foot = `<footer class="lesson-foot"><div class="row-btns"><a class="btn btn-line" href="${prev}">‹ ${i > 0 ? "Previous" : "Module"}</a></div>
-      <div class="row-btns">${S.done[k] ? `<span class="done-pill">Completed</span><button class="btn btn-line" type="button" id="undoBtn">Mark as not done</button><a class="btn btn-primary" href="${next}">${i < m.les.length - 1 ? "Next lesson ›" : "Back to module ›"}</a>` : `<button class="btn btn-primary" type="button" id="doneBtn">Mark complete and continue</button>`}</div></footer>`;
-    const notesBox = `<section class="panel"><div class="section-h"><h2>My notes</h2><span class="hint">Saved as you type</span></div><textarea id="noteBox" rows="4" placeholder="What clicked, what to revisit, questions for later">${esc(S.notes[k] || "")}</textarea></section>`;
-    const ctx = l.full ? `${BASE}\nLesson: ${l.t} (module: ${m.t}).\nSub-topics: ${l.sub.join("; ")}.\nLesson text: ${plain(l.l.body)}\nCode example (${l.l.lang}):\n${l.l.code}` : `${BASE}\nLesson: ${l.t} (module: ${m.t}).\nSub-topics to cover: ${l.sub.join("; ")}.`;
-    const quick = l.full ? {
-      simpler: ["Explain it more simply", "Explain this lesson again as if I am a beginner, using an everyday analogy, then restate the key idea in two sentences."],
-      walk: ["Walk through the code", "Walk through the lesson's code example line by line, saying what each important line does and why."],
-      example: ["Show another example", "Give me a different, small, runnable example of the same idea in a new domain, with a short explanation."],
-      real: ["How is this used at work?", "How is this lesson's idea used in real production software? Give two or three situations and one common mistake."]
-    } : {
-      teach: ["Teach me this lesson", "Teach this lesson as structured notes: a short intro, one section per sub-topic with a small example (code where relevant), common mistakes, and a 5-question self-check with answers at the end."],
-      exercise: ["Give me an exercise", "Give me one hands-on exercise for this lesson with expected output and two hints, but no solution."],
-      quiz: ["Quiz me", "Write 4 multiple-choice questions on this lesson's sub-topics, then list the answers with one-line explanations under 'Answers'."]
-    };
-    const tutor = chatBox(() => ctx, quick);
-    if (!l.full) {
-      const subDone = l.sub.filter((_, j) => S.subs[k + "-" + j]).length;
-      return { html: `<div class="wrap">${crumbs}
-        <header class="lesson-head"><span class="tag" style="--lvc: var(--accent)">${esc(m.t)}</span><h1>${esc(l.t)}</h1></header>
-        <div class="banner soft"><div><b>Lesson outline</b><p>The full written lesson (notes, code, exercise and quiz) is coming in a later update. Use this outline as your study checklist: learn each point from official documentation, tick it off, and prove it with the module's lab.</p></div><a class="btn btn-line" href="#mod-${m.id}">Module lab</a></div>
-        <section class="panel"><div class="section-h"><h2>What this lesson covers</h2><span class="note">${subDone} of ${l.sub.length}</span></div>
-          <ul class="checks">${l.sub.map((s, j) => `<li><label><input type="checkbox" data-sub="${k}-${j}" ${S.subs[k + "-" + j] ? "checked" : ""}><span>${esc(s)}</span></label></li>`).join("")}</ul></section>
-        ${tutor.html}${notesBox}${foot}${footer()}</div>`, bind() { tutor.bind(); bindLessonCommon(k, next); } };
-    }
-    const L = l.l, chosen = S.quiz[k];
-    const DP = (window.DEEP || {})[l.ref];
-    return { html: `<div class="wrap">${crumbs}
-      <header class="lesson-head"><span class="tag" style="--lvc: var(--accent)">${esc(m.t)}</span><h1>${esc(L.t)}</h1></header>
-      <section class="subs"><span class="eyebrow">Sub-topics in this lesson</span><ul>${L.sub.map((s) => `<li>${esc(s)}</li>`).join("")}</ul></section>
-      <section class="prose"><span class="eyebrow">Notes</span>${safe(L.body)}</section>
-      <section class="code"><div class="code-bar"><span>${esc(L.lang)}</span><button type="button" id="copyBtn">Copy code</button></div><pre><code id="codeEl"></code></pre></section>
-      ${DP ? `${DP.more ? `<section class="prose deep"><span class="eyebrow">Going deeper</span>${safe(DP.more)}</section>` : ""}
-      ${DP.example ? `<section class="panel"><div class="section-h"><h2>Worked example: ${esc(DP.example.t)}</h2></div>${DP.example.intro ? `<div class="prose"><p>${safe(DP.example.intro)}</p></div>` : ""}
-        <section class="code"><div class="code-bar"><span>${esc(DP.example.lang)}</span><button type="button" id="copyBtn2">Copy code</button></div><pre><code id="codeEl2"></code></pre></section>
-        ${DP.example.after ? `<div class="prose"><p>${safe(DP.example.after)}</p></div>` : ""}</section>` : ""}
-      ${DP.mistakes ? `<section class="panel"><h2>Common mistakes</h2><ul class="mistakes">${DP.mistakes.map((m) => `<li>${safe(m)}</li>`).join("")}</ul></section>` : ""}
-      ${DP.practice ? `<section class="panel"><h2>Practice problems</h2><ol class="practice">${DP.practice.map((p) => `<li><div>${safe(p[0])}</div><details><summary>Show answer</summary><div class="prose">${safe(p[1])}</div></details></li>`).join("")}</ol></section>` : ""}` : ""}
-      ${tutor.html}
-      <section class="panel"><div class="section-h"><h2>Exercise</h2></div>
-        <div class="prose"><p>${safe(L.ex)}</p></div>
-        <textarea class="mono" id="answerBox" rows="7" placeholder="Write or paste your solution here. It is saved as you type.">${esc(S.answers[k] || "")}</textarea>
-        <div class="row-btns" data-tutor hidden><button class="btn btn-primary" type="button" id="reviewBtn">Review my answer</button><button class="btn btn-quiet" type="button" id="hintBtn">Give me a hint</button></div>
-        <p class="hint" data-tutor-off>Run your solution, then compare it with the lesson's example. Stuck? Re-read the sub-topics and try a smaller version first.</p>
-        <div class="tutor-out" id="exOut"></div></section>
-      <section class="panel"><div class="section-h"><h2>Quiz</h2>${chosen !== undefined ? '<button class="btn btn-line" type="button" id="retryQuiz">Try again</button>' : ""}</div>
-        <p class="quiz-q" style="margin:0">${safe(L.q[0])}</p>
-        <div class="opts">${L.q[1].map((o, j) => { const cls = chosen === undefined ? "" : j === L.q[2] ? "right" : j === chosen ? "wrong" : ""; return `<button type="button" class="opt ${cls}" data-opt="${j}" ${chosen !== undefined ? "disabled" : ""}><b>${"ABCD"[j]}</b><span>${safe(o)}</span></button>`; }).join("")}</div>
-        ${chosen !== undefined ? `<div class="verdict ${chosen === L.q[2] ? "ok" : "no"}"><b>${chosen === L.q[2] ? "Correct." : "Not quite."}</b> ${esc(L.q[3])}</div>` : ""}</section>
-      ${notesBox}${foot}
-    </div>`, bind() {
-      const codeEl = $("#codeEl"); codeEl.textContent = L.code;
-      const c2 = $("#codeEl2");
-      if (c2 && DP && DP.example) {
-        c2.textContent = DP.example.code;
-        const lg2 = LANG[DP.example.lang] || "plaintext";
-        if (window.hljs && lg2 !== "plaintext" && hljs.getLanguage(lg2)) { c2.className = "language-" + lg2; try { hljs.highlightElement(c2); } catch (e) {} }
-        $("#copyBtn2").addEventListener("click", async (e) => { try { await navigator.clipboard.writeText(DP.example.code); e.target.textContent = "Copied"; } catch (err) { e.target.textContent = "Select and copy"; } setTimeout(() => (e.target.textContent = "Copy code"), 1800); });
-      }
-      const lang = LANG[L.lang] || "plaintext";
-      if (window.hljs && lang !== "plaintext" && hljs.getLanguage(lang)) { codeEl.className = "language-" + lang; try { hljs.highlightElement(codeEl); } catch (e) {} }
-      $("#copyBtn").addEventListener("click", async (e) => {
-        try { await navigator.clipboard.writeText(L.code); e.target.textContent = "Copied"; }
-        catch (err) { const rg = document.createRange(); rg.selectNodeContents(codeEl); const s = getSelection(); s.removeAllRanges(); s.addRange(rg); e.target.textContent = "Selected, press Ctrl+C"; }
-        setTimeout(() => (e.target.textContent = "Copy code"), 1800);
-      });
-      let typing;
-      $("#answerBox").addEventListener("input", (e) => { S.answers[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
-      document.querySelectorAll("[data-opt]").forEach((b) => b.addEventListener("click", () => { S.quiz[k] = +b.dataset.opt; save(); keepScroll(); }));
-      const rq = $("#retryQuiz"); if (rq) rq.addEventListener("click", () => { delete S.quiz[k]; save(); keepScroll(); });
-      const extra = () => Array.from(document.querySelectorAll("#reviewBtn, #hintBtn"));
-      tutor.bind(extra); bindLessonCommon(k, next);
-      if (!sample) return;
-      const all = () => Array.from(document.querySelectorAll("#askBtn, [data-quick]")).concat(extra());
-      $("#reviewBtn").addEventListener("click", () => {
-        const a = $("#answerBox").value.trim();
-        if (!a) { $("#exOut").innerHTML = '<p class="note">Write your answer in the box first, then ask for a review.</p>'; return; }
-        ask($("#exOut"), `${ctx}\n\nExercise: ${plain(L.ex)}\n\nThe learner's answer:\n${a.slice(0, 12000)}\n\nReview it like a kind senior engineer: what is correct, bugs or misunderstandings with fixes, one improvement, and a verdict: "Ready to move on" or "Revise and resubmit".`, all(), { cache: false });
-      });
-      $("#hintBtn").addEventListener("click", () => ask($("#exOut"), `${ctx}\n\nExercise: ${plain(L.ex)}\n\nGive one helpful hint without giving away the solution. Two to four sentences.`, all()));
-    } };
-  }
-  function bindLessonCommon(k, next) {
-    let typing;
-    $("#noteBox").addEventListener("input", (e) => { S.notes[k] = e.target.value; clearTimeout(typing); typing = setTimeout(save, 600); });
-    const d = $("#doneBtn"); if (d) d.addEventListener("click", () => { S.done[k] = 1; save(); location.hash = next; });
-    const u = $("#undoBtn"); if (u) u.addEventListener("click", () => { delete S.done[k]; save(); keepScroll(); });
-  }
-
-  function viewCatalog() {
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Module catalog</span></nav>
-      <header class="mod-head"><span class="eyebrow">${MODS.length} modules in ${AREAS.length} areas</span><h1>Module catalog</h1>
-        <p class="lede">Every module on the platform, grouped by area. Each has lessons, a hands-on lab and a project. Add any module to your path, whatever role you started from.</p></header>
-      ${hasPath() ? `<div class="banner"><div><b>My path: ${pathMods(myRole()).length} modules</b><p>${myRole().base ? `Based on ${esc(myRole().baseTitle)}, ${myRole().extras.length} added, ${myRole().skipped.length} skipped.` : "Built from modules you picked."}</p></div><a class="btn btn-primary" href="#my">Open my path</a></div>` : `<div class="banner"><div><b>You have no path yet</b><p>Add a module below to start a custom path, or start from a role and add to it.</p></div><a class="btn btn-line" href="#roles">Start from a role</a></div>`}
-      <input class="search big-search" id="catSearch" type="search" placeholder="Filter modules, e.g. React, Docker, statistics" aria-label="Filter modules">
-      <div class="area-jump">${AREAS.map((a) => `<a href="#catalog" data-area-jump="${a.id}">${esc(a.t)}</a>`).join("")}</div>
-      ${AREAS.map((a) => { const ms = MODS.filter((m) => m.area === a.id); return ms.length ? `<section class="level-block area-block" id="area-${a.id}">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>${esc(a.t)}</h2><span>${esc(a.d)}</span></div>
-        <div class="skills">${ms.map((m) => { const on = inPath(m.id), p = modProgress(m), roles = rolesWith(m.id);
-          return `<article class="skill ${on ? "in" : ""}" data-skill="${esc((m.t + " " + m.d + " " + lessonsOf(m).map((l) => l.t).join(" ") + " " + a.t).toLowerCase())}">
-            <div class="row"><span class="tick" data-mstate="${m.id}"></span>${on ? `<button class="btn btn-quiet sm" type="button" data-unpath="${m.id}">✓ In my path</button>` : `<button class="btn btn-line sm" type="button" data-addpath="${m.id}">+ Add to my path</button>`}</div>
-            <a href="#mod-${m.id}"><h3>${esc(m.t)}</h3></a><p>${esc(m.d)}</p>
-            <div class="node-tags"><span>${p.total} lessons</span><span>${p.full} full</span><span>lab + project</span>${roles.length ? `<span title="${esc(roles.map((x) => x.title).join(", "))}">in ${roles.length} role${roles.length > 1 ? "s" : ""}</span>` : ""}</div>
-          </article>`; }).join("")}</div></section>` : ""; }).join("")}
-      ${footer()}
-    </div>`;
-  }
-
-  let projRole = "";
-  function viewProjects() {
-    const r = roleOf(projRole) || (hasPath() ? myRole() : null) || ROLES[0];
-    projRole = r.id;
-    const rid = r.id === "my" ? r.baseId : r.id;
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Projects</span></nav>
-      <header class="mod-head"><span class="eyebrow">${MODS.length} module projects · ${ROLES.length * 2} role projects</span><h1>Projects</h1><p class="lede">Projects get you interviews. Every module ends with a mini project; every role adds a big project and a final capstone. Push each one to GitHub with a README, screenshots and a live link.</p></header>
-      <div class="tabs" role="tablist">${hasPath() ? `<button type="button" class="tab ${r.id === "my" ? "on" : ""}" data-prole="my">My path</button>` : ""}${ROLES.map((x) => `<button type="button" role="tab" class="tab ${x.id === r.id ? "on" : ""}" data-prole="${x.id}">${esc(x.title)}</button>`).join("")}</div>
-      ${r.stages.map((s, si) => `<section class="level-block"><div class="level-title" style="--lvc: var(--accent)"><h2>${s.extra ? "Added by you" : "Stage " + (si + 1)}: ${esc(s.t)}</h2></div><div class="ideas">${s.mods.map(modById).filter(Boolean).map((m) => projCard("m-" + m.id, "Mini project", m.proj).replace("<h3>", `<p class="note" style="margin:0">From <a href="#mod-${m.id}">${esc(m.t)}</a></p><h3>`)).join("")}</div></section>`).join("")}
-      <section class="level-block"><div class="level-title" style="--lvc: var(--mark)"><h2>Big project and capstone</h2></div><div class="ideas">${r.big ? projCard(`${rid}-big`, "Big project", r.big) : ""}${r.capstone ? projCard(`${rid}-cap`, "Capstone", r.capstone) : ""}</div></section>
-      ${footer()}
-    </div>`;
-  }
-
-  /* every written lesson in one place, opened inside a module that uses it */
-  function refHome(ref) { for (const m of MODS) { const i = m.les.indexOf(ref); if (i >= 0) return { m, i }; } return null; }
-  function viewLibrary() {
-    const total = COURSE.reduce((s, c) => s + c.lessons.length, 0);
-    const done = COURSE.reduce((s, c) => s + c.lessons.filter((_, i) => S.done["L" + c.n + "-" + i]).length, 0);
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Lesson library</span></nav>
-      <header class="mod-head"><span class="eyebrow">${total} written lessons · ${done} done</span><h1>Lesson library</h1>
-        <p class="lede">All fully written lessons in one place, each with notes, worked code, an exercise and a quiz. Every lesson also sits inside a module in the role roadmaps; opening it here takes you there.</p></header>
-      <input class="search big-search" id="libSearch" type="search" placeholder="Filter lessons, e.g. React, SQL joins, Docker" aria-label="Filter lessons">
-      ${COURSE.map((c) => `<section class="level-block lib-block"><div class="level-title" style="--lvc: var(--accent)"><h2>${esc(c.t)}</h2><span>${c.lessons.length} lessons</span></div>
-        <div class="lessons">${c.lessons.map((l, i) => { const ref = c.n + "-" + i, h = refHome(ref); if (!h) return "";
-          return `<a class="lrow" data-lib="${esc((l.t + " " + l.sub.join(" ") + " " + c.t).toLowerCase())}" href="#l-${h.m.id}.${h.i}"><span class="tick ${S.done["L" + ref] ? "done" : ""}"></span><span class="lnum">${i + 1}</span><span class="lt"><b>${esc(l.t)}</b><small>${esc(l.sub.slice(0, 5).join(" · "))}</small></span><span class="badge">${esc(h.m.t)}</span></a>`; }).join("")}</div></section>`).join("")}
-      ${footer()}
-    </div>`;
-  }
-
-  function viewAbout() {
-    const full = MODS.reduce((s, m) => s + modProgress(m).full, 0), total = MODS.reduce((s, m) => s + m.les.length, 0);
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>About</span></nav>
-      <header class="mod-head"><span class="eyebrow">About Forge Academy</span><h1>One place for the whole path</h1>
-        <p class="lede">Forge Academy was created by ${esc(AUTHOR)} to fix a problem every student runs into: too many sources, none complete, and no clear route from where you are to the job you want.</p></header>
-      <section class="panel prose"><h2>How it is organised</h2>
-        <p><b>Role → Stage → Module → Lesson.</b> A role is a complete roadmap for one job. Stages put modules in learning order. A module is one skill (React, Docker, SQL) with several lessons, a hands-on lab and a project. A lesson has notes, worked code, an exercise and a quiz.</p>
-        <p>Modules are shared between roles, so "Git and GitHub" is the same module in every roadmap and your progress counts everywhere.</p></section>
-      <section class="panel prose"><h2>How to use it</h2>
-        <p><b>1. Choose a path.</b> Pick the role that sounds like you. If none fits exactly, start from the closest and use the <a href="#catalog">module catalog</a> to add or skip modules.</p>
-        <p><b>2. Go stage by stage, module by module.</b> Read each lesson, type the code yourself, do the exercise and quiz.</p>
-        <p><b>3. Do the lab and build the module project</b> before moving on. Put projects on GitHub with a README and a live link.</p>
-        <p><b>4. Finish with the big project and capstone</b>, then the job-ready checklist and interview questions.</p></section>
-      <section class="panel prose"><h2>What's ready now</h2>
-        <p>All ${ROLES.length} roadmaps, ${MODS.length} modules and ${total} lessons are fully outlined, and every module has a lab and a project. ${full} lessons are fully written with notes, code, exercise and quiz; the rest show their complete outline and are being written in waves.</p></section>
-      <section class="panel prose"><h2>Original content</h2>
-        <p>Every syllabus, lesson, lab and assignment here is written for Forge Academy, and the modules in each role are ordered the way you should actually learn them, foundations first.</p></section>
-      <section class="panel prose"><h2>Your progress and privacy</h2>
-        <p>There are no accounts. Everything you tick, write and complete is saved in your own browser on this device.</p></section>
-      <section class="panel prose"><h2>Contribute</h2>
-        <p>Spotted a mistake, or want to write a lesson that's still an outline? All content lives in plain JavaScript files in the <a href="${REPO}" target="_blank" rel="noopener">GitHub repository</a>.</p></section>
-      ${footer()}
-    </div>`;
-  }
-
-  /* ---------- router ---------- */
-  let catFilter = "", areaJump = "";
-  function keepScroll() { const y = scrollY; render(); scrollTo(0, y); }
-  function bindIq(r) {
-    const main = $("#main");
-    main.querySelectorAll("[data-iq]").forEach((b) => b.addEventListener("click", () => {
-      if (!sample) return;
-      ask($("#iqOut"), `${BASE}\n\nRole: ${r.baseTitle || r.title}. Help me practise this interview question: "${r.interview[+b.dataset.iq]}". Give the key points a strong answer covers, a model answer in about 150 words, and two follow-up questions.`, Array.from(main.querySelectorAll("[data-iq]")));
-      $("#iqOut").scrollIntoView({ behavior: "smooth", block: "nearest" });
-    }));
-  }
-  function render() {
-    const h = location.hash || "#home";
-    const main = $("#main");
-    let mm, m, view = null;
-    if ((mm = h.match(/^#l-([a-z0-9-]+)\.(\d+)$/)) && (m = modById(mm[1])) && lessonAt(m, +mm[2])) {
-      view = viewLesson(m, +mm[2]);
-      if (S.last !== h) { S.last = h; save(); }
-    } else if ((mm = h.match(/^#mod-([a-z0-9-]+)$/)) && (m = modById(mm[1]))) {
-      view = viewModule(m);
-    } else if ((mm = h.match(/^#r-([a-z-]+)$/)) && roleOf(mm[1]) && mm[1] !== "my") {
-      const r = roleOf(mm[1]);
-      if (S.ctx !== r.id) { S.ctx = r.id; save(); }
-      main.innerHTML = viewRole(r);
-      const pk = $("#pickRole"); if (pk) pk.addEventListener("click", () => { S.role = r.id; S.ctx = "my"; save(); renderTree($("#search").value); render(); });
-      bindIq(r);
-    } else if (h === "#my") {
-      if (S.ctx !== "my") { S.ctx = "my"; save(); }
-      main.innerHTML = viewRole(myRole());
-      main.querySelectorAll("[data-base]").forEach((b) => b.addEventListener("click", () => { S.role = b.dataset.base; save(); renderTree($("#search").value); keepScroll(); }));
-      bindIq(myRole());
-    } else if (h === "#catalog") {
-      main.innerHTML = viewCatalog();
-      const box = $("#catSearch"); box.value = catFilter;
-      const apply = () => { const q = box.value.trim().toLowerCase(); catFilter = box.value;
-        main.querySelectorAll(".skill").forEach((c) => { c.hidden = !!q && !c.dataset.skill.includes(q); });
-        main.querySelectorAll(".area-block").forEach((sec) => { sec.hidden = !sec.querySelector(".skill:not([hidden])"); }); };
-      box.addEventListener("input", apply); apply();
-      if (areaJump) { const el = document.getElementById("area-" + areaJump); areaJump = ""; if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 0); }
-    } else if (h === "#roles") { main.innerHTML = viewRoles();
-    } else if (h === "#projects") {
-      main.innerHTML = viewProjects();
-      main.querySelectorAll("[data-prole]").forEach((b) => b.addEventListener("click", () => { projRole = b.dataset.prole; render(); }));
-    } else if (h === "#library") {
-      main.innerHTML = viewLibrary();
-      const box = $("#libSearch");
-      box.addEventListener("input", () => { const q = box.value.trim().toLowerCase();
-        main.querySelectorAll("[data-lib]").forEach((r) => { r.hidden = !!q && !r.dataset.lib.includes(q); });
-        main.querySelectorAll(".lib-block").forEach((s) => { s.hidden = !s.querySelector("[data-lib]:not([hidden])"); }); });
-    } else if (h === "#about") { main.innerHTML = viewAbout();
-    } else { main.innerHTML = viewHome(); }
-    if (view) { main.innerHTML = view.html; view.bind(); }
-    main.querySelectorAll("[data-sub]").forEach((c) => c.addEventListener("change", () => { S.subs[c.dataset.sub] = c.checked ? 1 : 0; save(); keepScroll(); }));
-    main.querySelectorAll("[data-lab]").forEach((c) => c.addEventListener("change", () => { S.labs[c.dataset.lab] = c.checked ? 1 : 0; save(); keepScroll(); }));
-    main.querySelectorAll("[data-jr]").forEach((c) => c.addEventListener("change", () => { S.jr[c.dataset.jr] = c.checked ? 1 : 0; save(); keepScroll(); }));
-    main.querySelectorAll("[data-pj]").forEach((c) => c.addEventListener("change", () => { S.pj[c.dataset.pj] = c.checked ? 1 : 0; save(); }));
-    main.querySelectorAll("[data-addpath]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); addToPath(b.dataset.addpath); renderTree($("#search").value); keepScroll(); }));
-    main.querySelectorAll("[data-unpath]").forEach((b) => b.addEventListener("click", (e) => { e.preventDefault(); removeFromPath(b.dataset.unpath); renderTree($("#search").value); keepScroll(); }));
-    main.querySelectorAll("[data-repath]").forEach((b) => b.addEventListener("click", () => { addToPath(b.dataset.repath); renderTree($("#search").value); keepScroll(); }));
-    main.querySelectorAll("[data-area-jump]").forEach((a) => a.addEventListener("click", (e) => { areaJump = a.dataset.areaJump; if (location.hash === "#catalog") { e.preventDefault(); const el = document.getElementById("area-" + areaJump); areaJump = ""; if (el) el.scrollIntoView({ behavior: "smooth", block: "start" }); } }));
-    showTutor(); paintProgress(); markActive();
-  }
-  let lastHash = null;
-  function route() { render(); if (location.hash !== lastHash) { window.scrollTo(0, 0); lastHash = location.hash; } }
-  window.addEventListener("hashchange", route);
-
-  if (!ROLES.length || !MODS.length) { $("#main").innerHTML = '<div class="wrap"><p class="note">The course content did not load. Reload the page.</p></div>'; return; }
-  renderTree();
-  route();
-})();
-
+  render(matches);
+});
+</script>
+<script type="text/plain" id="country-explorer.solution">
+const app = document.getElementById("app");
+const search = document.getElementById("search");
+function render(list){
+  app.innerHTML = list.map(c => `
+    <article class="card">
+      <span class="flag">${c.flag}</span>
+      <div><b>${c.name}</b><small>${c.region} · ${c.population.toLocaleString()}</small></div>
+    </article>`).join("");
+}
+render(COUNTRIES);
+search.addEventListener("input", () => {
+  const q = search.value.toLowerCase();
+  render(COUNTRIES.filter(c => c.name.toLowerCase().includes(q)));
+});
 </script>
 
+<script type="text/plain" id="github-card.starter">
+// Build a profile card from the real GitHub API (no key needed).
+const app = document.getElementById("app");
+const input = document.getElementById("user");
+const btn = document.getElementById("go");
+
+async function load(username){
+  app.innerHTML = "<p class='muted'>Loading…</p>";
+  try{
+    const res = await fetch("https://api.github.com/users/" + username);
+    if(!res.ok) throw new Error("No user called '" + username + "'");
+    const u = await res.json();
+    app.innerHTML = `
+      <article class="profile">
+        <img class="avatar" src="  /* TODO 2: put ${u.avatar_url} here */  " alt="">
+        <h2>${u.name || u.login}</h2>
+        <p class="bio">${u.bio || ""}</p>
+        <div class="stats">
+          <span><b>${u.public_repos}</b> repos</span>
+          <span><b>  /* TODO 3: put ${u.followers} here */  </b> followers</span>
+        </div>
+      </article>`;
+  }catch(e){ app.innerHTML = "<p class='muted'>" + e.message + "</p>"; }
+}
+btn.addEventListener("click", () => load(input.value.trim() || "octocat"));
+load("octocat");   // load one straight away so you see it
+</script>
+<script type="text/plain" id="github-card.solution">
+const app = document.getElementById("app");
+const input = document.getElementById("user");
+const btn = document.getElementById("go");
+async function load(username){
+  app.innerHTML = "<p class='muted'>Loading…</p>";
+  try{
+    const res = await fetch("https://api.github.com/users/" + username);
+    if(!res.ok) throw new Error("No user called '" + username + "'");
+    const u = await res.json();
+    app.innerHTML = `
+      <article class="profile">
+        <img class="avatar" src="${u.avatar_url}" alt="">
+        <h2>${u.name || u.login}</h2>
+        <p class="bio">${u.bio || ""}</p>
+        <div class="stats">
+          <span><b>${u.public_repos}</b> repos</span>
+          <span><b>${u.followers}</b> followers</span>
+        </div>
+      </article>`;
+  }catch(e){ app.innerHTML = "<p class='muted'>" + e.message + "</p>"; }
+}
+btn.addEventListener("click", () => load(input.value.trim() || "octocat"));
+load("octocat");
+</script>
+
+<script type="text/plain" id="dog-gallery.starter">
+// Fetch 9 random dog photos from the free Dog API and show them.
+const app = document.getElementById("app");
+
+async function load(){
+  app.innerHTML = "<p class='muted'>Fetching good dogs…</p>";
+  try{
+    const res = await fetch("https://dog.ceo/api/breeds/image/random/9");
+    const data = await res.json();          // { message: [url, url, ...] }
+    app.innerHTML = data.message.map(url => `
+      <img class="dog" src="  /* TODO 2: put the ${url} here */  " alt="a dog">
+    `).join("");
+  }catch(e){ app.innerHTML = "<p class='muted'>Could not load dogs.</p>"; }
+}
+load();
+</script>
+<script type="text/plain" id="dog-gallery.solution">
+const app = document.getElementById("app");
+async function load(){
+  app.innerHTML = "<p class='muted'>Fetching good dogs…</p>";
+  try{
+    const res = await fetch("https://dog.ceo/api/breeds/image/random/9");
+    const data = await res.json();
+    app.innerHTML = data.message.map(url => `<img class="dog" src="${url}" alt="a dog">`).join("");
+  }catch(e){ app.innerHTML = "<p class='muted'>Could not load dogs.</p>"; }
+}
+load();
+</script>
+
+<script type="text/plain" id="playground.starter">
+// Your sandbox. There's a #app div in the preview — build anything.
+const app = document.getElementById("app");
+app.innerHTML = "<h2>Hello 👋</h2><p>Edit this code and hit Run.</p>";
+</script>
+<script type="text/plain" id="playground.solution">
+const app = document.getElementById("app");
+app.innerHTML = "<h2>Hello 👋</h2><p>Edit this code and hit Run.</p>";
+</script>
+
+<script>
+(function(){
+  "use strict";
+  const $ = (s,r)=> (r||document).querySelector(s);
+  const read = id => (document.getElementById(id)||{textContent:""}).textContent.trim();
+
+  const COUNTRIES = [
+    {name:"India",flag:"🇮🇳",region:"Asia",population:1428627663},{name:"China",flag:"🇨🇳",region:"Asia",population:1425671352},
+    {name:"United States",flag:"🇺🇸",region:"Americas",population:339996563},{name:"Indonesia",flag:"🇮🇩",region:"Asia",population:277534122},
+    {name:"Pakistan",flag:"🇵🇰",region:"Asia",population:240485658},{name:"Nigeria",flag:"🇳🇬",region:"Africa",population:223804632},
+    {name:"Brazil",flag:"🇧🇷",region:"Americas",population:216422446},{name:"Bangladesh",flag:"🇧🇩",region:"Asia",population:172954319},
+    {name:"Japan",flag:"🇯🇵",region:"Asia",population:123294513},{name:"Mexico",flag:"🇲🇽",region:"Americas",population:128455567},
+    {name:"Germany",flag:"🇩🇪",region:"Europe",population:83294633},{name:"France",flag:"🇫🇷",region:"Europe",population:64756584},
+    {name:"United Kingdom",flag:"🇬🇧",region:"Europe",population:67736802},{name:"Italy",flag:"🇮🇹",region:"Europe",population:58870762},
+    {name:"South Africa",flag:"🇿🇦",region:"Africa",population:60414495},{name:"Kenya",flag:"🇰🇪",region:"Africa",population:55100586},
+    {name:"Egypt",flag:"🇪🇬",region:"Africa",population:112716598},{name:"Spain",flag:"🇪🇸",region:"Europe",population:47519628},
+    {name:"Canada",flag:"🇨🇦",region:"Americas",population:38781291},{name:"Australia",flag:"🇦🇺",region:"Oceania",population:26439111},
+    {name:"Argentina",flag:"🇦🇷",region:"Americas",population:45773884},{name:"South Korea",flag:"🇰🇷",region:"Asia",population:51784059},
+    {name:"Saudi Arabia",flag:"🇸🇦",region:"Asia",population:36947025},{name:"Netherlands",flag:"🇳🇱",region:"Europe",population:17618299}
+  ];
+
+  // preview CSS shared look
+  const baseCss = '*{box-sizing:border-box}body{margin:0;font-family:"IBM Plex Sans",system-ui,sans-serif;background:#fbf8f2;color:#201c15;padding:14px}.muted{color:#8a8173;font-size:.9rem}';
+  const gridCss = '#search{width:100%;padding:11px 14px;font-size:15px;border:1px solid #e0d6c4;border-radius:11px;margin-bottom:14px;font-family:inherit;outline:none}#search:focus{border-color:#d4831a;box-shadow:0 0 0 3px rgba(212,131,26,.18)}#app{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.card{display:flex;gap:10px;align-items:center;background:#fff;border:1px solid #ece3d3;border-radius:12px;padding:11px}.flag{font-size:30px;line-height:1}.card b{font-size:.9rem;display:block}.card small{font-size:.74rem;color:#746c5d;display:block;margin-top:2px}';
+  const ghCss = '.controls{display:flex;gap:8px;margin-bottom:14px}#user{flex:1;padding:10px 13px;border:1px solid #e0d6c4;border-radius:10px;font:inherit;outline:none}#go{padding:10px 16px;border:0;border-radius:10px;background:#d4831a;color:#fff;font-weight:600;cursor:pointer}.profile{background:#fff;border:1px solid #ece3d3;border-radius:14px;padding:18px;text-align:center}.avatar{width:84px;height:84px;border-radius:50%;object-fit:cover}.profile h2{margin:10px 0 2px;font-size:1.2rem}.bio{color:#746c5d;font-size:.86rem;margin:4px 0 0}.stats{display:flex;gap:18px;justify-content:center;margin-top:12px}.stats b{font-size:1.05rem}';
+  const dogCss = '#app{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px}.dog{width:100%;height:120px;object-fit:cover;border-radius:12px;background:#eee}';
+
+  const LABS = [
+    { id:"country-explorer", track:"Frontend & Full Stack", title:"Country Explorer", level:"Beginner", minutes:10, glyph:"🌍", thumb:"#e9f2ee",
+      tagline:"Render a searchable grid of countries with flags, regions and populations.",
+      skills:["Rendering a list","Search filter","Template strings"], api:"Built-in data", live:false,
+      body:'<input id="search" placeholder="Search countries…" autocomplete="off"><div id="app"></div>', css:gridCss, boot:"var COUNTRIES="+JSON.stringify(COUNTRIES)+";", delay:120,
+      goals:[{t:"Countries show up",h:"Make sure render(COUNTRIES) runs."},{t:"Flags appear on cards",h:"TODO 2: put <code>${c.flag}</code> between the quotes."},{t:"Search filters the list",h:"TODO 3: return <code>c.name.toLowerCase().includes(q)</code>."}],
+      check:function(doc){ var cards=doc.querySelectorAll("#app .card");
+        var g0=cards.length>=10;
+        var g1=[].some.call(cards,function(c){var f=c.querySelector(".flag");return f&&f.textContent.trim().length>0&&!/TODO/.test(f.textContent);});
+        var g2=false,inp=doc.getElementById("search");
+        if(inp){inp.value="ind";inp.dispatchEvent(new Event("input"));var now=doc.querySelectorAll("#app .card");g2=now.length>=1&&now.length<cards.length&&[].every.call(now,function(c){return /ind/i.test(c.textContent);});inp.value="";inp.dispatchEvent(new Event("input"));}
+        return [g0,g1,g2]; } },
+
+    { id:"github-card", track:"Frontend & Full Stack", title:"GitHub Profile Card", level:"Beginner", minutes:12, glyph:"🐙", thumb:"#eef0f4",
+      tagline:"Call the real GitHub API and build a profile card for any username.",
+      skills:["fetch + async/await","Reading JSON","Handling errors"], api:"GitHub API (free, no key)", live:true,
+      body:'<div class="controls"><input id="user" value="octocat" autocomplete="off"><button id="go">Load</button></div><div id="app"></div>', css:ghCss, boot:"", delay:2000,
+      goals:[{t:"A profile loads",h:"The default user should appear on Run."},{t:"The avatar image shows",h:"TODO 2: put <code>${u.avatar_url}</code> in the img src."},{t:"Follower count shows",h:"TODO 3: put <code>${u.followers}</code> in the followers slot."}],
+      check:function(doc){ var h=doc.querySelector("#app .profile h2"), img=doc.querySelector("#app .avatar"), txt=(doc.querySelector("#app")||{}).textContent||"";
+        var g0=!!(h&&h.textContent.trim());
+        var g1=!!(img&&/^https?:/.test(img.getAttribute("src")||""));
+        var g2=/\d+\s*followers/i.test(txt.replace(/\s+/g," "));
+        return [g0,g1,g2]; } },
+
+    { id:"dog-gallery", track:"Frontend & Full Stack", title:"Dog Gallery", level:"Beginner", minutes:8, glyph:"🐶", thumb:"#f3eee6",
+      tagline:"Pull nine random dog photos from a free API and lay them out in a grid.",
+      skills:["fetch","Mapping an array","Image grids"], api:"Dog API (free, no key)", live:true,
+      body:'<div id="app"></div>', css:dogCss, boot:"", delay:2000,
+      goals:[{t:"Photos are fetched",h:"The grid should fill after Run."},{t:"Images actually display",h:"TODO 2: put <code>${url}</code> in the img src."}],
+      check:function(doc){ var imgs=doc.querySelectorAll("#app img.dog");
+        var g0=imgs.length>=6;
+        var g1=imgs.length>=6&&[].every.call(imgs,function(i){return /^https?:/.test(i.getAttribute("src")||"");});
+        return [g0,g1]; } },
+
+    { id:"playground", track:"Custom", title:"Playground", level:"Sandbox", minutes:0, glyph:"✦", thumb:"custom", custom:true,
+      tagline:"A blank canvas. Build any idea — fetch any free API, render anything.",
+      skills:["Anything you want"], api:"Bring your own", live:true,
+      body:'<div id="app"></div>', css:"#app{font-family:inherit}", boot:"", delay:300, goals:[], check:function(){return [];} }
+  ];
+
+  var SOON = [
+    { track:"AI & LLM", items:["Chatbot UI","Sentiment analyser","Image-caption viewer"] },
+    { track:"DevOps & Cloud", items:["Status dashboard","Log viewer","Uptime pinger"] }
+  ];
+
+  // ---------- progress ----------
+  var DONE = {};
+  try{ DONE = JSON.parse(localStorage.getItem("forge-labs-done")||"{}"); }catch(e){}
+  function saveDone(){ try{ localStorage.setItem("forge-labs-done", JSON.stringify(DONE)); }catch(e){} }
+  var labById = function(id){ return LABS.filter(function(l){return l.id===id;})[0]; };
+
+  // ---------- theme ----------
+  try{ var t=localStorage.getItem("forge-labs-theme"); if(t) document.documentElement.dataset.theme=t; }catch(e){}
+  $("#themeBtn").addEventListener("click", function(){
+    var root=document.documentElement;
+    var dark = root.dataset.theme ? root.dataset.theme==="dark" : matchMedia("(prefers-color-scheme:dark)").matches;
+    root.dataset.theme = dark?"light":"dark";
+    try{ localStorage.setItem("forge-labs-theme", root.dataset.theme); }catch(e){}
+  });
+
+  // ---------- gallery ----------
+  function galleryHTML(){
+    var tracks = {};
+    LABS.forEach(function(l){ (tracks[l.track]=tracks[l.track]||[]).push(l); });
+    var order=["Frontend & Full Stack","Custom"];
+    var done=Object.keys(DONE).length;
+    var html = '<section class="hero">'
+      +'<span class="eyebrow">Learn by building, not reading</span>'
+      +'<h1>Pick a project. <em>Build it for real.</em></h1>'
+      +'<p>Every lab drops you into a code editor with a half-finished app. You fix the gaps, hit Run, watch it work on live data, and get your work checked instantly. No walls of text.</p>'
+      +'<div class="chips"><span class="hchip"><b>'+LABS.filter(function(l){return !l.custom;}).length+'</b> project labs</span><span class="hchip"><b>Live</b> free APIs</span><span class="hchip"><b>'+done+'</b> completed by you</span></div>'
+      +'</section>';
+    order.forEach(function(tr){
+      var ls=tracks[tr]; if(!ls) return;
+      html += '<section class="track"><div class="track-h"><h2>'+tr+'</h2><span>'+ls.length+' lab'+(ls.length>1?"s":"")+'</span></div><div class="grid">';
+      ls.forEach(function(l){ html += labCardHTML(l); });
+      html += '</div></section>';
+    });
+    SOON.forEach(function(s){
+      html += '<section class="track"><div class="track-h"><h2>'+s.track+'</h2><span>coming soon</span></div><div class="grid">';
+      s.items.forEach(function(name){
+        html += '<div class="labcard soon"><div class="thumb" style="background:var(--line2)"></div><div class="b"><h3>'+name+'</h3><p>Coming soon</p></div></div>';
+      });
+      html += '</div></section>';
+    });
+    return html;
+  }
+  function labCardHTML(l){
+    var bg = l.thumb==="custom" ? "" : 'style="background:'+l.thumb+'"';
+    var cls = "labcard"+(l.custom?" custom":"");
+    return '<button class="'+cls+'" data-open="'+l.id+'">'
+      +'<div class="thumb" '+bg+'>'+l.glyph+'<span class="lvl">'+l.level+'</span></div>'
+      +'<div class="b"><h3>'+l.title+'</h3><p>'+l.tagline+'</p>'
+      +'<div class="meta"><span class="tag api">'+l.api+'</span>'+(l.minutes?'<span class="tag">'+l.minutes+' min</span>':'')
+      +(DONE[l.id]?'<span class="status">✓ Done</span>':'')+'</div></div></button>';
+  }
+
+  // fix the stray soon-card glyph (kept simple)
+  function cleanSoon(root){ [].forEach.call(root.querySelectorAll(".labcard.soon .thumb"), function(t){ t.textContent="•••"; }); }
+
+  // ---------- lab runtime ----------
+  var current=null, passed=[];
+  function buildDoc(lab, userCode){
+    var head='<meta charset="utf-8"><style>'+baseCss+lab.css+'</style>';
+    var shim='var _log=function(m,c){parent.postMessage({t:"log",m:String(m),cls:c||""},"*")};'
+      +'console.log=function(){_log([].join.call(arguments," "))};console.error=function(){_log([].join.call(arguments," "),"err")};'
+      +'window.onerror=function(m){_log(m,"err");return true};';
+    var run='try{\n'+userCode+'\n}catch(e){console.error(e.message)}';
+    return head+lab.body+'<scr'+'ipt>'+lab.boot+shim+run+'</scr'+'ipt>';
+  }
+  function runCode(){
+    var code=$("#code").value, frame=$("#preview"), con=$("#console");
+    con.innerHTML=""; frame.srcdoc=buildDoc(current, code);
+  }
+  function setGoal(i,on){
+    passed[i]=on;
+    var els=document.querySelectorAll(".goal"); if(els[i]) els[i].classList.toggle("done",on);
+    var n=passed.filter(Boolean).length, tot=current.goals.length;
+    $("#pbar").style.width=(tot?n/tot*100:0)+"%"; $("#ptxt").textContent=n+" / "+tot+" goals";
+    return n;
+  }
+  function doCheck(){
+    runCode();
+    setTimeout(function(){
+      var doc=$("#preview").contentDocument, verdict=$("#verdict"), win=$("#win");
+      var res=[]; try{ res=current.check(doc)||[]; }catch(e){ res=[]; }
+      current.goals.forEach(function(_,i){ setGoal(i, !!res[i]); });
+      var n=passed.filter(Boolean).length;
+      var fails=[];
+      current.goals.forEach(function(g,i){ if(!res[i]) fails.push(g.h); });
+      if(current.goals.length && n===current.goals.length){
+        verdict.hidden=true; win.hidden=false; markDone(); celebrate();
+      } else {
+        win.hidden=true; verdict.hidden=false; verdict.className="verdict no";
+        verdict.innerHTML="<b>"+n+" of "+current.goals.length+" passing.</b><ul><li>"+fails.join("</li><li>")+"</li></ul>";
+      }
+    }, current.delay||300);
+  }
+  function markDone(){ if(current && !current.custom){ DONE[current.id]=1; saveDone(); } }
+
+  function labHTML(lab){
+    var goals = lab.goals.map(function(g){ return '<li class="goal"><span class="tick"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-11" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></span><span><b>'+g.t+'</b></span></li>'; }).join("");
+    var left = lab.custom
+      ? '<span class="eyebrow">Sandbox</span><h1>'+lab.title+'</h1><p class="lede">'+lab.tagline+' There are no checks here — just build. The preview has a <code>#app</code> div to render into.</p>'
+      : '<span class="eyebrow">'+lab.track+' · '+lab.level+' · '+lab.minutes+' min</span><h1>'+lab.title+'</h1><p class="lede">'+lab.tagline+'</p>'
+        +'<ul class="goals">'+goals+'</ul><div class="verdict" id="verdict" hidden></div>'
+        +'<div class="win" id="win" hidden><h3>🎉 Lab complete!</h3><p>Every goal passes. You just built a working, data-driven feature — the real thing, not a worksheet.</p></div>';
+    var apiNote = lab.live ? 'Live data from '+lab.api : lab.api;
+    return '<div class="crumbs"><button id="back">← All labs</button><span>/</span><span>'+lab.title+'</span></div>'
+      +'<div class="work"><section class="panel">'+left+'</section>'
+      +'<section><div class="toolbar">'
+        +'<button class="btn run" id="runBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M7 5v14l11-7z" fill="currentColor"/></svg>Run</button>'
+        +(lab.custom?'':'<button class="btn check" id="checkBtn"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12l5 5 9-11" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>Check my work</button><button class="btn ghost" id="solBtn">Show solution</button>')
+        +'<button class="btn ghost spacer" id="resetBtn">Reset</button></div>'
+      +'<div class="editor-wrap"><div class="editor-bar"><span class="dot" style="background:#e06c54"></span><span class="dot" style="background:#e3b341"></span><span class="dot" style="background:#4ac08a"></span><span style="margin-left:6px">app.js</span></div>'
+      +'<textarea id="code" spellcheck="false" aria-label="Code editor"></textarea></div>'
+      +(lab.custom?'':'<p class="todo-hint">Find the <code>// TODO</code> comments — each is one small change with the hint right there. Stuck? Hit <b>Show solution</b>.</p>')
+      +'<div class="preview-wrap"><div class="preview-bar">Live preview<span class="pill">'+apiNote+'</span></div>'
+      +'<iframe id="preview" title="Live preview"></iframe><div class="console" id="console"></div></div></section></div>';
+  }
+
+  // ---------- router ----------
+  function render(){
+    var app=$("#app"), hash=location.hash||"";
+    var m=hash.match(/^#lab-([a-z0-9-]+)$/), lab=m&&labById(m[1]);
+    if(lab){
+      current=lab; passed=[]; $("#headProg").hidden=false;
+      app.innerHTML=labHTML(lab);
+      var code=$("#code"); code.value=read(lab.id+".starter");
+      code.addEventListener("keydown", function(e){ if(e.key==="Tab"){ e.preventDefault(); var s=code.selectionStart,en=code.selectionEnd; code.value=code.value.slice(0,s)+"  "+code.value.slice(en); code.selectionStart=code.selectionEnd=s+2; }});
+      $("#runBtn").addEventListener("click", runCode);
+      $("#back").addEventListener("click", function(){ location.hash=""; });
+      if(!lab.custom){
+        $("#checkBtn").addEventListener("click", doCheck);
+        $("#solBtn").addEventListener("click", function(){ code.value=read(lab.id+".solution"); runCode(); });
+        lab.goals.forEach(function(_,i){ setGoal(i,false); });
+      } else { $("#pbar").style.width="0%"; $("#ptxt").textContent="sandbox"; }
+      $("#resetBtn").addEventListener("click", function(){ code.value=read(lab.id+".starter"); $("#console").innerHTML=""; if($("#win"))$("#win").hidden=true; if($("#verdict"))$("#verdict").hidden=true; lab.goals.forEach(function(_,i){ setGoal(i,false); }); runCode(); });
+      runCode();
+      window.scrollTo(0,0);
+    } else {
+      current=null; $("#headProg").hidden=true;
+      app.innerHTML=galleryHTML(); cleanSoon(app);
+      [].forEach.call(app.querySelectorAll("[data-open]"), function(b){ b.addEventListener("click", function(){ location.hash="#lab-"+b.getAttribute("data-open"); }); });
+      window.scrollTo(0,0);
+    }
+  }
+  window.addEventListener("hashchange", render);
+  window.addEventListener("message", function(e){ if(!e.data||e.data.t!=="log")return; var c=$("#console"); if(!c)return; var d=document.createElement("div"); if(e.data.cls)d.className=e.data.cls; d.textContent=e.data.m; c.appendChild(d); });
+  $("#homeBtn").addEventListener("click", function(){ location.hash=""; });
+
+  // ---------- confetti ----------
+  function celebrate(){
+    if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+    var cv=$("#confetti"), ctx=cv.getContext("2d"); cv.style.display="block"; cv.width=innerWidth; cv.height=innerHeight;
+    var cols=["#d4831a","#1b9c6b","#e3b341","#4ac08a","#e06c54"];
+    var P=[]; for(var i=0;i<140;i++) P.push({x:Math.random()*cv.width,y:-20-Math.random()*cv.height*.4,r:4+Math.random()*5,c:cols[Math.random()*cols.length|0],vy:2+Math.random()*3.5,vx:-1.5+Math.random()*3,rot:Math.random()*6,vr:-.2+Math.random()*.4});
+    var t=0;(function f(){ t++; ctx.clearRect(0,0,cv.width,cv.height); P.forEach(function(p){p.x+=p.vx;p.y+=p.vy;p.rot+=p.vr;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.fillStyle=p.c;ctx.fillRect(-p.r,-p.r,p.r*2,p.r*1.3);ctx.restore();}); if(t<160)requestAnimationFrame(f); else cv.style.display="none"; })();
+  }
+
+  render();
+})();
+</script>
 </body>
 </html>

@@ -1,47 +1,40 @@
-# Forge Academy
+# Forge Labs
 
-**Find your path in tech. Then walk it.**
+**Build it to learn it.**
 
 **Live site: [forge-academy-learn.vercel.app](https://forge-academy-learn.vercel.app)**
 
-Forge Academy is a free, open platform with complete career roadmaps for the most in-demand tech roles. Each roadmap comes with everything you need to learn it: notes, worked code, hands-on labs, quizzes, small projects, big projects and a final capstone.
+Forge Labs is a free, open platform where you learn to code by **building real, working projects** — not by reading. Every lab drops you into a code editor with a half-finished app, you fill in the gaps, hit **Run** to see it work on live data, and your work is **checked instantly** with ✓/✗ feedback and hints.
 
-It is built for college students, people in their first job who want to grow or switch roles, and anyone moving into tech who is tired of stitching together ten incomplete courses.
+It is built for people who learn by doing: the reading-heavy course was replaced with hands-on project labs.
 
-## How it is organised
+## How a lab works
 
-Everything follows one structure: **Role → Stage → Module → Lesson**.
+Each lab is a small, self-contained project:
 
-- **Role:** a complete roadmap for one job, from zero to job-ready, ending in a big project, a capstone, a job-ready checklist and interview questions.
-- **Stage:** a group of modules in learning order, each with a clear goal.
-- **Module:** one skill (React, Docker, SQL, statistics…) with several lessons, a **hands-on lab** with a "done when" finish line, and a **mini project**.
-- **Lesson:** notes, worked code, an exercise and a quiz. Lessons still being written show their full outline as a study checklist.
+- **A brief and goals** — what you're building and the handful of things that must work.
+- **A live code editor** — pre-filled with starter code and clearly marked `// TODO` spots, each with its hint.
+- **Run** — your code executes in a sandbox and the result renders live in the preview, often powered by a **free public API** (REST Countries, GitHub, Dog API — no keys).
+- **Check my work** — actually runs your code, grades each goal, turns them green, and celebrates when you finish. Stuck? **Show solution** fills it in.
 
-Modules are shared between roles, so "Git and GitHub" is the same module everywhere and progress counts once.
+Progress (which labs you've completed) is saved in your browser, no sign-up.
 
-## Roles
+## The labs
 
-Forge Academy focuses on three of the most in-demand tech roles of 2026, so each one can go deep instead of spreading thin. Every module within a role is placed in a deliberate learning order — foundations first, then the skills that build on them.
+Labs are grouped into tracks (Frontend & Full Stack today; AI and DevOps coming). The current set:
 
-| Role | Modules | Lessons | Capstone |
-|---|---|---|---|
-| Full Stack Developer | 18 | 78 | Launch a real SaaS |
-| AI / ML Engineer | 21 | 113 | AI app builder (like SaaSForge) |
-| Cloud & DevOps Engineer | 17 | 84 | Production platform on Kubernetes |
+| Lab | What you build | API |
+|---|---|---|
+| Country Explorer | A searchable grid of countries with flags and populations | built-in data |
+| GitHub Profile Card | A profile card for any GitHub username, from the real API | GitHub (free) |
+| Dog Gallery | A grid of random dog photos | Dog API (free) |
+| Playground | A blank sandbox to build any idea | bring your own |
 
-All syllabi, lessons, labs and assignments here are original.
+## Tracks and what's next
 
-## How you learn
+Labs are grouped into tracks. **Frontend & Full Stack** labs are live now; **AI & LLM** and **DevOps & Cloud** tracks are next. There's also a **Custom** track with a free-build Playground, and role-based "hot project" labs (the real things companies hire juniors to build) are the direction from here.
 
-- **Role roadmaps:** pick a role and follow it stage by stage. Each stage is a group of modules in the order you should learn them; each module has detailed lessons, a hands-on lab and a project.
-- **My path:** start from any role, then add modules from other areas or drop ones you don't need. Shared modules (like Git or SQL) are the same everywhere, so switching roles never wastes progress.
-- **Module catalog:** every module on the platform, grouped by area — add any of them to your path.
-
-## What's ready now
-
-- All 3 roadmaps are fully structured: every module has detailed lessons, a hands-on lab with a "done when" finish line, and a project assignment; every role ends in a big project and a final capstone.
-- Over 100 lessons are fully written with notes, worked code, an exercise and a quiz, many expanded with deeper notes, worked examples, common mistakes and practice problems. The rest show their complete outline as a study checklist and are being written in waves.
-- Progress is saved in your browser, with no sign-up.
+The previous version of this site was a reading-based roadmap platform (roles, modules and written lessons). That content still lives in the git history and the old `data/` files if you want it; the live site is now the labs.
 
 ## Run locally
 
@@ -56,26 +49,32 @@ python3 -m http.server 8000
 
 ## Project structure
 
+The whole app is one self-contained file — no build step, no dependencies beyond a Google Fonts link:
+
 ```
-index.html            the app: layout, styles and logic
-data/roles2.js        the 3 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
-data/cur1-3.js        the modules: lessons (full or outline), lab and project
-data/part*.js         the full written lessons (newer files declare the module they fill)
-data/deep*.js         deeper lesson content: extended notes, worked examples, common mistakes and practice
+index.html   the entire platform: styles, the lab engine (editor, runner,
+             checker, gallery) and the lab definitions
+data/*        legacy data files from the previous roadmap version (unused by the live site)
 ```
 
-## Contributing
+## Adding a lab
 
-The most valuable contribution is turning an outline lesson into a full one.
-
-**A full lesson** is a plain object inside a module in `data/partN.js`:
+A lab is one entry in the `LABS` array plus two text blocks in `index.html`:
 
 ```js
-{ t: "Title", sub: ["sub-topic"], body: "<p>Notes</p>", lang: "python", code: "...",
-  ex: "Exercise", q: ["Question?", ["A", "B", "C", "D"], 1, "Why B"] }
+{ id:"my-lab", track:"Frontend & Full Stack", title:"My Lab", level:"Beginner",
+  minutes:10, glyph:"🚀", thumb:"#eef0f4",
+  tagline:"What you build, in one line.",
+  api:"Some API (free)", live:true,
+  body:'<div id="app"></div>',   // the preview's HTML shell
+  css:"...",                      // preview styles
+  boot:"",                        // JS injected before the learner's code (e.g. seed data)
+  delay:2000,                     // ms to wait after Run before checking (for async fetches)
+  goals:[{ t:"Goal shown to the learner", h:"Hint if it fails" }],
+  check:function(doc){ return [ /* one boolean per goal */ ]; } }
 ```
 
-**In a module** (`data/cur*.js`), each entry in `les` is either an outline `["Title", ["sub-topic", ...]]` or a reference to a full lesson (`"partModuleNumber-lessonIndex"`). Replace the outline with the reference once the lesson is written.
+Then add `<script type="text/plain" id="my-lab.starter">…</script>` and `…id="my-lab.solution">…</script>` blocks with the starter (with `// TODO`s) and the finished code. The engine wires up the editor, Run, Check and Show solution automatically.
 
 Open an issue or a pull request.
 
