@@ -160,4 +160,19 @@ window.MODS = window.MODS || [];
     ["Testing in CI/CD", ["Running suites on every pull request", "Parallel runs", "Reports and screenshots", "Quality gates"]]
   ], lab("Automate a test suite", ["Write 10 Playwright UI tests with page objects", "Write API tests for the same app", "Run a load test with k6", "Run everything in GitHub Actions"], "Your suite runs in CI on every push and catches a bug you introduce."),
   proj("Automation framework", "A reusable test automation framework for a web app.", ["UI and API tests", "Page objects and fixtures", "CI with reports", "Load test scripts"]));
+
+  /* ================= CACHING & AUTOMATION (full-stack, roadmap-aligned) ================= */
+  M("redis", "Redis and caching", "backend", "Keep hot data in memory with Redis: caching patterns, data types and the common production uses.", [
+    ["Why caching, and what Redis is", ["Memory vs disk", "When a cache helps", "Cache, store and broker", "redis-cli basics", "Keys and expiry"]],
+    ["Core data types and commands", ["Strings and counters", "Hashes", "Lists", "Sets and sorted sets", "Eviction policies"]],
+    ["Caching patterns in a web app", ["Cache-aside", "Setting a TTL", "Invalidation on write", "Sessions and rate limiting", "Avoiding stampedes"]]
+  ], lab("Add a cache to a real endpoint", ["Run Redis with Docker and connect with redis-cli", "Add cache-aside to one slow endpoint with a TTL", "Log HIT and MISS and confirm the first call misses", "Invalidate the key on write and prove the next read refills it"], "A real endpoint reads from Redis on repeat calls and falls back to the database only on a miss or after invalidation."),
+  proj("Cache layer for an app", "Add a Redis caching layer to an existing API: cache-aside reads, TTLs, invalidation on write, and a per-user rate limiter.", ["Cache-aside on at least two endpoints", "Sensible TTLs with jitter", "Invalidation when records change", "A rate limiter using INCR with expiry"]));
+
+  M("ansible", "Ansible and configuration management", "devops", "Describe a server's desired state as code and apply it repeatably: inventory, playbooks, roles and secrets.", [
+    ["What Ansible is and how it runs", ["Configuration as code", "Agentless over SSH", "Inventory", "Modules and idempotency", "Ad-hoc commands"]],
+    ["Playbooks, tasks and variables", ["YAML playbook structure", "Tasks and modules", "Variables and facts", "Handlers", "Loops and conditionals"]],
+    ["Roles, templates and real deployments", ["Roles and structure", "Jinja2 templates", "Secrets with Ansible Vault", "Deploying an app", "Keeping it idempotent"]]
+  ], lab("Provision a server with a playbook", ["Write a two-host inventory and confirm reach with the ping module", "Write a playbook that installs and configures nginx", "Add a handler that restarts nginx only on config change", "Run it twice and confirm the second run makes no changes"], "A single playbook brings a fresh server to a known state and is safe to re-run with no changes the second time."),
+  proj("Automated app deployment", "Build an Ansible role that deploys a small app from scratch: pull code, render config from a template, manage a secret with Vault, and restart via a handler.", ["A reusable role with the standard layout", "A Jinja2-templated environment file", "One secret stored in Ansible Vault", "Idempotent re-runs that only change what actually changed"]));
 })();

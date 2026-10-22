@@ -15,68 +15,99 @@ window.ROLES2 = [
   "duration": "9-11 months at 10 hours a week",
   "stages": [
    {
-    "t": "Foundations",
-    "goal": "How the web works and the tools every developer uses.",
-    "mods": [
-     "internet",
-     "terminal",
-     "git",
-     "debugging"
-    ]
-   },
-   {
-    "t": "Frontend basics",
-    "goal": "Build and style pages, then make them interactive.",
+    "t": "Static webpages",
+    "goal": "Build and style the structure of a page.",
     "mods": [
      "html",
-     "css",
-     "styling",
-     "javascript",
-     "dom"
+     "css"
     ]
    },
    {
-    "t": "Modern frontend",
-    "goal": "Types, tooling and React, the way teams build today.",
+    "t": "Interactivity",
+    "goal": "Make pages respond with JavaScript.",
     "mods": [
-     "typescript",
-     "fe-tooling",
+     "javascript"
+    ]
+   },
+   {
+    "t": "Frontend apps",
+    "goal": "Build real interfaces with React and a utility-first CSS framework.",
+    "mods": [
      "react",
-     "nextjs",
-     "fe-quality"
+     "styling"
     ]
    },
    {
-    "t": "Backend and data",
-    "goal": "Serve APIs and store data with Node.js.",
+    "t": "External packages",
+    "goal": "Use and manage third-party packages.",
     "mods": [
-     "node",
-     "http-apis",
-     "sql",
-     "orm",
-     "nosql"
+     "fe-tooling"
     ]
    },
    {
-    "t": "Secure, test and ship",
-    "goal": "Real users, safely and automatically.",
+    "t": "Collaborative work",
+    "goal": "Version control and working with others.",
+    "mods": [
+     "git"
+    ]
+   },
+   {
+    "t": "CLI apps",
+    "goal": "Run JavaScript on the server with Node.js.",
+    "mods": [
+     "node"
+    ]
+   },
+   {
+    "t": "Simple CRUD apps",
+    "goal": "Serve a REST API backed by a relational database.",
+    "mods": [
+     "http-apis",
+     "sql"
+    ]
+   },
+   {
+    "t": "Complete app",
+    "goal": "Add authentication and caching.",
     "mods": [
      "auth",
-     "api-security",
-     "testing",
-     "docker",
-     "cicd",
-     "deploy-fe",
-     "async-systems"
+     "redis"
     ]
    },
    {
-    "t": "Systems and hiring",
-    "goal": "Design bigger systems and get the job.",
+    "t": "Deployment",
+    "goal": "Put the app on cloud infrastructure.",
     "mods": [
-     "architecture",
-     "dsa",
-     "career"
+     "cloud-aws"
+    ]
+   },
+   {
+    "t": "CI/CD",
+    "goal": "Build, test and deploy automatically.",
+    "mods": [
+     "cicd"
+    ]
+   },
+   {
+    "t": "Automation",
+    "goal": "Administer and configure servers as code.",
+    "mods": [
+     "linux-admin",
+     "ansible"
+    ]
+   },
+   {
+    "t": "Infrastructure",
+    "goal": "Provision infrastructure as code.",
+    "mods": [
+     "iac"
+    ]
+   },
+   {
+    "t": "Monitoring",
+    "goal": "Watch the running system and get alerted.",
+    "mods": [
+     "observability"
     ]
    }
   ],

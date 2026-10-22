@@ -25,7 +25,7 @@ Forge Academy focuses on three of the most in-demand tech roles of 2026, so each
 
 | Role | Modules | Lessons | Capstone |
 |---|---|---|---|
-| Full Stack Developer | 29 | 134 | Launch a real SaaS |
+| Full Stack Developer | 18 | 78 | Launch a real SaaS |
 | AI / ML Engineer | 21 | 113 | AI app builder (like SaaSForge) |
 | Cloud & DevOps Engineer | 17 | 84 | Production platform on Kubernetes |
 
