@@ -421,9 +421,8 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     <input class="search" id="search" type="search" placeholder="Search modules and lessons" aria-label="Search modules and lessons">
     <nav class="rail-nav">
       <a class="rail-link" href="#home" data-nav="home">Home</a>
-      <a class="rail-link" href="#build" data-nav="build">Build a project</a>
-      <a class="rail-link" href="#my" data-nav="my">My path</a>
       <a class="rail-link" href="#roles" data-nav="roles">Role roadmaps</a>
+      <a class="rail-link" href="#my" data-nav="my">My path</a>
       <a class="rail-link" href="#catalog" data-nav="catalog">Module catalog</a>
       <a class="rail-link" href="#library" data-nav="library">Lesson library</a>
       <a class="rail-link" href="#about" data-nav="about">About and how to use</a>
@@ -473,20 +472,15 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 <script src="data/cur1.js?v=febe51c1"></script>
 <script src="data/cur2.js?v=31675bf6"></script>
 <script src="data/cur3.js?v=9c1ff7ad"></script>
-<script src="data/roles2.js?v=b6348c61"></script>
-<script src="data/projects.js?v=f4fdaa20"></script>
+<script src="data/roles2.js?v=e196ecc0"></script>
 <script>
 (() => {
   "use strict";
   /* ---------- data ---------- */
   const COURSE = window.COURSE || [];
   const ROLES = window.ROLES2 || [];
-  const PROJECTS = window.PROJECTS || [];
-  /* show modules used by any role roadmap or any project blueprint */
-  const USED = new Set([
-    ...ROLES.flatMap((r) => r.stages.flatMap((s) => s.mods)),
-    ...PROJECTS.flatMap((p) => [...(p.mods || []), ...(p.stretch || [])]),
-  ]);
+  /* show modules used by any role roadmap */
+  const USED = new Set(ROLES.flatMap((r) => r.stages.flatMap((s) => s.mods)));
   const MODS = (window.MODS || []).filter((m) => USED.has(m.id));
   /* newly written lessons declare which module they fill; swap each matching outline for the written lesson */
   for (const c of COURSE) {
@@ -527,7 +521,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
 
   /* ---------- state (local first; synced to the person's private store inside Claude) ---------- */
   const LS = "forge-academy-v3";
-  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, subs: {}, labs: {}, pj: {}, jr: {}, extra: {}, skip: {}, role: "", project: "", customPath: null, last: "", ctx: "", updated: 0 });
+  const blank = () => ({ done: {}, quiz: {}, notes: {}, answers: {}, subs: {}, labs: {}, pj: {}, jr: {}, extra: {}, skip: {}, role: "", last: "", ctx: "", updated: 0 });
   const MAPS = ["done", "quiz", "notes", "answers", "subs", "labs", "pj", "jr", "extra", "skip"];
   let S = blank();
   try {
@@ -538,6 +532,9 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       if (old) { for (const k of Object.keys(old.done || {})) S.done["L" + k] = 1; for (const k of ["quiz", "notes", "answers"]) for (const [kk, v] of Object.entries(old[k] || {})) S[k]["L" + kk] = v; }
     }
   } catch (e) {}
+  /* retire the old project-first base: fold any saved custom path into added modules, drop the rest */
+  if (S.project === "custom" && S.customPath && Array.isArray(S.customPath.mods)) { for (const id of S.customPath.mods) S.extra[id] = 1; }
+  delete S.project; delete S.customPath;
   let remote = null, saveTimer = null;
   function save() {
     S.updated = Date.now();
@@ -635,37 +632,17 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     };
   }
 
-  /* ---------- projects ---------- */
-  const projectById = (id) => PROJECTS.find((p) => p.id === id);
+  /* ---------- helpers ---------- */
   const areaOrder = (id) => { const m = modById(id); return m ? AREAS.findIndex((x) => x.id === m.area) : 99; };
-  function groupByArea(mods, labelGoal) {
-    const by = {};
-    mods.filter(modById).forEach((id) => { const a = modById(id).area; (by[a] = by[a] || []).push(id); });
-    return AREAS.filter((a) => by[a.id]).map((a) => ({ t: a.t, goal: labelGoal ? labelGoal(a) : a.d, mods: by[a.id] }));
-  }
-  /* the active project base: a blueprint, a custom (AI/search) path, or none */
-  function activeProject() {
-    if (S.project === "custom" && S.customPath) return { id: "custom", title: S.customPath.title || "My project",
-      build: S.customPath.build || "", glyph: "+", level: 0, duration: "", mods: S.customPath.mods || [],
-      why: S.customPath.why || {}, outcomes: S.customPath.outcomes || [], custom: true };
-    const p = projectById(S.project);
-    return p && p.id !== "custom" ? p : null;
-  }
 
-  /* ---------- paths: a base (role OR project), minus skipped modules, plus added modules ---------- */
+  /* ---------- paths: a role base, minus skipped modules, plus added modules ---------- */
   function myRole() {
-    const proj = activeProject();
-    const role = !proj ? (ROLES.find((r) => r.id === S.role) || null) : null;
-    let stages, baseMods, capstone = null, ref = "", tagline, jobs = [], duration = "", jobReady = [], interview = [], big = null;
-    if (proj) {
-      baseMods = proj.mods;
-      stages = groupByArea(proj.mods.filter((m) => !S.skip[m]), () => "Skills your project needs.");
-      capstone = { t: proj.title, brief: proj.build, features: proj.outcomes || [] };
-      tagline = `A path to build: ${proj.title}.`; duration = proj.duration || "";
-    } else if (role) {
+    const role = ROLES.find((r) => r.id === S.role) || null;
+    let stages, baseMods, capstone = null, tagline, jobs = [], duration = "", jobReady = [], interview = [], big = null;
+    if (role) {
       baseMods = [...new Set(role.stages.flatMap((s) => s.mods))];
       stages = role.stages.map((s) => Object.assign({}, s, { mods: s.mods.filter((m) => !S.skip[m]) }));
-      capstone = role.capstone; big = role.big; ref = role.ref; tagline = `Built on ${role.title}, customised by you.`;
+      capstone = role.capstone; big = role.big; tagline = `Built on ${role.title}, customised by you.`;
       jobs = role.jobs; duration = role.duration; jobReady = role.jobReady; interview = role.interview;
     } else {
       baseMods = []; stages = []; tagline = "Modules you picked yourself.";
@@ -675,19 +652,16 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     extras.sort((a, b) => areaOrder(a) - areaOrder(b));
     if (extras.length) stages = [...stages, { t: "Modules you added", goal: "Extra modules you added yourself.", mods: extras, extra: true }];
     const skipped = [...new Set(baseMods)].filter((m) => S.skip[m]);
-    const baseKind = proj ? "project" : role ? "role" : "";
-    const baseTitle = proj ? proj.title : role ? role.title : "";
-    const baseId = proj ? proj.id : role ? role.id : "custom";
-    const baseHref = proj ? (proj.id === "custom" ? "#build" : "#p-" + proj.id) : role ? "#r-" + role.id : "";
-    const baseSub = proj ? (duration ? esc(duration) + " to build it" : "Your project") : role ? esc(duration) + " for the base roadmap" : "Custom path";
+    const baseTitle = role ? role.title : "";
+    const baseId = role ? role.id : "custom";
+    const baseSub = role ? esc(duration) + " for the base roadmap" : "Custom path";
     const extraBit = `${extras.length ? `, plus ${extras.length} module${extras.length > 1 ? "s" : ""} you added` : ""}${skipped.length ? `, minus ${skipped.length} you skipped` : ""}`;
-    const baseLede = proj ? `A path to build <b>${esc(proj.title)}</b>${extraBit}. Each module is a skill the project needs.` :
-      role ? `Built on the <a href="#r-${role.id}">${esc(role.title)}</a> roadmap${extraBit}.` : "A path made only from modules you picked.";
-    return { id: "my", title: "My path", glyph: proj ? "GO" : "ME", base: !!(proj || role), project: proj, role, extras, skipped, stages, ref,
-      baseKind, baseTitle, baseId, baseHref, baseSub, baseLede,
-      tagline, who: proj ? "" : (role ? role.who : ""), jobs, duration, big, capstone, jobReady, interview };
+    const baseLede = role ? `Built on the <a href="#r-${role.id}">${esc(role.title)}</a> roadmap${extraBit}.` : "A path made only from modules you picked.";
+    return { id: "my", title: "My path", glyph: "ME", base: !!role, role, extras, skipped, stages,
+      baseKind: role ? "role" : "", baseTitle, baseId, baseSub, baseLede,
+      tagline, who: role ? role.who : "", jobs, duration, big, capstone, jobReady, interview };
   }
-  const hasPath = () => !!(S.role || S.project || Object.values(S.extra).some(Boolean));
+  const hasPath = () => !!(S.role || Object.values(S.extra).some(Boolean));
   const roleOf = (id) => (id === "my" ? myRole() : ROLES.find((r) => r.id === id));
   const pathMods = (r) => { const seen = new Set(), out = []; r.stages.forEach((s, si) => s.mods.forEach((id) => { if (!seen.has(id) && modById(id)) { seen.add(id); out.push({ id, si }); } })); return out; };
   const inPath = (id) => hasPath() && pathMods(myRole()).some((x) => x.id === id);
@@ -709,7 +683,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   function paintProgress() {
     const r = hasPath() ? myRole() : null;
     if (r) { const p = roleProgress(r); $("#overallBar").style.width = p.pct + "%"; $("#overallTxt").textContent = `My path: ${p.done} / ${p.total} lessons`; }
-    else { $("#overallBar").style.width = "0%"; $("#overallTxt").textContent = "Describe a project to start"; }
+    else { $("#overallBar").style.width = "0%"; $("#overallTxt").textContent = "Pick a role to start"; }
     document.querySelectorAll("[data-mstate]").forEach((el) => { const m = modById(el.dataset.mstate); const p = modProgress(m); el.className = "tick " + (p.total && p.done === p.total ? "done" : p.done ? "half" : ""); });
   }
 
@@ -730,8 +704,8 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
         html += `<div class="level-h"><span class="stage-dot">${s.extra ? "+" : si + 1}</span><span class="eyebrow">${esc(s.t)}</span></div><ol class="flat">${s.mods.filter(modById).map((id) => { const m = modById(id), pr = modProgress(m); return `<li><a href="#mod-${id}" data-modlink="${id}"><span class="tick" data-mstate="${id}"></span><span>${esc(m.t)}</span><span class="cnt">${pr.done}/${pr.total}</span></a></li>`; }).join("")}</ol>`;
       });
     } else {
-      html += `<div class="rail-role"><span class="eyebrow">Start here</span><a href="#build"><b>Build a project</b></a><span class="rail-meta">Describe what you want to make</span></div>`;
-      html += `<div class="level-h"><span class="eyebrow">Or a role</span></div><ol class="flat">${ROLES.map((x) => `<li><a href="#r-${x.id}"><span class="glyph sm">${esc(x.glyph)}</span><span>${esc(x.title)}</span></a></li>`).join("")}</ol>`;
+      html += `<div class="rail-role"><span class="eyebrow">Start here</span><a href="#roles"><b>Choose a role</b></a><span class="rail-meta">A complete roadmap for one job</span></div>`;
+      html += `<div class="level-h"><span class="eyebrow">Roles</span></div><ol class="flat">${ROLES.map((x) => `<li><a href="#r-${x.id}"><span class="glyph sm">${esc(x.glyph)}</span><span>${esc(x.title)}</span></a></li>`).join("")}</ol>`;
     }
     $("#tree").innerHTML = html; paintProgress(); markActive();
   }
@@ -743,7 +717,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     const h = location.hash || "#home";
     const curMod = (h.match(/^#mod-([a-z0-9-]+)$/) || h.match(/^#l-([a-z0-9-]+)\./) || [])[1];
     document.querySelectorAll("[data-modlink]").forEach((a) => a.classList.toggle("on", a.dataset.modlink === curMod));
-    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "build" && (h.startsWith("#p-") || h === "#result")) || (a.dataset.nav === "catalog" && (h.startsWith("#mod-") || h.startsWith("#l-")) && !inPath(curMod))));
+    document.querySelectorAll("[data-nav]").forEach((a) => a.classList.toggle("on", h === "#" + a.dataset.nav || (a.dataset.nav === "roles" && h.startsWith("#r-")) || (a.dataset.nav === "catalog" && (h.startsWith("#mod-") || h.startsWith("#l-")) && !inPath(curMod))));
   }
 
   /* ---------- theme ---------- */
@@ -783,150 +757,6 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
   }
   const lessonRow = (m, i, l) => `<a class="lrow" href="#l-${m.id}.${i}"><span class="tick ${S.done[l.key] ? "done" : ""}"></span><span class="lnum">${i + 1}</span><span class="lt"><b>${esc(l.t)}</b><small>${esc(l.sub.slice(0, 5).join(" · "))}</small></span><span class="badge ${l.full ? "full" : ""}">${l.full ? "Full lesson" : "Outline"}</span></a>`;
 
-  /* ---------- project cards and the build flow ---------- */
-  const LEVELS = { 1: "Beginner", 2: "Intermediate", 3: "Advanced", 0: "Custom" };
-  function projectCard(p) {
-    const on = S.project === p.id;
-    const mods = p.mods.length;
-    return `<a class="card project ${on ? "chosen" : ""}" href="#p-${p.id}">
-      <div class="row"><span class="glyph">${esc(p.glyph)}</span>${on ? '<span class="chip">My path</span>' : `<span class="note">${LEVELS[p.level] || ""}${mods ? " · " + mods + " skills" : ""}</span>`}</div>
-      <h3>${esc(p.title)}</h3><p>${esc(p.build)}</p>
-      <p class="roles">${(p.tags || []).slice(0, 4).map(esc).join(" · ")}${p.duration ? " · " + esc(p.duration) : ""}</p></a>`;
-  }
-  const BUILD_TAGS = [["ai", "AI & LLM apps"], ["ml", "Machine learning"], ["fullstack", "Web & full-stack"], ["data", "Data & analytics"], ["devops", "DevOps & cloud"], ["security", "Security"], ["backend", "Backend & APIs"]];
-
-  /* turn free text into a path: AI when available, keyword matching otherwise */
-  function keywordAnalyze(text) {
-    const words = (text.toLowerCase().match(/[a-z+]{3,}/g) || []);
-    const wset = new Set(words);
-    const score = (hay) => { const h = hay.toLowerCase(); return words.reduce((s, w) => s + (h.includes(w) ? 1 : 0), 0); };
-    // closest blueprints by tag/title/build overlap
-    const pScored = PROJECTS.filter((p) => p.id !== "custom").map((p) => ({ p, s: score(p.title + " " + p.build + " " + (p.tags || []).join(" ")) + (p.tags || []).filter((t) => wset.has(t)).length * 2 }))
-      .filter((x) => x.s > 0).sort((a, b) => b.s - a.s);
-    const closest = pScored.slice(0, 3).map((x) => x.p);
-    // modules: union of the closest blueprints' modules, plus modules whose own text matches
-    const picked = new Map();
-    for (const { p } of pScored.slice(0, 2)) p.mods.forEach((id) => { if (modById(id) && !picked.has(id)) picked.set(id, p.why[id] || ""); });
-    for (const m of MODS) {
-      const s = score(m.t + " " + m.d + " " + lessonsOf(m).map((l) => l.t).join(" "));
-      if (s >= 2 && !picked.has(m.id)) picked.set(m.id, "Relevant to what you described.");
-    }
-    // always include the essentials if anything technical matched
-    if (picked.size && !picked.has("git")) picked.set("git", "Version control, needed for every project.");
-    const mods = [...picked.keys()].sort((a, b) => areaOrder(a) - areaOrder(b));
-    const why = Object.fromEntries([...picked.entries()]);
-    return { title: text.slice(0, 60), build: text, mods, why, closest, source: "match" };
-  }
-  async function aiAnalyze(text) {
-    const list = MODS.map((m) => `${m.id}: ${m.t} — ${m.d}`).join("\n");
-    const prompt = [{ role: "user", content:
-      `A learner wants to build this:\n"${text}"\n\nHere are the available learning modules (id: title — description):\n${list}\n\n` +
-      `Choose the modules they need to build it, ordered from foundations to advanced. ` +
-      `Reply ONLY with JSON: {"title": "<short name for their project>", "intro": "<2-3 sentences on what they'll build and the shape of the path>", "modules": [{"id": "<module id>", "why": "<one short sentence: why this skill for THIS project>"}]}. ` +
-      `Use only ids from the list. Include git and a deployment or testing module where relevant. Keep it focused: only what the project actually needs.` }];
-    const { text: out } = await sample(prompt, { cache: false });
-    const m = out.match(/\{[\s\S]*\}/); if (!m) throw new Error("no json");
-    const data = JSON.parse(m[0]);
-    const valid = (data.modules || []).filter((x) => modById(x.id));
-    const seen = new Set(); const mods = [];
-    for (const x of valid) if (!seen.has(x.id)) { seen.add(x.id); mods.push(x.id); }
-    const why = Object.fromEntries(valid.map((x) => [x.id, x.why || ""]));
-    const kw = keywordAnalyze(text);
-    return { title: (data.title || text.slice(0, 60)), build: text, intro: data.intro || "", mods, why, closest: kw.closest, source: "ai" };
-  }
-
-  let lastResult = null;
-  async function runAnalyze(text) {
-    const out = $("#analyzeOut");
-    out.innerHTML = '<p class="note">Working out the skills you need…</p>';
-    try {
-      lastResult = (sample && !tutorOff) ? await aiAnalyze(text) : keywordAnalyze(text);
-    } catch (e) {
-      lastResult = keywordAnalyze(text);                    // AI failed or refused: fall back
-    }
-    if (!lastResult.mods.length) { out.innerHTML = '<p class="note">I couldn\'t match that to skills we cover. Try describing the project in more detail, or pick a project below.</p>'; return; }
-    location.hash = "#result";
-  }
-
-  function viewBuild() {
-    return `<div class="wrap wide">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><span>Build a project</span></nav>
-      <section class="build-hero">
-        <span class="eyebrow">Start from what you want to make</span>
-        <h1>What are you building?</h1>
-        <p class="lede">Describe a project you want to build, or one you already have and want to understand. Forge Academy works out exactly which skills it needs and builds you a custom learning path from the modules, with the project itself as the goal.</p>
-        <textarea id="buildBox" rows="3" placeholder="e.g. An AI assistant that answers questions from my company's PDFs and cites sources. Or: a dashboard that shows my shop's daily sales. Or paste a repo's README."></textarea>
-        <div class="row-btns"><button class="btn btn-primary" type="button" id="buildBtn">Find my skills →</button>
-          <span class="hint" data-tutor hidden>Analysed by Claude</span>
-          <span class="hint" data-tutor-off hidden>Matched against our project library and module catalog</span></div>
-        <div class="tutor-out" id="analyzeOut"></div>
-      </section>
-      <section class="level-block">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>Or start from a ready project</h2><span>Each one lists the skills it needs and builds a path</span></div>
-        <div class="build-tags">${BUILD_TAGS.map(([t, label]) => `<button type="button" class="area-chip as-btn" data-ptag="${t}"><b>${esc(label)}</b></button>`).join("")}<button type="button" class="area-chip as-btn on" data-ptag="">All</button></div>
-        <div class="cards" id="projGrid">${PROJECTS.filter((p) => p.id !== "custom").map(projectCard).join("")}</div>
-      </section>
-      <section class="banner"><div><b>Prefer a job title?</b><p>You can also follow a complete role roadmap instead of a single project.</p></div><a class="btn btn-line" href="#roles">Browse the 6 roles</a></section>
-      ${footer()}
-    </div>`;
-  }
-
-  function viewProject(p) {
-    const on = S.project === p.id;
-    const total = p.mods.reduce((s, id) => s + (modById(id) ? modById(id).les.length : 0), 0);
-    const stages = groupByArea(p.mods);
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#build">Build a project</a><span>›</span><span>${esc(p.title)}</span></nav>
-      <header class="mod-head role-head">
-        <div class="row-btns"><span class="glyph lg">${esc(p.glyph)}</span><span class="eyebrow">${LEVELS[p.level] || ""}${p.duration ? " · " + esc(p.duration) : ""}</span></div>
-        <h1>${esc(p.title)}</h1>
-        <p class="lede">${esc(p.build)}</p>
-        ${p.outcomes && p.outcomes.length ? `<ul class="checks tight">${p.outcomes.map((o) => `<li><span>✓ ${esc(o)}</span></li>`).join("")}</ul>` : ""}
-        <div class="row-btns">${on ? '<span class="done-pill">This is your path</span><a class="btn btn-line" href="#my">Open my path</a>' : `<button class="btn btn-primary" type="button" id="pickProject" data-pid="${p.id}">Make this my learning path</button>`}
-          <span class="note">${p.mods.length} skills · ${total} lessons</span></div>
-      </header>
-      <section class="panel">
-        <div class="section-h"><h2>The skills you'll learn</h2><span class="note">in order</span></div>
-        <p class="hint" style="margin:0 0 6px">Each skill is a module with lessons, a lab and a project. They're ordered from foundations to the advanced parts, so you can start at the top and work down.</p>
-      </section>
-      <section class="roadmap">${stages.map((s, si) => `
-        <div class="stage"><div class="stage-rail"><span class="stage-n">${si + 1}</span></div>
-          <div class="stage-body"><div class="section-h"><div><span class="eyebrow">Step ${si + 1}</span><h2>${esc(s.t)}</h2></div></div>
-          <div class="mcards">${s.mods.map((id) => modCard(modById(id), { project: p }, false, p.why[id])).join("")}</div>
-        </div></div>`).join("")}</section>
-      ${p.stretch && p.stretch.length ? `<section class="panel"><h2>Go further (optional)</h2><p class="hint" style="margin:0 0 8px">Once the project works, these take it to production quality.</p><div class="mcards">${p.stretch.filter(modById).map((id) => modCard(modById(id), {}, false, "")).join("")}</div></section>` : ""}
-      <section class="panel cta-panel"><div><h2>Ready?</h2><p class="hint" style="margin:0">Make this your path and the modules appear in order in the sidebar, with progress tracking and the project as your capstone.</p></div>
-        ${on ? '<a class="btn btn-primary" href="#my">Open my path</a>' : `<button class="btn btn-primary" type="button" id="pickProject2" data-pid="${p.id}">Make this my learning path</button>`}</section>
-      ${footer()}
-    </div>`;
-  }
-
-  function viewResult() {
-    if (!lastResult) { location.hash = "#build"; return ""; }
-    const r = lastResult, stages = groupByArea(r.mods);
-    const total = r.mods.reduce((s, id) => s + (modById(id) ? modById(id).les.length : 0), 0);
-    return `<div class="wrap">
-      <nav class="crumbs"><a href="#home">Home</a><span>›</span><a href="#build">Build a project</a><span>›</span><span>Your skills</span></nav>
-      <header class="mod-head">
-        <span class="eyebrow">${r.source === "ai" ? "Analysed for your project" : "Matched to your project"}</span>
-        <h1>Skills for your project</h1>
-        <div class="prose" style="max-width:70ch"><p>${esc(r.build).slice(0, 400)}</p></div>
-        ${r.intro ? `<p class="lede">${safe(r.intro)}</p>` : ""}
-        <div class="row-btns"><button class="btn btn-primary" type="button" id="makeMine">Make this my learning path →</button><a class="btn btn-line" href="#build">Start over</a>
-          <span class="note">${r.mods.length} skills · ${total} lessons</span></div>
-        ${r.source !== "ai" ? '<p class="hint" style="margin:6px 0 0">Tip: open this inside the Claude app to get an AI-tailored path and explanation.</p>' : ""}
-      </header>
-      ${r.closest && r.closest.length ? `<section class="panel"><h2>Closest ready projects</h2><p class="hint" style="margin:0 0 8px">These blueprints are similar to what you described, with a ready path.</p><div class="cards">${r.closest.map(projectCard).join("")}</div></section>` : ""}
-      <section class="panel"><div class="section-h"><h2>The skills you'll need</h2><span class="note">in order</span></div></section>
-      <section class="roadmap">${stages.map((s, si) => `
-        <div class="stage"><div class="stage-rail"><span class="stage-n">${si + 1}</span></div>
-          <div class="stage-body"><div class="section-h"><div><span class="eyebrow">Step ${si + 1}</span><h2>${esc(s.t)}</h2></div></div>
-          <div class="mcards">${s.mods.map((id) => modCard(modById(id), {}, false, r.why[id])).join("")}</div>
-        </div></div>`).join("")}</section>
-      ${footer()}
-    </div>`;
-  }
-
   /* ---------- views ---------- */
   function viewHome() {
     const r = hasPath() ? myRole() : null;
@@ -939,15 +769,15 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
     return `<div class="wrap wide">
       <section class="hero">
         <div>
-          <span class="eyebrow">Free and open · ${PROJECTS.length - 1} ready projects · ${MODS.length} modules · ${totalLessons} lessons</span>
-          <h1 style="margin-top:10px">Tell us what you want to build. <em>We'll teach you how.</em></h1>
-          <p>Describe your project and Forge Academy works out exactly which skills it needs, then builds a custom learning path from the modules, with the project itself as the goal. No more guessing what to study.</p>
-          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#build">Start with a project</a><a class="btn btn-line" href="#roles">Follow a role</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
+          <span class="eyebrow">Free and open · ${ROLES.length} roles · ${MODS.length} modules · ${totalLessons} lessons</span>
+          <h1 style="margin-top:10px">Find your path in tech. <em>Then walk it.</em></h1>
+          <p>Complete roadmaps for three of the most in-demand tech roles, each one a clear route from zero to job-ready: stages in the right order, detailed lessons, hands-on labs, assignments and a final capstone. No more stitching together ten half-finished courses.</p>
+          <div class="row-btns" style="margin-top:16px"><a class="btn btn-primary" href="#roles">Choose your role</a><a class="btn btn-line" href="#catalog">Browse modules</a>${r ? '<a class="btn btn-line" href="#my">My path</a>' : ""}</div>
         </div>
         <div class="continue">
           ${r && nx ? `<span class="eyebrow">Continue · ${esc(nx.m.t)}</span><h3>${esc(nx.l.t)}</h3><span class="meta">${esc(r.stages[nx.si] ? r.stages[nx.si].t : "")} · lesson ${nx.i + 1} of ${nx.m.les.length}</span><div><a class="btn btn-primary" href="#l-${nx.m.id}.${nx.i}">Continue</a></div>`
           : r ? `<span class="eyebrow">My path</span><h3>Every lesson is done.</h3><span class="meta">Finish the big project and capstone, then the job-ready checklist.</span><div><a class="btn btn-primary" href="#my">Open my path</a></div>`
-          : `<span class="eyebrow">Two ways to start</span><h3>Have a project in mind?</h3><span class="meta">Describe what you want to build and get a path made of exactly the right skills. Or follow a full role roadmap if you're aiming at a job title.</span><div class="row-btns"><a class="btn btn-primary" href="#build">Build a project</a><a class="btn btn-quiet on-dark" href="#roles">Follow a role</a></div>`}
+          : `<span class="eyebrow">Start here</span><h3>Pick the role that fits you.</h3><span class="meta">Each roadmap takes you from the basics to a portfolio of projects and a job-ready checklist. Switch anytime — shared modules keep your progress.</span><div class="row-btns"><a class="btn btn-primary" href="#roles">See the roles</a></div>`}
         </div>
       </section>
       <section class="stats" aria-label="Your progress">
@@ -957,12 +787,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
         <div class="stat"><b>${built}</b><span>projects built</span></div>
       </section>
       <section class="level-block">
-        <div class="level-title" style="--lvc: var(--accent)"><h2>Popular projects to build</h2><span>Pick one, or describe your own. Each lists the skills it needs</span></div>
-        <div class="cards">${PROJECTS.filter((p) => p.id !== "custom").slice(0, 6).map(projectCard).join("")}</div>
-        <div class="row-btns" style="margin-top:12px"><a class="btn btn-line" href="#build">See all projects & describe your own →</a></div>
-      </section>
-      <section class="level-block">
-        <div class="level-title" style="--lvc: var(--mark)"><h2>Or follow a role</h2><span>Complete roadmaps for the 6 most in-demand tech roles of 2026</span></div>
+        <div class="level-title" style="--lvc: var(--mark)"><h2>Choose your role</h2><span>Complete roadmaps for three of the most in-demand tech roles</span></div>
         <div class="cards">${ROLES.map(roleCard).join("")}</div>
       </section>
       <section class="level-block">
@@ -1003,8 +828,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
         <div class="row-btns"><span class="glyph lg">${esc(r.glyph)}</span><span class="eyebrow">${r.baseSub}</span></div>
         <h1>My path</h1>
         <p class="lede">${r.baseLede} Remove any module with ×, or add more from the catalog.</p>
-        ${r.baseKind === "project" ? `<div class="base-pick"><span class="eyebrow">Building</span><div class="row-btns"><span class="chip">${esc(r.baseTitle)}</span><a class="btn btn-line sm" href="#build">Change project</a><a class="btn btn-line sm" href="#roles">Use a role instead</a></div></div>`
-          : `<div class="base-pick"><span class="eyebrow">Base</span><div class="tabs"><a class="tab" href="#build">+ A project</a>${ROLES.map((x) => `<button type="button" class="tab ${S.role === x.id ? "on" : ""}" data-base="${x.id}">${esc(x.title)}</button>`).join("")}<button type="button" class="tab ${!S.role ? "on" : ""}" data-base="">None</button></div></div>`}
+        <div class="base-pick"><span class="eyebrow">Base roadmap</span><div class="tabs">${ROLES.map((x) => `<button type="button" class="tab ${S.role === x.id ? "on" : ""}" data-base="${x.id}">${esc(x.title)}</button>`).join("")}<button type="button" class="tab ${!S.role ? "on" : ""}" data-base="">None</button></div></div>
         <div class="row-btns"><a class="btn btn-primary" href="#catalog">Add modules</a><span class="note">${p.done} of ${p.total} lessons done</span></div>
         <div class="mini big"><i style="width:${p.pct}%"></i></div>
       </header>` : `
@@ -1016,7 +840,6 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
         <div class="row-btns">${S.role === r.id ? '<span class="done-pill">My path is based on this</span><a class="btn btn-line" href="#my">Open my path</a>' : '<button class="btn btn-primary" type="button" id="pickRole">Make this my path</button>'}
           <span class="note">${r.stages.length} stages · ${pathMods(r).length} modules · ${p.total} lessons (${p.fullPct}% fully written, the rest outlined)</span></div>
         <div class="mini big"><i style="width:${p.pct}%"></i></div>
-        ${r.ref ? `<p class="hint" style="margin:0">Want a second opinion? Compare with the <a href="${r.ref}" target="_blank" rel="noopener">${esc(r.title)} roadmap on roadmap.sh ↗</a></p>` : ""}
       </header>`;
     const empty = my && !r.stages.length ? `<div class="banner"><div><b>Your path is empty.</b><p>Choose a base roadmap above, or add modules from the catalog.</p></div><a class="btn btn-primary" href="#catalog">Browse modules</a></div>` : "";
     return `<div class="wrap">${head}${empty}
@@ -1028,7 +851,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
           <div class="stage-body">
             <div class="section-h"><div><span class="eyebrow">${s.extra ? "Added by you" : "Stage " + (si + 1)} · ${sd}/${ms.length} modules complete</span><h2>${esc(s.t)}</h2></div></div>
             <p class="note" style="margin:0">${esc(s.goal)}</p>
-            ${ms.length ? `<div class="mcards">${ms.map((m) => modCard(m, r, my, r.project && r.project.why ? r.project.why[m.id] : "")).join("")}</div>` : '<p class="note" style="margin:0">You skipped every module in this stage.</p>'}
+            ${ms.length ? `<div class="mcards">${ms.map((m) => modCard(m, r, my, "")).join("")}</div>` : '<p class="note" style="margin:0">You skipped every module in this stage.</p>'}
           </div></div>`;
       }).join("")}</section>
       ${my && r.skipped.length ? `<section class="panel"><h2>Skipped modules</h2><p class="hint" style="margin:0">Modules from ${esc(r.baseTitle)} you removed. Put any back with one click.</p><div class="skip-list">${r.skipped.map((id) => `<button type="button" class="skip-chip" data-repath="${id}">↺ ${esc(modById(id).t)}</button>`).join("")}</div></section>` : ""}
@@ -1245,7 +1068,7 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       <section class="panel prose"><h2>What's ready now</h2>
         <p>All ${ROLES.length} roadmaps, ${MODS.length} modules and ${total} lessons are fully outlined, and every module has a lab and a project. ${full} lessons are fully written with notes, code, exercise and quiz; the rest show their complete outline and are being written in waves.</p></section>
       <section class="panel prose"><h2>Original content</h2>
-        <p>Every syllabus and lesson here is written for Forge Academy. Role pages link to <a href="https://roadmap.sh" target="_blank" rel="noopener">roadmap.sh</a> as an independent second opinion; it is a great free resource and worth comparing against.</p></section>
+        <p>Every syllabus, lesson, lab and assignment here is written for Forge Academy, and the modules in each role are ordered the way you should actually learn them, foundations first.</p></section>
       <section class="panel prose"><h2>Your progress and privacy</h2>
         <p>There are no accounts. Everything you tick, write and complete is saved in your own browser on this device.</p></section>
       <section class="panel prose"><h2>Contribute</h2>
@@ -1278,12 +1101,12 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       const r = roleOf(mm[1]);
       if (S.ctx !== r.id) { S.ctx = r.id; save(); }
       main.innerHTML = viewRole(r);
-      const pk = $("#pickRole"); if (pk) pk.addEventListener("click", () => { S.role = r.id; S.project = ""; S.customPath = null; S.ctx = "my"; save(); renderTree($("#search").value); render(); });
+      const pk = $("#pickRole"); if (pk) pk.addEventListener("click", () => { S.role = r.id; S.ctx = "my"; save(); renderTree($("#search").value); render(); });
       bindIq(r);
     } else if (h === "#my") {
       if (S.ctx !== "my") { S.ctx = "my"; save(); }
       main.innerHTML = viewRole(myRole());
-      main.querySelectorAll("[data-base]").forEach((b) => b.addEventListener("click", () => { S.role = b.dataset.base; S.project = ""; S.customPath = null; save(); renderTree($("#search").value); keepScroll(); }));
+      main.querySelectorAll("[data-base]").forEach((b) => b.addEventListener("click", () => { S.role = b.dataset.base; save(); renderTree($("#search").value); keepScroll(); }));
       bindIq(myRole());
     } else if (h === "#catalog") {
       main.innerHTML = viewCatalog();
@@ -1294,34 +1117,6 @@ textarea.mono { font-family: var(--f-mono); font-size: 13px; }
       box.addEventListener("input", apply); apply();
       if (areaJump) { const el = document.getElementById("area-" + areaJump); areaJump = ""; if (el) setTimeout(() => el.scrollIntoView({ block: "start" }), 0); }
     } else if (h === "#roles") { main.innerHTML = viewRoles();
-    } else if (h === "#build") {
-      main.innerHTML = viewBuild();
-      showTutor();
-      const go = () => { const t = $("#buildBox").value.trim(); if (t.length < 8) { $("#analyzeOut").innerHTML = '<p class="note">Describe your project in a sentence or two first.</p>'; return; } runAnalyze(t); };
-      $("#buildBtn").addEventListener("click", go);
-      $("#buildBox").addEventListener("keydown", (e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) go(); });
-      const grid = $("#projGrid"), chips = main.querySelectorAll("[data-ptag]");
-      chips.forEach((c) => c.addEventListener("click", () => {
-        chips.forEach((x) => x.classList.remove("on")); c.classList.add("on");
-        const t = c.dataset.ptag;
-        grid.innerHTML = PROJECTS.filter((p) => p.id !== "custom" && (!t || (p.tags || []).includes(t))).map(projectCard).join("")
-          || '<p class="note">No ready project for that yet, but describe it above and we\'ll build a path.</p>';
-      }));
-    } else if ((mm = h.match(/^#p-([a-z0-9-]+)$/)) && projectById(mm[1]) && mm[1] !== "custom") {
-      const p = projectById(mm[1]);
-      main.innerHTML = viewProject(p);
-      main.querySelectorAll("[data-pid]").forEach((b) => b.addEventListener("click", () => {
-        S.project = b.dataset.pid; S.role = ""; S.customPath = null; S.skip = {}; S.ctx = "my"; save();
-        renderTree($("#search").value); location.hash = "#my";
-      }));
-    } else if (h === "#result") {
-      main.innerHTML = viewResult();
-      const mk = $("#makeMine");
-      if (mk) mk.addEventListener("click", () => {
-        S.customPath = { title: lastResult.title, build: lastResult.build, mods: lastResult.mods, why: lastResult.why, outcomes: lastResult.outcomes || [] };
-        S.project = "custom"; S.role = ""; S.skip = {}; S.ctx = "my"; save();
-        renderTree($("#search").value); location.hash = "#my";
-      });
     } else if (h === "#projects") {
       main.innerHTML = viewProjects();
       main.querySelectorAll("[data-prole]").forEach((b) => b.addEventListener("click", () => { projRole = b.dataset.prole; render(); }));

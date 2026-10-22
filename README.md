@@ -21,31 +21,26 @@ Modules are shared between roles, so "Git and GitHub" is the same module everywh
 
 ## Roles
 
-Forge Academy focuses on the six roles with the strongest hiring demand in 2026 (AI, cybersecurity, cloud and data roles lead hiring surveys), so each one can go deep instead of spreading thin.
+Forge Academy focuses on three of the most in-demand tech roles of 2026, so each one can go deep instead of spreading thin. Every module within a role is placed in a deliberate learning order — foundations first, then the skills that build on them.
 
 | Role | Modules | Lessons | Capstone |
 |---|---|---|---|
+| Full Stack Developer | 29 | 134 | Launch a real SaaS |
 | AI / ML Engineer | 21 | 113 | AI app builder (like SaaSForge) |
-| Cyber Security Analyst | 19 | 87 | Security programme for a startup |
 | Cloud & DevOps Engineer | 17 | 84 | Production platform on Kubernetes |
-| Data Engineer | 17 | 79 | Real-time data platform |
-| Data Analyst | 10 | 44 | Business intelligence system |
-| Full Stack Developer | 26 | 124 | Launch a real SaaS |
 
-Every role page links to its roadmap.sh counterpart as a second opinion. All syllabi, lessons, labs and projects here are original.
+All syllabi, lessons, labs and assignments here are original.
 
-## Three ways to learn
+## How you learn
 
-- **Build a project (start here):** tell Forge what you want to build — "an AI chatbot that answers questions from my PDFs", "an online store with payments" — and it turns that into an ordered path of exactly the skills that project needs, each module marked with *why* it's there, ending in the project itself as your capstone. Pick from a library of ready-made project blueprints, or describe your own in a sentence and let Forge map the skills for you.
-- **Role roadmaps:** a ready-made path for one job, in the right order.
-- **My path:** start from a project *or* a role, then add modules from other areas, drop ones you don't need, or build a path entirely from the catalog. Progress is the same wherever a module appears.
-
-The **module catalog** holds all the shared modules (foundations, frontend, backend, DevOps and cloud, security, QA, data, machine learning, AI engineering, mobile, career) that these paths are assembled from.
+- **Role roadmaps:** pick a role and follow it stage by stage. Each stage is a group of modules in the order you should learn them; each module has detailed lessons, a hands-on lab and a project.
+- **My path:** start from any role, then add modules from other areas or drop ones you don't need. Shared modules (like Git or SQL) are the same everywhere, so switching roles never wastes progress.
+- **Module catalog:** every module on the platform, grouped by area — add any of them to your path.
 
 ## What's ready now
 
-- All 6 roadmaps are fully written: every lesson has notes, worked code, an exercise and a quiz; every module has a lab and a project.
-- Lessons are being expanded with deeper notes, worked examples, common mistakes and practice problems, role by role.
+- All 3 roadmaps are fully structured: every module has detailed lessons, a hands-on lab with a "done when" finish line, and a project assignment; every role ends in a big project and a final capstone.
+- Over 100 lessons are fully written with notes, worked code, an exercise and a quiz, many expanded with deeper notes, worked examples, common mistakes and practice problems. The rest show their complete outline as a study checklist and are being written in waves.
 - Progress is saved in your browser, with no sign-up.
 
 ## Run locally
@@ -63,8 +58,7 @@ python3 -m http.server 8000
 
 ```
 index.html            the app: layout, styles and logic
-data/roles2.js        the 6 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
-data/projects.js      the project blueprints: each maps a thing to build to an ordered set of modules, with a reason per module
+data/roles2.js        the 3 role roadmaps: stages, big project, capstone, job-ready checklist, interview questions
 data/cur1-3.js        the modules: lessons (full or outline), lab and project
 data/part*.js         the full written lessons (newer files declare the module they fill)
 data/deep*.js         deeper lesson content: extended notes, worked examples, common mistakes and practice
